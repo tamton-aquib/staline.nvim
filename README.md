@@ -2,7 +2,7 @@
 A simple statusline (hence the name stalin) for neovim in lua.
 Haven't converted to a plugin yet, so you'll have to add it manually.
 
-##Screenshots
+## Screenshots
 
 ![normal mode](https://i.imgur.com/HyXHJtc.png)
 ![insert mode](https://i.imgur.com/DHyBp1A.png)
