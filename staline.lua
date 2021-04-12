@@ -12,7 +12,7 @@ local black     = "#000000"
 local red       = "#e27d60"
 local lightGrey = "#303030"
 
-local getColor = {
+local getModeColor = {
      ['n']    =  green,
      ['v']    =  blue,
      ['V']    =  blue,
@@ -70,10 +70,10 @@ function M.get_statusline()
 
 	ifNotFound(modes, ' ')
 	ifNotFound(getFileIcon, ' ')
-	ifNotFound(getColor, red)
+	ifNotFound(getModeColor, red)
 
     local modeIcon	= modes[mode]
-    local modeColor = getColor[mode]
+    local modeColor = getModeColor[mode]
 	local fileIcon	= getFileIcon[extension]
 
 	local s = '%#Noice#  '..modeIcon..' %#Arrow#'..leftSeparator

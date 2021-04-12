@@ -4,9 +4,10 @@ Haven't converted to a plugin yet, so you'll have to add it manually.
 
 ## Screenshots
 
-![normal mode](https://i.imgur.com/HyXHJtc.png)
+![normal mode](https://i.imgur.com/bXQxo8A.png)
 ![insert mode](https://i.imgur.com/DHyBp1A.png)
 ![visual mode](https://i.imgur.com/RFO2PSm.png)
+![command mode](https://i.imgur.com/OiZHOu2.png)
 
 ### init.vim
 * move staline.lua to ~/.config/nvim/staline.lua
