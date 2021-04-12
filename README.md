@@ -1,5 +1,5 @@
-# stalin.nvim
-A simple statusline (hence the name stalin) for neovim in lua.
+# staline.nvim
+A simple statusline (can be pronounced stalin) for neovim in lua.
 Haven't converted to a plugin yet, so you'll have to add it manually.
 
 ## Screenshots
