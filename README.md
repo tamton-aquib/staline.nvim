@@ -27,6 +27,10 @@ A simple statusline for neovim written in lua.
     ```vim
     call dein#add('tamton-aquib/staline.nvim')
     ```
+### Setting up
+    ```lua
+    require('staline').setup()
+    ```
 
 ### Features
 * Lightweigth (2.3 kb)
