@@ -1,5 +1,5 @@
 local cmd = vim.api.nvim_command
-local M = {}
+M = {}
 
 local leftSeparator = ""	-->    
 local rightSeparator = ""	-->    
@@ -88,6 +88,10 @@ function M.get_statusline()
     cmd('hi Arrow guifg='..modeColor..' guibg='..lightGrey)
 	cmd('hi MidArrow guifg='..lightGrey)
 	return s
+end
+
+function M.setup()
+    vim.o.statusline = '%!v:lua.require\'staline\'.get_statusline()'
 end
 
 return M
