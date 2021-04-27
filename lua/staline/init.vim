@@ -89,4 +89,8 @@ function get_statusline()
 	return s
 end
 
-return get_statusline
+function setup()
+    vim.o.statusline = "%!v:lua.require'staline.get_statusline()'"
+end
+
+return setup
