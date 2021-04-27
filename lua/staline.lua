@@ -1,8 +1,15 @@
 local cmd = vim.api.nvim_command
 M = {}
 
-local leftSeparator = ""	-->    
-local rightSeparator = ""	-->    
+default_config = {
+    leftSeparator = "",	-->    
+    rightSeparator = ""	-->    
+}
+
+for k,v in pairs(default_config) do
+    k = v
+end
+
 
 local green     = "#2bbb4f"	--> "#6ed57e"
 local violet    = "#986fec"
@@ -25,22 +32,22 @@ local getModeColor = {
 }
 
 local getFileIcon = {
-     ts       = ' ' ,
-     py       = ' ' ,
-     html     = ' ' ,
-     css      = ' ' ,
-     js       = ' ' ,
-     jsx      = ' ' ,
-     md       = ' ' ,
-     sh       = ' ',
-     vim      = ' ',
-     rs       = ' ',
-     cpp      = ' ',
-     c        = ' ',
-     go       = ' ',
-     lua      = ' ',
-     conf     = ' ',
-	 txt	  = ' '
+     typescript = ' ' ,
+     python     = ' ' ,
+     html       = ' ' ,
+     css        = ' ' ,
+     javascript = ' ' ,
+     jsx        = ' ' ,
+     markdown   = ' ' ,
+     sh         = ' ',
+     vim        = ' ',
+     rust       = ' ',
+     cpp        = ' ',
+     c          = ' ',
+     go         = ' ',
+     lua        = ' ',
+     conf       = ' ',
+	 txt	    = ' '
 }
 
 local modes = {
@@ -49,14 +56,11 @@ local modes = {
      ['V']   = ' ',
      ['i']   = ' ',
      ['ic']  = '',
-     -- ['c']   = ' ',
      ['c']   = ' ',
      ['r']   = 'Prompt',
      ['t']   = 'T',
      ['R']   = ' ',
      ['^V']  = ' '
-     -- [!]       = ' ',
-     -- ["<C-v>"]  = ' ',
 }
 
 function ifNotFound (t, d)
@@ -66,7 +70,7 @@ end
 
 function M.get_statusline()
 	local mode = vim.api.nvim_get_mode()['mode']
-	local extension = vim.api.nvim_call_function('expand', {'%:e'})
+	local extension = vim.bo.ft
 
 	ifNotFound(modes, ' ')
 	ifNotFound(getFileIcon, ' ')
@@ -90,7 +94,13 @@ function M.get_statusline()
 	return s
 end
 
-function M.setup()
+function M.setup(user_configs)
+
+	if not user_configs then return end
+	for k,v in pairs(user_configs) do
+		if user_configs[k] then default_config[k] = v end
+	end
+
     vim.o.statusline = '%!v:lua.require\'staline\'.get_statusline()'
 end
 
