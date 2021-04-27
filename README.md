@@ -1,6 +1,5 @@
-# staline.nvim Beta Branch
-A simple statusline (can be pronounced stalin) for neovim in lua.
-Haven't converted to a plugin yet, so you'll have to add it manually.
+# staline.nvim
+A simple statusline for neovim written in lua.
 
 ### Screenshots
 ![normal mode](https://i.imgur.com/5RZFhWC.png)
@@ -34,6 +33,7 @@ Haven't converted to a plugin yet, so you'll have to add it manually.
 * Fast
 * Unicode mode info.
 * 100 LOC.
+* 2.3 kb
 
 ### TODO
 
