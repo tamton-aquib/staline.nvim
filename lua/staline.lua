@@ -6,11 +6,6 @@ default_config = {
     rightSeparator = ""	-->    
 }
 
-for k,v in pairs(default_config) do
-    k = v
-end
-
-
 local green     = "#2bbb4f"	--> "#6ed57e"
 local violet    = "#986fec"
 local blue      = "#4799eb"	--> "#03353e"
@@ -67,6 +62,9 @@ function ifNotFound (t, d)
   local mt = {__index = function () return d end}
   setmetatable(t, mt)
 end
+
+leftSeparator = default_config[leftSeparator]
+rightSeparator = default_config[rightSeparator]
 
 function M.get_statusline()
 	local mode = vim.api.nvim_get_mode()['mode']
