@@ -29,11 +29,10 @@ A simple statusline for neovim written in lua.
     ```
 
 ### Features
-* Lightweigth
+* Lightweigth (2.3 kb)
 * Fast
 * Unicode mode info.
 * 100 LOC.
-* 2.3 kb
 
 ### TODO
 
