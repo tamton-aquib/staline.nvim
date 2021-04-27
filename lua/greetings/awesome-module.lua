@@ -1,5 +1,4 @@
 local cmd = vim.api.nvim_command
-local M = {}
 
 local leftSeparator = ""	-->    
 local rightSeparator = ""	-->    
@@ -64,7 +63,7 @@ function ifNotFound (t, d)
   setmetatable(t, mt)
 end
 
-function M.get_statusline()
+function get_statusline()
 	local mode = vim.api.nvim_get_mode()['mode']
 	local extension = vim.api.nvim_call_function('expand', {'%:e'})
 
@@ -90,4 +89,4 @@ function M.get_statusline()
 	return s
 end
 
-return M
+return get_statusline
