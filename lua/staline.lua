@@ -1,4 +1,5 @@
 local cmd = vim.api.nvim_command
+M = {}
 
 local leftSeparator = ""	-->    
 local rightSeparator = ""	-->    
@@ -63,7 +64,7 @@ function ifNotFound (t, d)
   setmetatable(t, mt)
 end
 
-function get_statusline()
+function M.get_statusline()
 	local mode = vim.api.nvim_get_mode()['mode']
 	local extension = vim.api.nvim_call_function('expand', {'%:e'})
 
@@ -89,8 +90,8 @@ function get_statusline()
 	return s
 end
 
-function setup()
-    vim.o.statusline = "%!v:lua.require'staline.get_statusline()'"
+function M.setup()
+    vim.o.statusline = '%!v:lua.require\'staline\'.get_statusline()'
 end
 
-return setup
+return M
