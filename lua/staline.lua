@@ -2,14 +2,8 @@ local cmd = vim.api.nvim_command
 M = {}
 
 
-default_config = {
-    leftSeparator = "",	-->    
-    rightSeparator = ""	-->    
-}
-
-for k,v in pairs(default_config) do
-	k = default_config[k]
-end
+local leftSeparator = "",	-->    
+local rightSeparator = ""	-->    
 
 local green     = "#2bbb4f"	--> "#6ed57e"
 local violet    = "#986fec"
@@ -94,13 +88,7 @@ function M.get_statusline()
 	return s
 end
 
-function M.setup(user_configs)
-
-	if not user_configs then return end
-	for k,v in pairs(user_configs) do
-		if user_configs[k] then default_config[k] = v end
-	end
-
+function M.setup()
     vim.o.statusline = '%!v:lua.require\'staline\'.get_statusline()'
 end
 
