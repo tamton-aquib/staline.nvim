@@ -2,7 +2,7 @@ local cmd = vim.api.nvim_command
 M = {}
 
 
-local leftSeparator = "",	-->    
+local leftSeparator = ""	-->    
 local rightSeparator = ""	-->    
 
 local green     = "#2bbb4f"	--> "#6ed57e"
