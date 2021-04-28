@@ -2,7 +2,8 @@ Config = {}
 
 Config.defaults = {
     leftSeparator = "",
-    rightSeparator = ""
+    rightSeparator = "",
+	cool_symbol = " "
 }
 
 function Config.setup(opts)

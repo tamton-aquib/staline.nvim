@@ -18,15 +18,6 @@ A simple statusline for neovim written in lua.
     use { 'tamton-aquib/staline.nvim' }
     ```
 
-* Paq
-    ```lua
-    paq 'tamton-aquib/staline.nvim'
-    ```
-
-* Dein
-    ```vim
-    call dein#add('tamton-aquib/staline.nvim')
-    ```
 ### Setting up
 
 * Default configuration
@@ -44,7 +35,7 @@ A simple statusline for neovim written in lua.
 
 ### TODO
 
+- [x] Break into modules.
+- [x] Git info.
 - [ ] User configuration options.
-- [ ] Git info.
-- [ ] Break into modules.
 - [ ] Include more filetype support.
