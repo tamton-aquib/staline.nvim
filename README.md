@@ -29,7 +29,7 @@ A simple statusline for neovim written in lua.
     ```
 
 ### Features
-* Lightweight (2.3 kb)
+* Lightweight (~3 kb)
 * Fast
 * Unicode current mode info.
 
