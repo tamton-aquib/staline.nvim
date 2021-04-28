@@ -28,15 +28,19 @@ A simple statusline for neovim written in lua.
     call dein#add('tamton-aquib/staline.nvim')
     ```
 ### Setting up
+
+* Default configuration
     ```lua
-    require('staline').setup()
+    require('staline').setup{
+            leftSeparator = "",
+            rightSeparator = ""
+    }
     ```
 
 ### Features
 * Lightweight (2.3 kb)
 * Fast
-* Unicode mode info.
-* 100 LOC.
+* Unicode current mode info.
 
 ### TODO
 
