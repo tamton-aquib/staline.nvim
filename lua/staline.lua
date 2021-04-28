@@ -1,19 +1,23 @@
-M = {}
+local Config = require('config')
+
 local cmd = vim.api.nvim_command
 local getModeColor = require('tables').getModeColor
 local modes = require('tables').modes
 local getFileIcon = require('tables').getFileIcon
 local lightGrey = "#303030"
 
-local leftSeparator = ""	-->    
-local rightSeparator = ""	-->    
+local leftSeparator = Config.defaults.leftSeparator
+local rightSeparator = Config.defaults.rightSeparator
+
+-- local leftSeparator = ""	-->    
+-- local rightSeparator = ""	-->    
 
 function ifNotFound (t, d)
   local mt = {__index = function () return d end}
   setmetatable(t, mt)
 end
 
-function M.get_statusline()
+function get_statusline()
 	local mode = vim.api.nvim_get_mode()['mode']
 	local extension = vim.bo.ft
 
@@ -39,8 +43,7 @@ function M.get_statusline()
 	return s
 end
 
-function M.setup()
-    vim.o.statusline = '%!v:lua.require\'noice\'.get_statusline()'
-end
-
-return M
+return {
+	setup = Config.setup,
+	get_statusline = get_statusline
+}
