@@ -2,10 +2,10 @@
 A simple statusline for neovim written in lua.
 
 ### Screenshots
-![normal mode](https://i.imgur.com/5RZFhWC.png)
-![insert mode](https://i.imgur.com/V0FolHn.png)
-![visual mode](https://i.imgur.com/3lbiz36.png)
-![command mode](https://i.imgur.com/f4lsWRD.png)
+![normal mode](https://i.imgur.com/1gXX22o.png)
+![insert mode](https://i.imgur.com/0bP6y0S.png)
+![visual mode](https://i.imgur.com/v1sejC8.png)
+![command mode](https://i.imgur.com/TD9CGJ6.png)
 
 
 ### Installation
@@ -23,8 +23,9 @@ A simple statusline for neovim written in lua.
 * Default configuration
     ```lua
     require('staline').setup{
-            leftSeparator = "",
-            rightSeparator = ""
+            leftSeparator   = "",
+            rightSeparator  = "",
+            cool_symbol     = " "
     }
     ```
 
