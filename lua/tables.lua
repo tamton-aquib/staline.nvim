@@ -20,22 +20,26 @@ Tables.getModeColor = {
 }
 
 Tables.getFileIcon = {
-     typescript = ' ' ,
-     python     = ' ' ,
-     html       = ' ' ,
-     css        = ' ' ,
-     javascript = ' ' ,
-     jsx        = ' ' ,
-     markdown   = ' ' ,
-     sh         = ' ',
-     vim        = ' ',
-     rust       = ' ',
-     cpp        = ' ',
-     c          = ' ',
-     go         = ' ',
-     lua        = ' ',
-     conf       = ' ',
-	 txt	    = ' '
+     typescript         = ' ' ,
+     python             = ' ' ,
+     html               = ' ' ,
+     css                = ' ' ,
+     scss               = ' ' ,
+     javascript         = ' ' ,
+     javascriptreact    = ' ' ,
+     markdown           = ' ' ,
+     sh                 = ' ',
+     zsh                = ' ',
+     vim                = ' ',
+     rust               = ' ',
+     cpp                = ' ',
+     c                  = ' ',
+     go                 = ' ',
+     lua                = ' ',
+     conf               = ' ',
+     haskel             = ' ',
+     ruby               = ' ',
+	 txt	            = ' '
 }
 
 Tables.modes = {
