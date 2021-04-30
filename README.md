@@ -22,7 +22,7 @@ A simple statusline for neovim written in lua.
 
 * Default configuration
     ```lua
-    require('staline').setup{
+    require('staline').setup {
             leftSeparator   = "",
             rightSeparator  = "",
             cool_symbol     = " "
