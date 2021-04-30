@@ -7,7 +7,7 @@ Config.defaults = {
 }
 
 function Config.setup(opts)
-    if not opts then end
+    if not opts then return end
     for k, v in pairs(opts) do Config.defaults[k] = v end
     vim.o.statusline = '%!v:lua.require\'noice\'.get_statusline()'
 end
