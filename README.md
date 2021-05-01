@@ -25,7 +25,7 @@ A simple statusline for neovim written in lua.
     require('staline').setup {
             leftSeparator   = "",
             rightSeparator  = "",
-            cool_symbol     = " "
+            cool_symbol     = " "  --varies according to OS type.
     }
     ```
 
@@ -38,6 +38,6 @@ A simple statusline for neovim written in lua.
 ### TODO
 
 - [x] Break into modules.
-- [x] Git info.
-- [ ] User configuration options.
-- [ ] Include more filetype support.
+- [x] Include more filetype support.
+- [x] Git info. Only branch info for now
+- [ ] User configuration options. Needs more work.
