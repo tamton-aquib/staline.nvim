@@ -22,10 +22,10 @@ A simple statusline for neovim written in lua.
 
 * Default configuration
     ```lua
-    require('staline').setup{
+    require('staline').setup {
             leftSeparator   = "",
             rightSeparator  = "",
-            cool_symbol     = " "
+            cool_symbol     = " "  --varies according to OS type.
     }
     ```
 
@@ -33,10 +33,11 @@ A simple statusline for neovim written in lua.
 * Lightweight (~3 kb)
 * Fast
 * Unicode current mode info.
+* Shows current git branch if `plenary` is installed. (If you have telescope, you will probably have this.)
 
 ### TODO
 
 - [x] Break into modules.
-- [x] Git info.
-- [ ] User configuration options.
-- [ ] Include more filetype support.
+- [x] Include more filetype support.
+- [x] Git info. Only branch info for now
+- [ ] User configuration options. Needs more work.

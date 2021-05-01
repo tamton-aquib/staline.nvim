@@ -7,11 +7,6 @@ local getFileIcon = require('tables').getFileIcon
 
 local lightGrey = "#303030"
 
-local leftSeparator = Config.defaults.leftSeparator
-local rightSeparator = Config.defaults.rightSeparator
-local cool_symbol = Config.defaults.cool_symbol
-
-
 function has_plenary(module)
     local function requiref(module)
 		local Job = require'plenary.job'
@@ -22,7 +17,6 @@ function has_plenary(module)
 			return return_val
 		  end,
 		}):sync()[1]
-		-- if not branch then branch = "Nice" end
 		branch = branch and ' '..branch or ""
     end
     res = pcall(requiref,module)
@@ -38,6 +32,10 @@ function ifNotFound (t, d)
 end
 
 function get_statusline()
+    local leftSeparator = Config.defaults.leftSeparator
+    local rightSeparator = Config.defaults.rightSeparator
+    local cool_symbol = Config.defaults.cool_symbol
+
 	local mode = vim.api.nvim_get_mode()['mode']
 	local extension = vim.bo.ft
 
