@@ -23,10 +23,10 @@ A simple statusline for neovim written in lua.
 * Default configuration
     ```lua
     require('staline').setup {
-            leftSeparator   = "",
-            rightSeparator  = "",
+			leftSeparator   = "",
+			rightSeparator  = "",
 			line_column		= "[%l/%L] :%c 並%p%%", -- :h stl to learn more formats :).
-            cool_symbol     = " "  -- Add custom character to override default OS symbol.
+			cool_symbol     = " "  -- Add custom character to override default OS symbol.
     }
     ```
 
