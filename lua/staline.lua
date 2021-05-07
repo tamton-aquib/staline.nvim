@@ -1,7 +1,47 @@
-local Config = require('config')
+Config = {}
+
+local green     = "#2bbb4f"	--> "#6ed57e"
+local violet    = "#986fec"
+local blue      = "#4799eb"	--> "#03353e"
+local yellow    = "#fff94c"	--> "#ffd55b"
+local black     = "#000000"
+local red       = "#e27d60"
+
+function system_icon()
+	if vim.fn.has("win32") == 1 then return "者"
+	elseif vim.fn.has("unix") == 1 then return " "
+	elseif vim.fn.has("mac") == 1 then return " "
+	end
+end
+
+Config.defaults = {
+    leftSeparator = "",
+    rightSeparator = "",
+	cool_symbol = system_icon()
+}
+
+Config.getModeColor = {
+     ['n']    =  green,
+     ['v']    =  blue,
+     ['V']    =  blue,
+     ['i']    =  violet,
+     ['ic']   =  violet,
+     ['c']    =  red,
+     ['t']    =  yellow,
+     ['r']    =  yellow,
+     ['R']    =  yellow
+}
+
+function Config.setup(opts)
+	if not opts.defaults then opts.defaults = Config.defaults end
+	if not opts.getModeColor then opts.getModeColor = Config.getModeColor end
+
+	for k, v in pairs(opts.defaults) do Config.defaults[k] = v end
+	for k, v in pairs(opts.getModeColor) do Config.getModeColor[k] = v end
+    vim.o.statusline = '%!v:lua.require\'staline\'.get_statusline()'
+end
 
 local cmd = vim.api.nvim_command
-local getModeColor = require('tables').getModeColor
 local modes = require('tables').modes
 local getFileIcon = require('tables').getFileIcon
 
@@ -41,10 +81,10 @@ function get_statusline()
 
 	ifNotFound(modes, ' ')
 	ifNotFound(getFileIcon, ' ')
-	ifNotFound(getModeColor, red)
+	ifNotFound(Config.getModeColor, red)
 
 	local modeIcon	= modes[mode]
-	local modeColor = getModeColor[mode]
+	local modeColor = Config.getModeColor[mode]
 	local fileIcon	= getFileIcon[extension]
 
 	local s = '%#Noice#  '..modeIcon..' %#Arrow#'..leftSeparator
