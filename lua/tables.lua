@@ -7,18 +7,6 @@ local yellow    = "#fff94c"	--> "#ffd55b"
 local black     = "#000000"
 local red       = "#e27d60"
 
-Tables.getModeColor = {
-     n    =  green,
-     v    =  blue,
-     V    =  blue,
-     i    =  violet,
-     ic   =  violet,
-     c    =  red,
-     t    =  yellow,
-     r    =  yellow,
-     R    =  yellow
-}
-
 Tables.getFileIcon = {
      typescript         = ' ' ,
      python             = ' ' ,
@@ -39,19 +27,8 @@ Tables.getFileIcon = {
      conf               = ' ',
      haskel             = ' ',
      ruby               = ' ',
-	 txt	            = ' '
+     txt	            = ' '
 }
 
-Tables.modes = {
-     n   = ' ',
-     v   = ' ',
-     V   = ' ',
-     i   = ' ',
-     ic  = '',
-     c   = ' ',
-     r   = 'Prompt',
-     t   = 'T',
-     R   = ' ',
-}
 
 return Tables
