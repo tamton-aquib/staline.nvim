@@ -20,22 +20,47 @@ A simple statusline for neovim written in lua.
 
 ### Setting up
 
-* Default configuration
+* Configuration
+	```lua
+	require('staline').setup{}
+	```
+* The Default configuration looks something like:
     ```lua
     require('staline').setup {
 		defaults = {
             leftSeparator   = "",
             rightSeparator  = "",
-            cool_symbol     = " "  --varies according to OS type.
+            cool_symbol     = " "  -- Change this to override defult OS icon.
 		},
 		getModeColor = {
 			n = "#2bbb4f",
 			i = "#986fec",
 			c = "#e27d60",
 			v = "#4799eb",
+		},
+		modes = {
+			n = " ",
+			i = " ",
+			c = " ",
+			v = " ",
 		}
     }
     ```
+* Useful config Ideas:
+	> create color value tables yourself to match your current colorscheme.
+	```lua
+	local gruvbox = {
+		n = "#a89985",
+		i = "#84a598",
+		c = "#8fbf7f",
+		v = "#fc802d",
+	}
+	
+	-- Assign getModeColor as this table.
+	require('staline').setup{
+		getModeColor = gruvbox
+	}
+	```
 
 ### Features
 * Lightweight (~100 LOC)
