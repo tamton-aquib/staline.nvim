@@ -25,12 +25,13 @@ A simple statusline for neovim written in lua.
     require('staline').setup {
             leftSeparator   = "",
             rightSeparator  = "",
+			line_column		= "[%l/%L] :%c 並%p%%", -- :h stl to learn more formats :).
             cool_symbol     = " "  -- Add custom character to override default OS symbol.
     }
     ```
 
 ### Features
-* Lightweight (~3 kb)
+* Lightweight (roughly 100LOC)
 * Fast
 * Unicode current mode info.
 * Shows current git branch if `plenary` is installed. (If you have telescope, you will probably have this.)

@@ -11,8 +11,9 @@ function system_icon()
 end
 
 Config.defaults = {
-    leftSeparator = "",
-    rightSeparator = "",
+	leftSeparator = "",
+	rightSeparator = "",
+	line_column = "[%l/%L] :%c 並%p%%",
 	cool_symbol = system_icon()
 }
 

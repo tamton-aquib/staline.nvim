@@ -35,6 +35,7 @@ function get_statusline()
     local leftSeparator = Config.defaults.leftSeparator
     local rightSeparator = Config.defaults.rightSeparator
     local cool_symbol = Config.defaults.cool_symbol
+    local line_column = Config.defaults.line_column
 
 	local mode = vim.api.nvim_get_mode()['mode']
 	local extension = vim.bo.ft
@@ -54,7 +55,7 @@ function get_statusline()
     s = s..'%='
 
     s = s..rightSeparator..'%#Arrow#'..rightSeparator..'%#Noice# '
-    s = s..fileIcon..'  [%l/%L] :%c 並%p%% '.. cool_symbol ..' '
+    s = s..fileIcon..'  '..line_column..' '.. cool_symbol ..' '
 
 	cmd('hi Noice guibg='..modeColor..' guifg=#000000')
 	cmd('hi Arrow guifg='..modeColor..' guibg='..lightGrey)
