@@ -17,6 +17,7 @@ end
 Config.defaults = {
     leftSeparator = "",
     rightSeparator = "",
+	line_column = "[%l/%L] :%c 並%p%% ",
 	cool_symbol = system_icon()
 }
 
@@ -32,17 +33,32 @@ Config.getModeColor = {
      ['R']    =  yellow
 }
 
+Config.modes = {
+     ['n']   = ' ',
+     ['v']   = ' ',
+     ['V']   = ' ',
+     ['i']   = ' ',
+     ['ic']  = '',
+     ['c']   = ' ',
+     ['r']   = 'Prompt',
+     ['t']   = 'T',
+     ['R']   = ' ',
+     ['^V']  = ' '
+}
+
 function Config.setup(opts)
+	if not opts.modes then opts.modes = Config.modes end
 	if not opts.defaults then opts.defaults = Config.defaults end
 	if not opts.getModeColor then opts.getModeColor = Config.getModeColor end
 
 	for k, v in pairs(opts.defaults) do Config.defaults[k] = v end
 	for k, v in pairs(opts.getModeColor) do Config.getModeColor[k] = v end
+	for k, v in pairs(opts.modes) do Config.modes[k] = v end
     vim.o.statusline = '%!v:lua.require\'staline\'.get_statusline()'
 end
 
 local cmd = vim.api.nvim_command
-local modes = require('tables').modes
+-- local modes = require('tables').modes
 local getFileIcon = require('tables').getFileIcon
 
 local lightGrey = "#303030"
@@ -75,15 +91,16 @@ function get_statusline()
     local leftSeparator = Config.defaults.leftSeparator
     local rightSeparator = Config.defaults.rightSeparator
     local cool_symbol = Config.defaults.cool_symbol
+    local line_column = Config.defaults.line_column
 
 	local mode = vim.api.nvim_get_mode()['mode']
 	local extension = vim.bo.ft
 
-	ifNotFound(modes, ' ')
+	ifNotFound(Config.modes, ' ')
 	ifNotFound(getFileIcon, ' ')
 	ifNotFound(Config.getModeColor, red)
 
-	local modeIcon	= modes[mode]
+	local modeIcon	= Config.modes[mode]
 	local modeColor = Config.getModeColor[mode]
 	local fileIcon	= getFileIcon[extension]
 
@@ -94,7 +111,7 @@ function get_statusline()
     s = s..'%='
 
     s = s..rightSeparator..'%#Arrow#'..rightSeparator..'%#Noice# '
-    s = s..fileIcon..'  [%l/%L] :%c 並%p%% '.. cool_symbol ..' '
+    s = s..fileIcon..'  '..line_column.. cool_symbol ..' '
 
 	cmd('hi Noice guibg='..modeColor..' guifg=#000000')
 	cmd('hi Arrow guifg='..modeColor..' guibg='..lightGrey)
