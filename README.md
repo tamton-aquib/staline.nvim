@@ -25,7 +25,7 @@ A simple statusline for neovim written in lua.
     require('staline').setup {
 			leftSeparator   = "",
 			rightSeparator  = "",
-			line_column		= "[%l/%L] :%c 並%p%%", -- :h stl to learn more formats :).
+			line_column     = "[%l/%L] :%c 並%p%%", -- :h stl to learn more formats :).
 			cool_symbol     = " "  -- Add custom character to override default OS symbol.
     }
     ```
