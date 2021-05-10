@@ -28,23 +28,23 @@ A simple statusline for neovim written in lua.
     ```lua
     require('staline').setup {
 		defaults = {
-				leftSeparator   = "",
-				rightSeparator  = "",
-				line_column		= "[%l/%L] :%c 並%p%% ",
-				fg				= "#000000"  -- The foreground text color
-				cool_symbol     = " "  -- Change this to override defult OS icon.
+			leftSeparator   = "",
+			rightSeparator  = "",
+			line_column		= "[%l/%L] :%c 並%p%% ",
+			fg				= "#000000"  -- The foreground text color
+			cool_symbol     = " "  -- Change this to override defult OS icon.
 		},
 		getModeColor = {
-				n = "#2bbb4f",
-				i = "#986fec",
-				c = "#e27d60",
-				v = "#4799eb",
+			n = "#2bbb4f",
+			i = "#986fec",
+			c = "#e27d60",
+			v = "#4799eb",
 		},
 		modes = {
-				n = " ",
-				i = " ",
-				c = " ",
-				v = " ",
+			n = " ",
+			i = " ",
+			c = " ",
+			v = " ",
 		}
     }
     ```
