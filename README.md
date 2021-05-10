@@ -61,6 +61,22 @@ A simple statusline for neovim written in lua.
 		getModeColor = gruvbox
 	}
 	```
+	> Use non-unicode characters for showing modes.
+	```lua
+	local no_unicode_modes = {
+		n = "N ",
+		i = "I ",
+		c = "C ",
+		v = "V ",
+	}
+
+	-- Assign modes as this table.
+	require('staline').setup{
+		modes = no_unicode_modes
+	}
+
+	-- You could change the seperators too if you want.
+	```
 
 ### Features
 * Lightweight (~100 LOC)
