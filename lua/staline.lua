@@ -12,7 +12,8 @@ Config.defaults = {
 	rightSeparator = "",
 	line_column = "[%l/%L] :%c 並%p%% ",
 	cool_symbol = system_icon(),
-	fg = "#000000"
+	fg = "#000000",
+	bg = "none"
 }
 
 Config.getModeColor = {
@@ -85,8 +86,8 @@ function call_highlights(modeColor)
     local fg = Config.defaults.fg
 	cmd('hi Noice guibg='..modeColor..' guifg='..fg)
 	cmd('hi Arrow guifg='..modeColor..' guibg='..lightGrey)
-	cmd('hi MidArrow guifg='..lightGrey)
-	cmd('hi BranchName guifg='..modeColor)
+	cmd('hi MidArrow guifg='..lightGrey..' guibg='..bg)
+	cmd('hi BranchName guifg='..modeColor..' guibg='..bg)
 end
 
 function get_statusline()
