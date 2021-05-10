@@ -30,9 +30,9 @@ A simple statusline for neovim written in lua.
 		defaults = {
 			leftSeparator   = "",
 			rightSeparator  = "",
-			line_column		= "[%l/%L] :%c 並%p%% ",
-			fg				= "#000000",  -- The foreground text color.
-			bg				= "none",     -- Default background is transparent.
+			line_column     = "[%l/%L] :%c 並%p%% ",
+			fg              = "#000000",  -- The foreground text color.
+			bg              = "none",     -- Default background is transparent.
 			cool_symbol     = " "        -- Change this to override defult OS icon.
 		},
 		getModeColor = {
