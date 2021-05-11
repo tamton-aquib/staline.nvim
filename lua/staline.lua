@@ -16,7 +16,7 @@ Config.defaults = {
 	bg = "none"
 }
 
-Config.getModeColor = {
+Config.mode_colors = {
      ['n']    =  "#2bbb4f", --> "#6ed57e"
      ['v']    =  "#4799eb",
      ['V']    =  "#4799eb",
@@ -28,7 +28,7 @@ Config.getModeColor = {
      ['R']    =  "#fff94c"
 }
 
-Config.modes = {
+Config.mode_icons = {
      ['n']   = ' ',
      ['v']   = ' ',
      ['V']   = ' ',
@@ -99,12 +99,12 @@ function get_statusline()
 	local mode = vim.api.nvim_get_mode()['mode']
 	local extension = vim.bo.ft
 
-	ifNotFound(Config.modes, ' ')
+	ifNotFound(Config.mode_icons, ' ')
 	ifNotFound(getFileIcon, ' ')
-	ifNotFound(Config.getModeColor, red)
+	ifNotFound(Config.mode_colors, red)
 
-	local modeIcon	= Config.modes[mode]
-	local modeColor = Config.getModeColor[mode]
+	local modeIcon	= Config.mode_icons[mode]
+	local modeColor = Config.mode_colors[mode]
 	local fileIcon	= getFileIcon[extension]
 
 	local s = '%#Noice#  '..modeIcon..' %#Arrow#'..leftSeparator

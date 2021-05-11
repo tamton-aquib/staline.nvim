@@ -35,13 +35,13 @@ A simple statusline for neovim written in lua.
 			bg              = "none",     -- Default background is transparent.
 			cool_symbol     = " "        -- Change this to override defult OS icon.
 		},
-		getModeColor = {
+		mode_colors = {
 			n = "#2bbb4f",
 			i = "#986fec",
 			c = "#e27d60",
 			v = "#4799eb",
 		},
-		modes = {
+		mode_icons = {
 			n = " ",
 			i = " ",
 			c = " ",
@@ -59,9 +59,9 @@ A simple statusline for neovim written in lua.
 		v = "#fc802d",
 	}
 	
-	-- Assign getModeColor as this table.
+	-- Assign mode_colors as this table.
 	require('staline').setup{
-		getModeColor = gruvbox
+		mode_colors = gruvbox
 	}
 	```
 	> Use non-unicode characters for showing modes.
@@ -75,7 +75,7 @@ A simple statusline for neovim written in lua.
 
 	-- Assign modes as this table.
 	require('staline').setup{
-		modes = no_unicode_modes
+		mode_icons = no_unicode_modes
 	}
 
 	-- You could change the seperators too if you want.
