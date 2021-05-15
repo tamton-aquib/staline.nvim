@@ -69,16 +69,18 @@ function get_statusline()
 
 	local modeIcon	= Config.mode_icons[mode]
 	local modeColor = Config.mode_colors[mode]
-	local fileIcon	= Config.getFileIcon[extension]
+	-- local fileIcon	= Config.getFileIcon[extension]
+    local fileIcon, icon_highlight  = require'nvim-web-devicons'.get_icon(vim.fn.expand('%:t'), extension, options)
+    print(icon_highlight)
 
 	local s = '%#Noice#  '..modeIcon..' %#Arrow#'..leftSeparator
 	s = s..'%#MidArrow#'..leftSeparator
-	s = s.." %#BranchName#"..branch.. ' %M'.. "%#MidArrow#"
+	s = s.." %#BranchName#"..branch.. ' %M'
 
 	s = s..'%='
 
-	s = s..rightSeparator..'%#Arrow#'..rightSeparator..'%#Noice# '
-	s = s..fileIcon..'  '..line_column.. cool_symbol ..' '
+	s = s..'%#'..icon_highlight..'#'..fileIcon..' '.. "%#MidArrow#"
+	s = s..rightSeparator..'%#Arrow#'..rightSeparator..'%#Noice#  '..line_column.. cool_symbol ..' '
 
 	call_highlights(modeColor)
 
