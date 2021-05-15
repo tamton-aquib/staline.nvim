@@ -63,15 +63,15 @@ function get_statusline()
 	local mode = vim.api.nvim_get_mode()['mode']
 	local extension = vim.bo.ft
 
-	ifNotFound(Config.mode_icons, ' ')
-	ifNotFound(Config.getFileIcon, ' ')
-	ifNotFound(Config.mode_colors, "#e27d60")
-
 	local modeIcon	= Config.mode_icons[mode]
 	local modeColor = Config.mode_colors[mode]
 	-- local fileIcon	= Config.getFileIcon[extension]
     local fileIcon, icon_highlight  = require'nvim-web-devicons'.get_icon(vim.fn.expand('%:t'), extension, options)
-    print(icon_highlight)
+
+	ifNotFound(Config.mode_icons, ' ')
+	ifNotFound(Config.getFileIcon, ' ')
+	ifNotFound(Config.mode_colors, "#e27d60")
+
 
 	local s = '%#Noice#  '..modeIcon..' %#Arrow#'..leftSeparator
 	s = s..'%#MidArrow#'..leftSeparator
