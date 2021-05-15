@@ -82,7 +82,7 @@ A simple statusline for neovim written in lua.
 	```
 
 ### Features
-* Lightweight ( <150 LOC)
+* Lightweight ( <100 LOC)
 * Fast
 * Unicode current mode info.
 * Shows current git branch if `plenary` is installed. (If you have telescope, you will probably have this.)
