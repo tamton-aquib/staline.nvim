@@ -35,6 +35,7 @@ local function call_highlights(modeColor)
 	cmd('hi Arrow guifg='..modeColor..' guibg='..lightGrey)
 	cmd('hi MidArrow guifg='..lightGrey..' guibg='..bg)
 	cmd('hi BranchName guifg='..modeColor..' guibg='..bg)
+	cmd('hi DevIconLua guibg='..bg)
 end
 
 function M.get_statusline()
@@ -56,7 +57,6 @@ function M.get_statusline()
 	local right_side = "%="
 	local left_side = "%="
 
-
 	if filename_position == "right" then right_side = ""
 	elseif filename_position == "left" then left_side = ""
 	elseif filename_position == "none" then f_name, f_icon = "", ""
@@ -66,7 +66,7 @@ function M.get_statusline()
 	local s = '%#Noice#  '..modeIcon..' %#Arrow#'..leftSeparator
 	..'%#MidArrow#'..leftSeparator.." %#BranchName#"..branch.. ' %M'..
 
-	left_side..'%#'..icon_highlight..'#  '..f_icon.."%#BranchName# "..f_name.. "  %#MidArrow#"..right_side
+	left_side..'%#DevIconLua#  '..f_icon.."%#BranchName# "..f_name.. "  %#MidArrow#"..right_side
 
 	..rightSeparator..'%#Arrow#'..rightSeparator..'%#Noice#  '..line_column..cool_symbol ..' '
 

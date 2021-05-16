@@ -19,13 +19,13 @@ Tables.defaults = {
 }
 
 Tables.mode_colors = {
-     ['n']    =  "#2bbb4f", --> "#6ed57e"
+     ['n']    =  "#6ed57e", --> "#" 2bbb4f
      ['v']    =  "#4799eb",
      ['V']    =  "#4799eb",
      ['i']    =  "#986fec",
      ['ic']   =  "#986fec",
      ['c']    =  "#e27d60",
-     ['t']    =  "#fff94c", --> "#ffd55b"
+     ['t']    =  "#ffd55b", --> "#" fff94c
      ['r']    =  "#fff94c",
      ['R']    =  "#fff94c"
 }
