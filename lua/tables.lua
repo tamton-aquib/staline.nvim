@@ -13,7 +13,9 @@ Tables.defaults = {
 	line_column = "[%l/%L] :%c 並%p%% ",
 	cool_symbol = system_icon(),
 	fg = "#000000",
-	bg = "none"
+	bg = "none",
+	filename_position = "center",
+	full_path = false
 }
 
 Tables.mode_colors = {
