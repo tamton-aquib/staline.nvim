@@ -56,10 +56,11 @@ function M.get_statusline()
 	local right_side = "%="
 	local left_side = "%="
 
+
 	if filename_position == "right" then right_side = ""
 	elseif filename_position == "left" then left_side = ""
 	elseif filename_position == "none" then f_name, f_icon = "", ""
-	else filename_position = "center" end
+	else f_name, f_icon = Tables.defaults.filename_position, "" end
 
 	local s = '%#Noice#  '..modeIcon..' %#Arrow#'..leftSeparator
 	..'%#MidArrow#'..leftSeparator.." %#BranchName#"..branch.. ' %M'..

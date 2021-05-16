@@ -14,8 +14,8 @@ Tables.defaults = {
 	cool_symbol = system_icon(),
 	fg = "#000000",
 	bg = "none",
-	filename_position = "center",
-	full_path = false
+	full_path = false,
+	filename_position = "center"
 }
 
 Tables.mode_colors = {
