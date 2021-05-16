@@ -60,6 +60,7 @@ function M.get_statusline()
 	if filename_position == "right" then right_side = ""
 	elseif filename_position == "left" then left_side = ""
 	elseif filename_position == "none" then f_name, f_icon = "", ""
+	elseif filename_position == "center" then
 	else f_name, f_icon = Tables.defaults.filename_position, "" end
 
 	local s = '%#Noice#  '..modeIcon..' %#Arrow#'..leftSeparator
