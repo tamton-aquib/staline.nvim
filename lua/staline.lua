@@ -54,8 +54,7 @@ function M.get_statusline()
 	local f_name = full_path and fullpath or fullpath:match("^.+/(.+)$") or ""
 	local f_icon, icon_highlight  = require'nvim-web-devicons'.get_icon(filename, extension, {default = true})
 
-	local right_side = "%="
-	local left_side = "%="
+	local right_side, left_side = "%=", "%="
 
 	if filename_position == "right" then right_side = ""
 	elseif filename_position == "left" then left_side = ""
