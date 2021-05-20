@@ -53,6 +53,7 @@ function M.get_statusline()
 	local f_icon, icon_highlight  = require'nvim-web-devicons'.get_icon(filename, extension, {default = true})
 
 	local right_side, left_side = "%=", "%="
+	local edited = vim.bo.modified and "  " or " "
 
 	if filename_position == "right" then right_side = ""
 	elseif filename_position == "left" then left_side = ""
@@ -61,9 +62,9 @@ function M.get_statusline()
 	else f_name, f_icon = Tables.defaults.filename_position, "" end
 
 	local s = '%#Noice#  '..modeIcon..' %#Arrow#'..leftSeparator
-	..'%#MidArrow#'..leftSeparator.." %#BranchName#"..get_branch().. ' %M'..
+	..'%#MidArrow#'..leftSeparator.." %#BranchName#"..get_branch()..
 
-	left_side..'%#DevIconLua#  '..f_icon.."%#BranchName# "..f_name.. "  %#MidArrow#"..right_side
+	left_side..'%#DevIconLua#  '..f_icon.."%#BranchName# "..f_name..edited.. "%#MidArrow#"..right_side
 
 	..rightSeparator..'%#Arrow#'..rightSeparator..'%#Noice#  '..line_column..cool_symbol ..' '
 
