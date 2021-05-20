@@ -43,8 +43,8 @@ function M.get_tabline()
 	local nice = ""
 
 	for buffer in pairs(vim.api.nvim_list_bufs()) do
-		local filename = vim.fn.bufname(buffer):match(".*%/(.+)")
-		filename = filename and " "..filename.." " or ""
+		local filename = vim.fn.bufname(buffer):match(".*%/(.+)") or "[No name]"
+		-- filename = filename and " "..filename.." " or ""
 		if filename:match("Vim.Buffer") then filename = "" end
 
 		if vim.api.nvim_get_current_buf() == buffer then
