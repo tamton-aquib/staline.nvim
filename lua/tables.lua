@@ -15,7 +15,8 @@ Tables.defaults = {
 	fg = "#000000",
 	bg = "none",
 	full_path = false,
-	filename_position = "center"
+	filename_position = "center",
+	tabline = false
 }
 
 Tables.mode_colors = {

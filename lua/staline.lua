@@ -11,7 +11,7 @@ function M.setup(opts)
 	end
 
     vim.o.statusline = '%!v:lua.require\'staline\'.get_statusline()'
-    if vim.g.staline_tabline = "nice" then
+    if Tables.defaults.tabline == true then
 		vim.o.tabline = '%!v:lua.require\'staline\'.get_tabline()'
 	end
 end
