@@ -1,7 +1,7 @@
+local cmd = vim.api.nvim_command
+
 M = {}
 Tables = require('tables')
-
-local cmd = vim.api.nvim_command
 
 function M.setup(opts)
 	if not opts then opts = {} end
@@ -26,8 +26,6 @@ local function get_branch()
 	}):sync()[1]
 	return branch_name and ' '..branch_name or ""
 end
-
-branch = get_branch()
 
 local function call_highlights(modeColor)
 	local lightGrey = "#303030"
@@ -63,14 +61,13 @@ function M.get_statusline()
 	else f_name, f_icon = Tables.defaults.filename_position, "" end
 
 	local s = '%#Noice#  '..modeIcon..' %#Arrow#'..leftSeparator
-	..'%#MidArrow#'..leftSeparator.." %#BranchName#"..branch.. ' %M'..
+	..'%#MidArrow#'..leftSeparator.." %#BranchName#"..get_branch().. ' %M'..
 
 	left_side..'%#DevIconLua#  '..f_icon.."%#BranchName# "..f_name.. "  %#MidArrow#"..right_side
 
 	..rightSeparator..'%#Arrow#'..rightSeparator..'%#Noice#  '..line_column..cool_symbol ..' '
 
 	call_highlights(modeColor)
-
 	return s
 end
 
