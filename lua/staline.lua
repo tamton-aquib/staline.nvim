@@ -36,7 +36,7 @@ local function call_highlights(modeColor)
 	cmd('hi Arrow guifg='..modeColor..' guibg='..lightGrey)
 	cmd('hi MidArrow guifg='..lightGrey..' guibg='..bg)
 	cmd('hi BranchName guifg='..modeColor..' guibg='..bg)
-	cmd('hi DevIconLua guibg='..bg)
+	-- cmd('hi DevIconLua guibg='..bg)
 end
 
 function M.get_tabline()
@@ -85,7 +85,7 @@ function M.get_statusline()
 	local s = '%#Noice#  '..modeIcon..' %#Arrow#'..leftSeparator
 	..'%#MidArrow#'..leftSeparator.." %#BranchName#"..get_branch()..
 
-	left_side..'%#DevIconLua#  '..f_icon.."%#BranchName# "..f_name..edited.. "%#MidArrow#"..right_side
+	left_side.." "..f_icon.."%#BranchName# "..f_name..edited.. "%#MidArrow#"..right_side
 
 	..rightSeparator..'%#Arrow#'..rightSeparator..'%#Noice#  '..line_column..cool_symbol ..' '
 
