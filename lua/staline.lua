@@ -11,9 +11,6 @@ function M.setup(opts)
 	end
 
     vim.o.statusline = '%!v:lua.require\'staline\'.get_statusline()'
-    if Tables.defaults.tabline == true then
-		vim.o.tabline = '%!v:lua.require\'staline\'.get_tabline()'
-	end
 end
 
 local function get_branch()
@@ -36,18 +33,21 @@ local function call_highlights(modeColor)
 	cmd('hi Arrow guifg='..modeColor..' guibg='..lightGrey)
 	cmd('hi MidArrow guifg='..lightGrey..' guibg='..bg)
 	cmd('hi BranchName guifg='..modeColor..' guibg='..bg)
-	-- cmd('hi DevIconLua guibg='..bg)
+end
+
+function M.tabline_init()
+	vim.o.tabline = '%!v:lua.require\'staline\'.get_tabline()'
 end
 
 function M.get_tabline()
 	local nice = ""
-
-	for buffer in pairs(vim.api.nvim_list_bufs()) do
-		local filename = vim.api.nvim_buf_get_name(buffer):match(".*%/(.+)")
+	
+	for i=1,#vim.api.nvim_list_bufs() do
+		local filename = vim.api.nvim_buf_get_name(i):match(".*%/(.+)")
 		filename = filename and " "..filename.." " or "[No name]"
 		if filename:match("Vim.Buffer") then filename = "" end
 
-		if vim.api.nvim_get_current_buf() == buffer then
+		if vim.api.nvim_get_current_buf() == i then
 			nice = nice.."%#Noice#"..filename.."%#Tabline#"
 		else
 			nice = nice.."%#Tabline#"..filename
@@ -59,7 +59,7 @@ end
 
 function M.get_statusline()
 
-	for k,v in pairs(Tables.defaults) do
+	for k, _ in pairs(Tables.defaults) do
 		_G[k] = Tables.defaults[k]
 	end
 
