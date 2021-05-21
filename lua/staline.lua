@@ -42,15 +42,16 @@ end
 function M.get_tabline()
 	local nice = ""
 	
-	for i=1,#vim.api.nvim_list_bufs() do
-		local filename = vim.api.nvim_buf_get_name(i):match(".*%/(.+)")
-		filename = filename and " "..filename.." " or "[No name]"
-		if filename:match("Vim.Buffer") then filename = "" end
+	for i in pairs(vim.api.nvim_list_bufs()) do
+		if vim.api.nvim_buf_is_valid(i) == true then 
+			local filename = vim.api.nvim_buf_get_name(i):match(".*%/(.+)") or "[No Name]"
+			if filename:match("Vim.Buffer") then filename = "" end
 
-		if vim.api.nvim_get_current_buf() == i then
-			nice = nice.."%#Noice#"..filename
-		else
-			nice = nice.."%#Tabline#"..filename
+			if vim.api.nvim_get_current_buf() == i then
+				nice = nice.."%#Noice# "..filename.." "
+			else
+				nice = nice.." %#Tabline# "..filename.." "
+			end
 		end
 	end
 
