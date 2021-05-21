@@ -48,7 +48,7 @@ function M.get_tabline()
 		if filename:match("Vim.Buffer") then filename = "" end
 
 		if vim.api.nvim_get_current_buf() == i then
-			nice = nice.."%#Noice#"..filename.."%#Tabline#"
+			nice = nice.."%#Noice#"..filename
 		else
 			nice = nice.."%#Tabline#"..filename
 		end
