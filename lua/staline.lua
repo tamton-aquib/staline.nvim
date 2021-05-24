@@ -78,18 +78,18 @@ function M.get_statusline()
 	local right_side, left_side = "%=", "%="
 	local edited = vim.bo.modified and "  " or " "
 
-	if filename_position == "right" then right_side = ""
-	elseif filename_position == "left" then left_side = ""
-	elseif filename_position == "none" then f_name, f_icon = "", ""
-	elseif filename_position == "center" then
-	else f_name, f_icon = Tables.defaults.filename_position, "" end
+	if filename_section == "right" then right_side = ""
+	elseif filename_section == "left" then left_side = ""
+	elseif filename_section == "none" then f_name, f_icon = "", ""
+	elseif filename_section == "center" then
+	else f_name, f_icon = Tables.defaults.filename_section, "" end
 
 	local s = '%#Noice#  '..modeIcon..' %#Arrow#'..leftSeparator
 	..'%#MidArrow#'..leftSeparator.." %#BranchName#"..get_branch()..
 
 	left_side.." "..f_icon.."%#BranchName# "..f_name..edited.. "%#MidArrow#"..right_side
 
-	..rightSeparator..'%#Arrow#'..rightSeparator..'%#Noice#  '..line_column..cool_symbol ..' '
+	..rightSeparator..'%#Arrow#'..rightSeparator..'%#Noice#'.."  "..line_column..cool_symbol ..' '
 
 	call_highlights(modeColor)
 	return s
