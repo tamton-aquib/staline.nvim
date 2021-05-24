@@ -29,10 +29,12 @@ A simple statusline for neovim written in lua.
 		defaults = {
 			leftSeparator   = "",
 			rightSeparator  = "",
-			line_column     = "[%l/%L] :%c 並%p%% ",
+			line_column     = "[%l/%L] :%c 並%p%% ", -- `:h stl` to see all flags.
 			fg              = "#000000",  -- The foreground text color.
 			bg              = "none",     -- Default background is transparent.
-			cool_symbol     = " "        -- Change this to override defult OS icon.
+			cool_symbol     = " ",       -- Change this to override defult OS icon.
+			filename_section= "center",   -- others: right, left, or none.
+			full_path       = false
 		},
 		mode_colors = {
 			n = "#2bbb4f",

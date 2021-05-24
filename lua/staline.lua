@@ -84,12 +84,12 @@ function M.get_statusline()
 	elseif filename_section == "center" then
 	else f_name, f_icon = Tables.defaults.filename_section, "" end
 
-	local s = '%#Noice#  '..modeIcon..' %#Arrow#'..leftSeparator
-	..'%#MidArrow#'..leftSeparator.." %#BranchName#"..get_branch()..
+	local s = '%#Noice#  '..modeIcon..' %#Arrow#'..left_separator
+	..'%#MidArrow#'..left_separator.." %#BranchName#"..get_branch()..
 
 	left_side.." "..f_icon.."%#BranchName# "..f_name..edited.. "%#MidArrow#"..right_side
 
-	..rightSeparator..'%#Arrow#'..rightSeparator..'%#Noice#'.."  "..line_column..cool_symbol ..' '
+	..right_separator..'%#Arrow#'..right_separator..'%#Noice#'.."  "..line_column..cool_symbol ..' '
 
 	call_highlights(modeColor)
 	return s

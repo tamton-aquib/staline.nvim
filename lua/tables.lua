@@ -8,8 +8,8 @@ function system_icon()
 end
 
 Tables.defaults = {
-	leftSeparator = "",
-	rightSeparator = "",
+	left_separator = "",
+	right_separator = "",
 	line_column = "[%l/%L] :%c 並%p%% ",
 	cool_symbol = system_icon(),
 	fg = "#000000",
