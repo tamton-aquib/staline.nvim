@@ -13,7 +13,9 @@ Tables.defaults = {
 	line_column = "[%l/%L] :%c 並%p%% ",
 	cool_symbol = system_icon(),
 	fg = "#000000",
-	bg = "none"
+	bg = "none",
+	full_path = false,
+	filename_position = "center",
 }
 
 Tables.mode_colors = {
@@ -23,7 +25,7 @@ Tables.mode_colors = {
      ['i']    =  "#986fec",
      ['ic']   =  "#986fec",
      ['c']    =  "#e27d60",
-     ['t']    =  "#fff94c", --> "#ffd55b"
+     ['t']    =  "#ffd55b", --> "#" fff94c
      ['r']    =  "#fff94c",
      ['R']    =  "#fff94c"
 }
@@ -41,7 +43,7 @@ Tables.mode_icons = {
      ['^V']  = ' '
 }
 
-Tables.getFileIcon = {
+Tables.file_icons = {
      typescript         = ' ' ,
      python             = ' ' ,
      html               = ' ' ,

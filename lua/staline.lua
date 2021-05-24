@@ -1,91 +1,98 @@
-Config = {}
-Tables = require('tables')
-
 local cmd = vim.api.nvim_command
-Config.defaults = Tables.defaults
-Config.getFileIcon = Tables.getFileIcon
-Config.mode_colors = Tables.mode_colors
-Config.mode_icons = Tables.mode_icons
 
-function setup(opts)
-	if not opts then opts = {} end
+M = {}
+local Tables = require('tables')
 
-	for k,v in pairs(opts) do
-		for k1,v1 in pairs(opts[k]) do
-			Config[k][k1] = v1
-		end
+function M.setup(opts)
+	for k,v in pairs(opts or {}) do
+		for k1,v1 in pairs(opts[k]) do Tables[k][k1] = v1 end
 	end
 
     vim.o.statusline = '%!v:lua.require\'staline\'.get_statusline()'
 end
 
+local function get_branch()
+	if not pcall(require, 'plenary') then return "" end
 
-local lightGrey = "#303030"
-
-function has_plenary(module)
-    local function requiref(module)
-		local Job = require'plenary.job'
-		branch = Job:new({
-			command = 'git',
-			args = { 'describe', '--contains', '--all', 'HEAD' },
-			on_stdout = function(j, return_val)
-			return return_val
-		  end,
-		}):sync()[1]
-		branch = branch and ' '..branch or ""
-    end
-    res = pcall(requiref,module)
-    if not(res) then
-		branch = " "
-    end
-end
-has_plenary('plenary')
-
-function ifNotFound (t, d)
-  local mt = {__index = function () return d end}
-  setmetatable(t, mt)
+	local branch_name = require('plenary.job'):new({
+		command = 'git',
+		args = { 'branch', '--show-current' },
+		on_stdout = function(j, return_val)
+		return return_val
+	  end,
+	}):sync()[1]
+	return branch_name and ' '..branch_name or ""
 end
 
-function call_highlights(modeColor)
-    local fg = Config.defaults.fg
+local function get_file_icon(f_name, ext)
+	if not pcall(require, 'nvim-web-devicons') then
+		return Tables.file_icons[extension] end
+	return require'nvim-web-devicons'.get_icon(f_name, ext, {default = true})
+end
+
+local function call_highlights(modeColor)
 	cmd('hi Noice guibg='..modeColor..' guifg='..fg)
-	cmd('hi Arrow guifg='..modeColor..' guibg='..lightGrey)
-	cmd('hi MidArrow guifg='..lightGrey..' guibg='..bg)
+	cmd('hi Arrow guifg='..modeColor..' guibg='.."#303030")
+	cmd('hi MidArrow guifg='.."#303030"..' guibg='..bg)
 	cmd('hi BranchName guifg='..modeColor..' guibg='..bg)
 end
 
-function get_statusline()
+function M.tabline_init()
+	vim.o.tabline = '%!v:lua.require\'staline\'.get_tabline()'
+end
 
-	for k,v in pairs(Config.defaults) do
-		_G[k] = Config.defaults[k]
+function M.get_tabline()
+	local nice = ""
+	
+	for i in pairs(vim.api.nvim_list_bufs()) do
+		if vim.api.nvim_buf_is_valid(i) == true then 
+			local f_name = vim.api.nvim_buf_get_name(i):match(".*%/(.+)") or "[No Name]"
+			if f_name:match("Vim.Buffer") then f_name = "" end
+
+			if vim.api.nvim_get_current_buf() == i then
+				nice = nice.."%#Noice# "..f_name.." "
+			else
+				nice = nice.." %#Tabline# "..f_name.." "
+			end
+		end
+	end
+
+	return nice.."%#TablineFill#"
+end
+
+function M.get_statusline()
+
+	for k, _ in pairs(Tables.defaults) do
+		_G[k] = Tables.defaults[k]
 	end
 
 	local mode = vim.api.nvim_get_mode()['mode']
-	local extension = vim.bo.ft
+	local modeIcon	= Tables.mode_icons[mode] or " "
+	local modeColor = Tables.mode_colors[mode] or "#e27d60"
 
-	ifNotFound(Config.mode_icons, ' ')
-	ifNotFound(Config.getFileIcon, ' ')
-	ifNotFound(Config.mode_colors, "#e27d60")
+	local extension = vim.fn.expand('%:e')
+	local fullpath = vim.fn.expand('%:p') or ""
+	local f_name = full_path and fullpath or fullpath:match("^.+/(.+)$") or ""
+	local f_icon = get_file_icon(f_name, extension)
 
-	local modeIcon	= Config.mode_icons[mode]
-	local modeColor = Config.mode_colors[mode]
-	local fileIcon	= Config.getFileIcon[extension]
+	local right_side, left_side = "%=", "%="
+	local edited = vim.bo.modified and "  " or " "
+
+	if filename_position == "right" then right_side = ""
+	elseif filename_position == "left" then left_side = ""
+	elseif filename_position == "none" then f_name, f_icon = "", ""
+	elseif filename_position == "center" then
+	else f_name, f_icon = Tables.defaults.filename_position, "" end
 
 	local s = '%#Noice#  '..modeIcon..' %#Arrow#'..leftSeparator
-	s = s..'%#MidArrow#'..leftSeparator
-	s = s.." %#BranchName#"..branch.. ' %M'.. "%#MidArrow#"
+	..'%#MidArrow#'..leftSeparator.." %#BranchName#"..get_branch()..
 
-	s = s..'%='
+	left_side.." "..f_icon.."%#BranchName# "..f_name..edited.. "%#MidArrow#"..right_side
 
-	s = s..rightSeparator..'%#Arrow#'..rightSeparator..'%#Noice# '
-	s = s..fileIcon..'  '..line_column.. cool_symbol ..' '
+	..rightSeparator..'%#Arrow#'..rightSeparator..'%#Noice#  '..line_column..cool_symbol ..' '
 
 	call_highlights(modeColor)
-
 	return s
 end
 
-return {
-	setup = setup,
-	get_statusline = get_statusline
-}
+return M

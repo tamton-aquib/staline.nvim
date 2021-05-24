@@ -7,7 +7,6 @@ A simple statusline for neovim written in lua.
 ![visual mode](https://i.imgur.com/v1sejC8.png)
 ![command mode](https://i.imgur.com/TD9CGJ6.png)
 
-
 ### Installation
 * Vim-plug:
     ```vim
@@ -49,47 +48,53 @@ A simple statusline for neovim written in lua.
 		}
     }
     ```
-* Useful config Ideas:
-	> create color value tables yourself to match your current colorscheme.
-	```lua
-	local gruvbox = {
-		n = "#a89985",
-		i = "#84a598",
-		c = "#8fbf7f",
-		v = "#fc802d",
-	}
-	
-	-- Assign mode_colors as this table.
-	require('staline').setup{
-		mode_colors = gruvbox
-	}
-	```
-	> Use non-unicode characters for showing modes.
-	```lua
-	local no_unicode_modes = {
-		n = "N ",
-		i = "I ",
-		c = "C ",
-		v = "V ",
-	}
+<details>
 
-	-- Assign modes as this table.
-	require('staline').setup{
-		mode_icons = no_unicode_modes
-	}
+<summary> Some useful config Ideas: </summary>
 
-	-- You could change the seperators too if you want.
-	```
+> Create color value tables to match your current colorscheme.
+```lua
+local gruvbox = {
+	n = "#a89985",
+	i = "#84a598",
+	c = "#8fbf7f",
+	v = "#fc802d",
+}
+
+-- Assign this table as mode_colors
+require('staline').setup{
+	mode_colors = gruvbox
+}
+```
+> Use non-unicode characters for showing modes.
+```lua
+local no_unicode_modes = {
+	n = "N ",
+	i = "I ",
+	c = "C ",
+	v = "V ",
+}
+
+-- Assign this table as mode_icons.
+require('staline').setup{
+	mode_icons = no_unicode_modes
+}
+
+-- You could change the seperators too if you want.
+```
+
+</details>
 
 ### Features
-* Lightweight ( <100 LOC)
-* Fast
-* Unicode current mode info.
-* Shows current git branch if `plenary` is installed. (If you have telescope, you will probably have this.)
+* Lightweight ( ~ 100 LOC) and Fast (doesn't show up in `nvim --startuptime` logs.)
+* Unicode current mode info. Needs a Nerd Font to be installed.
+* Shows current git branch if [plenary](https://github.com/nvim-lua/plenary.nvim) is installed. (Used by Telescope)
+* Uses [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons) if installed, else uses a default table.
+* Has a basic bufferline which does not load unless called. `require'staline'.tabline_init()`
 
 ### TODO
 
 - [x] Include more filetype support.
-- [x] Git info. Only branch info for now
 - [x] User configuration options. Needs more work.
+- [x] Git info. Only branch info for now
 - [ ] Break into modules.
