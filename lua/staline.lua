@@ -1,7 +1,7 @@
 local cmd = vim.api.nvim_command
 
 M = {}
-Tables = require('tables')
+local Tables = require('tables')
 
 function M.setup(opts)
 	if not opts then opts = {} end
@@ -65,7 +65,6 @@ function M.get_statusline()
 	end
 
 	local mode = vim.api.nvim_get_mode()['mode']
-
 	local modeIcon	= Tables.mode_icons[mode] or " "
 	local modeColor = Tables.mode_colors[mode] or "#e27d60"
 
@@ -95,3 +94,4 @@ function M.get_statusline()
 end
 
 return M
+
