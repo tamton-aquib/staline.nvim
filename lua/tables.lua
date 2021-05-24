@@ -43,7 +43,7 @@ Tables.mode_icons = {
      ['^V']  = ' '
 }
 
-Tables.getFileIcon = {
+Tables.file_icons = {
      typescript         = ' ' ,
      python             = ' ' ,
      html               = ' ' ,

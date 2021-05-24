@@ -4,9 +4,7 @@ M = {}
 local Tables = require('tables')
 
 function M.setup(opts)
-	if not opts then opts = {} end
-
-	for k,v in pairs(opts) do
+	for k,v in pairs(opts or {}) do
 		for k1,v1 in pairs(opts[k]) do Tables[k][k1] = v1 end
 	end
 
@@ -14,8 +12,7 @@ function M.setup(opts)
 end
 
 local function get_branch()
-	local ok, _ = pcall(require, 'plenary')
-	if not ok then return "" end
+	if not pcall(require, 'plenary') then return "" end
 
 	local branch_name = require('plenary.job'):new({
 		command = 'git',
@@ -27,11 +24,16 @@ local function get_branch()
 	return branch_name and ' '..branch_name or ""
 end
 
+local function get_file_icon(f_name, ext)
+	if not pcall(require, 'nvim-web-devicons') then
+		return Tables.file_icons[extension] end
+	return require'nvim-web-devicons'.get_icon(f_name, ext, {default = true})
+end
+
 local function call_highlights(modeColor)
-	local lightGrey = "#303030"
 	cmd('hi Noice guibg='..modeColor..' guifg='..fg)
-	cmd('hi Arrow guifg='..modeColor..' guibg='..lightGrey)
-	cmd('hi MidArrow guifg='..lightGrey..' guibg='..bg)
+	cmd('hi Arrow guifg='..modeColor..' guibg='.."#303030")
+	cmd('hi MidArrow guifg='.."#303030"..' guibg='..bg)
 	cmd('hi BranchName guifg='..modeColor..' guibg='..bg)
 end
 
@@ -44,13 +46,13 @@ function M.get_tabline()
 	
 	for i in pairs(vim.api.nvim_list_bufs()) do
 		if vim.api.nvim_buf_is_valid(i) == true then 
-			local filename = vim.api.nvim_buf_get_name(i):match(".*%/(.+)") or "[No Name]"
-			if filename:match("Vim.Buffer") then filename = "" end
+			local f_name = vim.api.nvim_buf_get_name(i):match(".*%/(.+)") or "[No Name]"
+			if f_name:match("Vim.Buffer") then f_name = "" end
 
 			if vim.api.nvim_get_current_buf() == i then
-				nice = nice.."%#Noice# "..filename.." "
+				nice = nice.."%#Noice# "..f_name.." "
 			else
-				nice = nice.." %#Tabline# "..filename.." "
+				nice = nice.." %#Tabline# "..f_name.." "
 			end
 		end
 	end
@@ -71,7 +73,7 @@ function M.get_statusline()
 	local extension = vim.fn.expand('%:e')
 	local fullpath = vim.fn.expand('%:p') or ""
 	local f_name = full_path and fullpath or fullpath:match("^.+/(.+)$") or ""
-	local f_icon, icon_highlight  = require'nvim-web-devicons'.get_icon(filename, extension, {default = true})
+	local f_icon = get_file_icon(f_name, extension)
 
 	local right_side, left_side = "%=", "%="
 	local edited = vim.bo.modified and "  " or " "
@@ -94,4 +96,3 @@ function M.get_statusline()
 end
 
 return M
-
