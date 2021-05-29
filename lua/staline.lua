@@ -42,7 +42,7 @@ function M.tabline_init()
 end
 
 function M.get_tabline()
-	local nice = ""
+	local tabline = ""
 	
 	for i in pairs(vim.api.nvim_list_bufs()) do
 		if vim.api.nvim_buf_is_valid(i) == true then 
@@ -50,14 +50,14 @@ function M.get_tabline()
 			if f_name:match("Vim.Buffer") then f_name = "" end
 
 			if vim.api.nvim_get_current_buf() == i then
-				nice = nice.."%#Noice# "..f_name.." "
+				tabline = tabline.."%#Noice# "..f_name.." "
 			else
-				nice = nice.." %#Tabline# "..f_name.." "
+				tabline = tabline.." %#Tabline# "..f_name.." "
 			end
 		end
 	end
 
-	return nice.."%#TablineFill#"
+	return tabline.."%#TablineFill#"
 end
 
 function M.get_statusline()
