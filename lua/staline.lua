@@ -42,7 +42,7 @@ function M.tabline_init()
 end
 
 function M.get_tabline()
-	local nice = ""
+	local tabline = ""
 	
 	for i in pairs(vim.api.nvim_list_bufs()) do
 		if vim.api.nvim_buf_is_valid(i) == true then 
@@ -50,14 +50,14 @@ function M.get_tabline()
 			if f_name:match("Vim.Buffer") then f_name = "" end
 
 			if vim.api.nvim_get_current_buf() == i then
-				nice = nice.."%#Noice# "..f_name.." "
+				tabline = tabline.."%#Noice# "..f_name.." "
 			else
-				nice = nice.." %#Tabline# "..f_name.." "
+				tabline = tabline.." %#Tabline# "..f_name.." "
 			end
 		end
 	end
 
-	return nice.."%#TablineFill#"
+	return tabline.."%#TablineFill#"
 end
 
 function M.get_statusline()
@@ -78,18 +78,18 @@ function M.get_statusline()
 	local right_side, left_side = "%=", "%="
 	local edited = vim.bo.modified and "  " or " "
 
-	if filename_position == "right" then right_side = ""
-	elseif filename_position == "left" then left_side = ""
-	elseif filename_position == "none" then f_name, f_icon = "", ""
-	elseif filename_position == "center" then
-	else f_name, f_icon = Tables.defaults.filename_position, "" end
+	if filename_section == "right" then right_side = ""
+	elseif filename_section == "left" then left_side = ""
+	elseif filename_section == "none" then f_name, f_icon = "", ""
+	elseif filename_section == "center" then
+	else f_name, f_icon = Tables.defaults.filename_section, "" end
 
-	local s = '%#Noice#  '..modeIcon..' %#Arrow#'..leftSeparator
-	..'%#MidArrow#'..leftSeparator.." %#BranchName#"..get_branch()..
+	local s = '%#Noice#  '..modeIcon..' %#Arrow#'..left_separator
+	..'%#MidArrow#'..left_separator.." %#BranchName#"..get_branch()..
 
 	left_side.." "..f_icon.."%#BranchName# "..f_name..edited.. "%#MidArrow#"..right_side
 
-	..rightSeparator..'%#Arrow#'..rightSeparator..'%#Noice#  '..line_column..cool_symbol ..' '
+	..right_separator..'%#Arrow#'..right_separator..'%#Noice#'.."  "..line_column..cool_symbol ..' '
 
 	call_highlights(modeColor)
 	return s
