@@ -42,22 +42,7 @@ function M.tabline_init()
 end
 
 function M.get_tabline()
-	local tabline = ""
-	
-	for i in pairs(vim.api.nvim_list_bufs()) do
-		if vim.api.nvim_buf_is_valid(i) == true then 
-			local f_name = vim.api.nvim_buf_get_name(i):match(".*%/(.+)") or "[No Name]"
-			if f_name:match("Vim.Buffer") then f_name = "" end
-
-			if vim.api.nvim_get_current_buf() == i then
-				tabline = tabline.."%#Noice# "..f_name.." "
-			else
-				tabline = tabline.." %#Tabline# "..f_name.." "
-			end
-		end
-	end
-
-	return tabline.."%#TablineFill#"
+	return require'tabline'.get_tabline()
 end
 
 function M.get_statusline()

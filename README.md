@@ -27,8 +27,8 @@ A simple statusline for neovim written in lua.
     ```lua
     require('staline').setup {
 		defaults = {
-			leftSeparator   = "",
-			rightSeparator  = "",
+			left_separator   = "",
+			right_separator  = "",
 			line_column     = "[%l/%L] :%c 並%p%% ", -- `:h stl` to see all flags.
 			fg              = "#000000",  -- The foreground text color.
 			bg              = "none",     -- Default background is transparent.
