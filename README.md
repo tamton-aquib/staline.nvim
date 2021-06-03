@@ -86,7 +86,7 @@ require('staline').setup{
 ```
 > My personal config as of editing this file:
 
-![staline.nvim](https://i.imgur.com/NJkHkgz.png)
+![staline.nvim](https://i.imgur.com/TCWcnP9.png)
 ```lua
 require('staline').setup {
 	defaults = {
