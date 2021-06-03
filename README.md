@@ -84,6 +84,20 @@ require('staline').setup{
 
 -- You could change the seperators too if you want.
 ```
+> My personal config as of editing this file:
+![staline.nvim](https://i.imgur.com/NJkHkgz.png)
+```lua
+require('staline').setup {
+	defaults = {
+		cool_symbol = " ",
+		left_separator = "",
+		right_separator = "",
+	},
+	mode_colors = {
+		n = "#e27d60"
+	}
+}
+```
 
 </details>
 
