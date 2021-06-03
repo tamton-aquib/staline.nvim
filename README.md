@@ -60,7 +60,7 @@ local gruvbox = {
 	n = "#a89985",
 	i = "#84a598",
 	c = "#8fbf7f",
-	v = "#fc802d",
+	v = "#fc802d",    -- etc...
 }
 
 -- Assign this table as mode_colors
@@ -74,7 +74,7 @@ local no_unicode_modes = {
 	n = "N ",
 	i = "I ",
 	c = "C ",
-	v = "V ",
+	v = "V ",    -- etc...
 }
 
 -- Assign this table as mode_icons.
