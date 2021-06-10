@@ -114,4 +114,5 @@ require('staline').setup {
 - [x] Include more filetype support.
 - [x] User configuration options. Needs more work.
 - [x] Git info. Only branch info for now
-- [ ] Adding "opt-in" bufferline function.
+- [x] Adding "opt-in" bufferline function.
+- [ ] Add config options for tabline.
