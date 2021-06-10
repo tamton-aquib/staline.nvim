@@ -46,6 +46,7 @@ Tables.mode_icons = {
 Tables.file_icons = {
      typescript         = ' ' ,
      python             = ' ' ,
+     java               = ' ' ,
      html               = ' ' ,
      css                = ' ' ,
      scss               = ' ' ,
