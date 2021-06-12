@@ -7,6 +7,9 @@ A simple statusline for neovim written in lua.
 ![visual mode](https://i.imgur.com/v1sejC8.png)
 ![command mode](https://i.imgur.com/TD9CGJ6.png)
 
+### Requirements
+Requires neovim version 0.5.0+
+
 ### Installation
 * Vim-plug:
     ```vim
