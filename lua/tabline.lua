@@ -1,35 +1,47 @@
+local vim = vim
+local cmd = vim.api.nvim_command
 
 local function call_tabline_colors()
 	local normal_bg = vim.api.nvim_get_hl_by_name("Normal", {})['background'] or 255
 	local normal_fg = vim.api.nvim_get_hl_by_name("Normal", {})['foreground'] or 0
-	local normal_bg_hex = string.format("%x", normal_bg)
-	local normal_fg_hex = string.format("%x", normal_fg)
+	local bg_hex = stabline_opts.bg or string.format("%x", normal_bg)
+	local fg_hex = stabline_opts.fg or string.format("%x", normal_fg)
 
-	vim.cmd('hi StablineLeft guifg='..normal_fg_hex..' guibg='..normal_bg_hex..' gui=bold')
-	vim.cmd('hi TablineSel guifg=white guibg='..normal_bg_hex)
+	-- vim.cmd('hi StablineLeft guifg='..fg_hex..' guibg='..bg_hex..' gui=bold')
+	cmd('hi StablineLeft gui=bold guifg='..fg_hex..' guibg='..bg_hex)
+	-- cmd('hi Stabline guibg=#232433')
+	cmd('hi StablineSel guifg='..fg_hex..' guibg='..bg_hex)
+	cmd('hi StablineRight gui=bold guifg='..bg_hex..' guibg='..fg_hex)
+
 end
 
 function get_tabline()
+	local stab_left = stabline_opts.stab_left or "|"
+	local stab_right = stabline_opts.stab_right or "|"
 	local tabline = ""
 
-	for _, buf in pairs(vim.api.nvim_list_bufs()) do
+	for i, buf in pairs(vim.api.nvim_list_bufs()) do
 		if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) then
 			local edited = vim.bo.modified and "" or ""
 			local f_name = vim.api.nvim_buf_get_name(buf):match(".*%/(.+)")
 			if f_name ~= nil then f_name = "  "..f_name.."  " else f_name = "" end
 
 			if vim.api.nvim_get_current_buf() == buf then
-				tabline = tabline.."%#StablineLeft#|"..
-				"%#TablineSel#"..f_name.."%#StablineLeft#"..edited.." "
+				if i == 1 and stab_left ~= "|" then stab_left = " " end
+				tabline = tabline..
+				"%#StablineLeft#"..stab_left..
+				"%#StablineSel#"..f_name..edited.." "..
+				"%#StablineRight#"..stab_right
 			else
-				tabline = tabline.."%#TablineFill# "..f_name.. " %#TablineFill#"
+				tabline = tabline..
+				"%#StablineFill# "..f_name..
+				" %#StablineFill#"
 			end
 		end
 	end
-	vim.cmd("redrawtabline")
 
 	call_tabline_colors()
-	return tabline.."%#TablineFill#"
+	return tabline.."%#StablineFill#"
 end
 
 return {get_tabline = get_tabline}

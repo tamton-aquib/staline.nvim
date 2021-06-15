@@ -37,7 +37,8 @@ local function call_highlights(modeColor)
 	cmd('hi BranchName guifg='..modeColor..' guibg='..bg)
 end
 
-function M.tabline_init()
+function M.stabline_init(opts)
+	stabline_opts = opts
 	vim.o.tabline = '%!v:lua.require\'staline\'.get_tabline()'
 end
 
