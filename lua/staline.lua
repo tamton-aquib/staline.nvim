@@ -4,7 +4,7 @@ M = {}
 local Tables = require('tables')
 
 function M.setup(opts)
-	for k,v in pairs(opts or {}) do
+	for k,_ in pairs(opts or {}) do
 		for k1,v1 in pairs(opts[k]) do Tables[k][k1] = v1 end
 	end
 
@@ -26,7 +26,7 @@ end
 
 local function get_file_icon(f_name, ext)
 	if not pcall(require, 'nvim-web-devicons') then
-		return Tables.file_icons[extension] end
+		return Tables.file_icons[ext] end
 	return require'nvim-web-devicons'.get_icon(f_name, ext, {default = true})
 end
 
@@ -37,15 +37,6 @@ local function call_highlights(modeColor)
 	cmd('hi BranchName guifg='..modeColor..' guibg='..bg)
 end
 
-function M.stabline_init(opts)
-	stabline_opts = opts
-	vim.o.tabline = '%!v:lua.require\'staline\'.get_tabline()'
-end
-
-function M.get_tabline()
-	return require'tabline'.get_tabline()
-end
-
 function M.get_statusline()
 
 	for k, _ in pairs(Tables.defaults) do
@@ -53,13 +44,13 @@ function M.get_statusline()
 	end
 
 	local mode = vim.api.nvim_get_mode()['mode']
-	local modeIcon	= Tables.mode_icons[mode] or " "
+	local modeIcon = Tables.mode_icons[mode] or " "
 	local modeColor = Tables.mode_colors[mode] or "#e27d60"
 
-	local extension = vim.fn.expand('%:e')
+	local ext = vim.fn.expand('%:e')
 	local fullpath = vim.fn.expand('%:p') or ""
-	local f_name = full_path and fullpath or fullpath:match("^.+/(.+)$") or ""
-	local f_icon = get_file_icon(f_name, extension)
+	local f_name = full_path and '%F' or fullpath:match("^.+/(.+)$") or ""
+	local f_icon = get_file_icon(f_name, ext)
 
 	local right_side, left_side = "%=", "%="
 	local edited = vim.bo.modified and "  " or " "
@@ -79,6 +70,15 @@ function M.get_statusline()
 
 	call_highlights(modeColor)
 	return s
+end
+
+function M.stabline_init(opts)
+	stabline_opts = opts
+	vim.o.tabline = '%!v:lua.require\'staline\'.get_tabline()'
+end
+
+function M.get_tabline()
+	return require'tabline'.Get_tabline()
 end
 
 return M

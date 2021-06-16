@@ -7,7 +7,6 @@ local function call_tabline_colors()
 	local bg_hex = stabline_opts.bg or string.format("%x", normal_bg)
 	local fg_hex = stabline_opts.fg or string.format("%x", normal_fg)
 
-	-- vim.cmd('hi StablineLeft guifg='..fg_hex..' guibg='..bg_hex..' gui=bold')
 	cmd('hi StablineLeft gui=bold guifg='..fg_hex..' guibg='..bg_hex)
 	-- cmd('hi Stabline guibg=#232433')
 	cmd('hi StablineSel guifg='..fg_hex..' guibg='..bg_hex)
@@ -15,7 +14,7 @@ local function call_tabline_colors()
 
 end
 
-function get_tabline()
+function Get_tabline()
 	local stab_left = stabline_opts.stab_left or "|"
 	local stab_right = stabline_opts.stab_right or "|"
 	local tabline = ""

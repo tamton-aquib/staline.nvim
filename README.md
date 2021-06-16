@@ -32,12 +32,12 @@ Requires neovim version 0.5.0+
 		defaults = {
 			left_separator   = "",
 			right_separator  = "",
-			line_column     = "[%l/%L] :%c 並%p%% ", -- `:h stl` to see all flags.
-			fg              = "#000000",  -- The foreground text color.
-			bg              = "none",     -- Default background is transparent.
-			cool_symbol     = " ",       -- Change this to override defult OS icon.
-			filename_section= "center",   -- others: right, left, or none.
-			full_path       = false
+			line_column      = "[%l/%L] :%c 並%p%% ", -- `:h stl` to see all flags.
+			fg               = "#000000",  -- The foreground text color.
+			bg               = "none",     -- Default background is transparent.
+			cool_symbol      = " ",       -- Change this to override defult OS icon.
+			filename_section = "center",   -- others: right, left, none or custom string.
+			full_path        = false
 		},
 		mode_colors = {
 			n = "#2bbb4f",
