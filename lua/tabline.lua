@@ -43,5 +43,5 @@ function Get_tabline()
 	return tabline.."%#StablineFill#"
 end
 
-return {get_tabline = get_tabline}
+return {Get_tabline = Get_tabline}
 
