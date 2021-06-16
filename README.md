@@ -110,7 +110,7 @@ require('staline').setup {
 * Unicode current mode info. Needs a Nerd Font to be installed.
 * Shows current git branch if [plenary](https://github.com/nvim-lua/plenary.nvim) is installed. (Used by Telescope)
 * Uses [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons) if installed, else uses a default table.
-* Has a basic bufferline which does not load unless called. `require'staline'.tabline_init()`
+* Has a basic bufferline which does not load unless called. `require'staline'.stabline_init()`
 
 ### TODO
 
