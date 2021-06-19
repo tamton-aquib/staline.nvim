@@ -8,7 +8,6 @@ local type_chars={
 	bubble = {left="", right=""}
 }
 
-
 local function call_tabline_colors(stabline_type)
 
 	local normal_bg = vim.api.nvim_get_hl_by_name("Normal", {})['background'] or 255
@@ -34,26 +33,43 @@ local function call_tabline_colors(stabline_type)
 
 end
 
+local function get_file_icon(f_name, ext)
+	if not pcall(require, 'nvim-web-devicons') then
+		return require'tables'.file_icons[ext] end
+	return require'nvim-web-devicons'.get_icon(f_name, ext, {default = true})
+end
+
 function Get_tabline()
-	local stab_left = stabline_opts.stab_left or type_chars[stabline_opts.type].left
-	local stab_right = stabline_opts.stab_right or type_chars[stabline_opts.type].right
-	local stabline_type = stabline_opts.type
+	local stab_left = stabline_opts.stab_left or type_chars[stabline_opts.type].left or ""
+	local stab_right = stabline_opts.stab_right or type_chars[stabline_opts.type].right or ""
+	local stabline_type = stabline_opts.type or "slant"
 	local tabline = ""
 
 	for _, buf in pairs(vim.api.nvim_list_bufs()) do
 		if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) then
 			local edited = vim.bo.modified and "" or " "
-			local f_name = vim.api.nvim_buf_get_name(buf):match(".*%/(.+)")
-			if f_name ~= nil then f_name = "   "..f_name.."  " else f_name = "" end
+
+			local f_name = vim.api.nvim_buf_get_name(buf):match("^.+/(.+)$") or ""
+			local ext = string.match(f_name, "%w+%.(.+)")
+			local f_icon, icon_highlight = get_file_icon(f_name, ext)
+-- 			local f_name = vim.api.nvim_buf_get_name(buf):match(".*%/(.+)")
+
+			if f_name ~= nil then
+				f_name = " "..f_name.."  "
+			else
+				f_name = ""
+			end
 
 			if vim.api.nvim_get_current_buf() == buf then
 				tabline = tabline..
 				"%#StablineLeft#"..stab_left..
+				"%#StablineSel# "..
+				'%#'..icon_highlight..'#'..f_icon..
 				"%#StablineSel#"..f_name..edited..
 				"%#StablineRight#"..stab_right
 			else
 				tabline = tabline..
-				"%#Stabline# "..f_name..
+				"%#Stabline# "..f_icon..f_name..
 				" %#Stabline#"
 			end
 		end
