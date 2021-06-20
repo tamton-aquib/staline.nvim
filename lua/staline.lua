@@ -72,13 +72,4 @@ function M.get_statusline()
 	return s
 end
 
-function M.stabline_init(opts)
-	stabline_opts = opts
-	vim.o.tabline = '%!v:lua.require\'staline\'.get_tabline()'
-end
-
-function M.get_tabline()
-	return require'tabline'.Get_tabline()
-end
-
 return M
