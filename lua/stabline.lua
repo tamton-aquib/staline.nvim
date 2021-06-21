@@ -66,7 +66,9 @@ function Stabline.get_tabline()
 			local ext = string.match(f_name, "%w+%.(.+)")
 			local f_icon, icon_highlight = get_file_icon(f_name, ext)
 
-			if f_name ~= nil then
+			if f_name == 'NvimTree' or f_name == 'startify' then
+				goto noice
+			elseif f_name ~= nil then
 				f_name = " "..f_name.."  "
 			else
 				f_name = ""
@@ -87,6 +89,7 @@ function Stabline.get_tabline()
 				" %#Stabline#"
 			end
 		end
+		::noice::
 	end
 
 	call_tabline_colors()
