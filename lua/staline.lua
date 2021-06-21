@@ -11,13 +11,20 @@ function M.setup(opts)
     vim.o.statusline = '%!v:lua.require\'staline\'.get_statusline()'
 end
 
-local branch_name
-local branch_output = vim.trim(vim.fn.system('git branch --show-current'))
-if branch_output:match("fatal:") then
-	branch_name = ""
-else
-	branch_name = ' '..branch_output
+local function get_branch()
+	if not pcall(require, 'plenary') then return "" end
+
+	local branch_name = require('plenary.job'):new({
+		command = 'git',
+		args = { 'branch', '--show-current' },
+		on_stdout = function(_, return_val)
+		return return_val
+	  end,
+	}):sync()[1]
+	return branch_name and ' '..branch_name or ""
 end
+
+local branch_name = get_branch()
 
 local function get_file_icon(f_name, ext)
 	if not pcall(require, 'nvim-web-devicons') then
