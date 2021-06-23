@@ -36,8 +36,8 @@ local function call_tabline_colors()
 
 	cmd('hi StablineSel guifg='..fg_hex..' guibg='..bg_hex)
 	cmd('hi Stabline guibg='..dark_bg)
-	cmd('hi StablineLeft guifg'..set.left.f..' guibg='..set.left.b)
-	cmd('hi StablineRight guifg'..set.right.f..' guibg='..set.right.b)
+	cmd('hi StablineLeft guifg='..set.left.f..' guibg='..set.left.b)
+	cmd('hi StablineRight guifg='..set.right.f..' guibg='..set.right.b)
 
 end
 
@@ -73,7 +73,8 @@ function Stabline.get_tabline()
 				if buf == 1 and stab_type == "arrow" then stab_left = " " end
 				tabline = tabline..
 				"%#StablineLeft#"..stab_left..
-				"%#StablineSel# "..'%#'..icon_highlight..'#'..f_icon.."%#StablineSel#"..f_name..edited..
+				"%#StablineSel# "..
+				'%#'..icon_highlight..'#'..f_icon.."%#StablineSel#"..f_name..edited..
 				"%#StablineRight#"..stab_right
 			else
 				tabline = tabline.."%#Stabline#  "..f_icon..f_name.." "
