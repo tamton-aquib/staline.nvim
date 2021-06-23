@@ -17,30 +17,27 @@ end
 
 local function call_tabline_colors()
 	local stab_type = stabline_opts.style or "bar"
-
 	local normal_bg = vim.api.nvim_get_hl_by_name("Normal", {})['background'] or 255
 	local normal_fg = vim.api.nvim_get_hl_by_name("Normal", {})['foreground'] or 0
 	local bg_hex = stabline_opts.bg or string.format("#%x", normal_bg)
 	local fg_hex = stabline_opts.fg or string.format("#%x", normal_fg)
-
 	local dark_bg = stabline_opts.stab_bg or string.format("#%x", normal_bg/2)
+	local set = {}
+
+	if stab_type == "bar" then
+		set = { left = {f = fg_hex, b = bg_hex}, right = {f = fg_hex, b = bg_hex} }
+	elseif stab_type == "slant" then
+		set = { left = {f = bg_hex, b = dark_bg}, right = {f = bg_hex, b = dark_bg} }
+	elseif stab_type == "arrow" then
+		set = { left = {f = dark_bg, b = bg_hex}, right = {f = bg_hex, b = dark_bg} }
+	elseif stab_type == "bubble" then
+		set = { left = {f = bg_hex, b = dark_bg}, right = {f = bg_hex, b = dark_bg} }
+	end
 
 	cmd('hi StablineSel guifg='..fg_hex..' guibg='..bg_hex)
 	cmd('hi Stabline guibg='..dark_bg)
-
-	if stab_type == "bar" then
-		cmd('hi StablineLeft gui=bold guifg='..fg_hex..' guibg='..bg_hex)
-		cmd('hi StablineRight gui=bold guifg='..fg_hex..' guibg='..bg_hex)
-	elseif stab_type == "slant" then
-		cmd('hi StablineLeft guifg='..bg_hex..' guibg='..dark_bg)
-		cmd('hi StablineRight guifg='..bg_hex..' guibg='..dark_bg)
-	elseif stab_type == "arrow" then
-		cmd('hi StablineLeft guifg='..dark_bg..' guibg='..bg_hex)
-		cmd('hi StablineRight guifg='..bg_hex..' guibg='..dark_bg)
-	elseif stab_type == "bubble" then
-		cmd('hi StablineLeft guifg='..bg_hex..' guibg='..dark_bg)
-		cmd('hi StablineRight guifg='..bg_hex..' guibg='..dark_bg)
-	end
+	cmd('hi StablineLeft guifg'..set.left.f..' guibg='..set.left.b)
+	cmd('hi StablineRight guifg'..set.right.f..' guibg='..set.right.b)
 
 end
 
@@ -76,9 +73,7 @@ function Stabline.get_tabline()
 				if buf == 1 and stab_type == "arrow" then stab_left = " " end
 				tabline = tabline..
 				"%#StablineLeft#"..stab_left..
-				"%#StablineSel# "..
-				'%#'..icon_highlight..'#'..f_icon..
-				"%#StablineSel#"..f_name..edited..
+				"%#StablineSel# "..'%#'..icon_highlight..'#'..f_icon.."%#StablineSel#"..f_name..edited..
 				"%#StablineRight#"..stab_right
 			else
 				tabline = tabline.."%#Stabline#  "..f_icon..f_name.." "
