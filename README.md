@@ -58,7 +58,7 @@ stabline(s-**tabline**): A simple bufferline for neovim pure in lua. (sry didnt 
 		}
     }
     ```
-<details open>
+<details>
 
 <summary> Some useful config Ideas: </summary>
 
@@ -136,7 +136,7 @@ require('staline').setup {
 		},
     }
     ```
-<details open>
+<details>
 
 <summary>My personal config as of editing this file:</summary>
 
