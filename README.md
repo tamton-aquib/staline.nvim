@@ -1,14 +1,11 @@
 # staline.nvim
-A simple statusline for neovim written in lua.
-
-### Screenshots
-![normal mode](https://i.imgur.com/1gXX22o.png)
-![insert mode](https://i.imgur.com/0bP6y0S.png)
-![visual mode](https://i.imgur.com/v1sejC8.png)
-![command mode](https://i.imgur.com/TD9CGJ6.png)
+TLDR;<br/> staline(**sta**tus**line**): A simple statusline for neovim written in lua.<br/>
+stabline(s-**tabline**): A simple bufferline for neovim written in lua. (sry didnt get a better name.)
 
 ### Requirements
-Requires neovim version 0.5.0+
+* Requires neovim version 0.5.0+
+* `vim.opt.laststatus=2` in your init.lua for statusline.
+* `vim.opt.showtabline=2` in your init.lua for tabline.
 
 ### Installation
 * Vim-plug:
@@ -19,8 +16,16 @@ Requires neovim version 0.5.0+
     ```lua
     use { 'tamton-aquib/staline.nvim' }
     ```
+* **PS**: Doing this will install both staline and stabline.
 
-### Setting up
+# Statusline
+
+### Screenshots
+![normal mode](https://i.imgur.com/1gXX22o.png)
+![insert mode](https://i.imgur.com/0bP6y0S.png)
+![visual mode](https://i.imgur.com/v1sejC8.png)
+![command mode](https://i.imgur.com/TD9CGJ6.png)
+
 
 * Configuration
 	```lua
@@ -33,7 +38,7 @@ Requires neovim version 0.5.0+
 			left_separator   = "",
 			right_separator  = "",
 			line_column      = "[%l/%L] :%c 並%p%% ", -- `:h stl` to see all flags.
-			fg               = "#000000",  -- The foreground text color.
+			fg               = "#000000",  -- Foreground text color.
 			bg               = "none",     -- Default background is transparent.
 			cool_symbol      = " ",       -- Change this to override defult OS icon.
 			filename_section = "center",   -- others: right, left, none or custom string.
@@ -53,7 +58,7 @@ Requires neovim version 0.5.0+
 		}
     }
     ```
-<details>
+<details open>
 
 <summary> Some useful config Ideas: </summary>
 
@@ -105,17 +110,68 @@ require('staline').setup {
 
 </details>
 
+# Bufferline
+
+### Screenshots
+![bar mode](https://i.imgur.com/stkcUAu.png)
+![slant mode](https://i.imgur.com/UVS9ii5.png)
+![arrow mode](https://i.imgur.com/ERDzicw.png)
+![bubble mode](https://i.imgur.com/UjbeyjR.png)
+
+
+* Configuration
+	```lua
+	require('stabline').setup{}
+	```
+* The Default configuration looks something like:
+    ```lua
+    require('stabline').setup {
+		defaults = {
+			style       = "bar", -- others: 'arrow', 'slant', 'bubble'
+			stab_left   = "┃",   -- 😬
+			stab_right  = " ",
+			fg          = Default is fg of "Normal".
+			bg          = Default is bg of "Normal".
+			stab_bg     = Default is darker version of bg.
+		},
+    }
+    ```
+<details open>
+
+<summary>My personal config as of editing this file:</summary>
+
+![my stabline config](https://i.imgur.com/7PsnDGa.png)
+```lua
+require('stabline').setup {
+	style = 'slant'
+}
+```
+
+</details>
+
 ### Features
-* Lightweight ( ~ 100 LOC) and Fast (doesn't show up in `nvim --startuptime` logs.)
+* Lightweight ( ~ 100 LOC each) and Fast (doesn't show up in `nvim --startuptime` logs.)
 * Unicode current mode info. Needs a Nerd Font to be installed.
 * Shows current git branch if [plenary](https://github.com/nvim-lua/plenary.nvim) is installed. (Used by Telescope)
 * Uses [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons) if installed, else uses a default table.
-* Has a basic bufferline which does not load unless called. `require'staline'.stabline_init()`
+
+#### Cons
+* No lsp info. *(in both staline and stabline)*
+* No mouse functions for stabline.
+* No ordering or sorting functions for stabline.
+* No git related info on staline except branch name.
+
+---
+
+#### Inspirations:
+* [This](https://www.reddit.com/r/vim/comments/ld8h2j/i_made_a_status_line_from_scratch_no_plugins_used/) reddit post for staline.
+* [akinsho/nvim-bufferline](https://github.com/akinsho/nvim-bufferline.lua) for stabline.
 
 ### TODO
 
 - [x] Include more filetype support.
 - [x] User configuration options. Needs more work.
-- [x] Git info. Only branch info for now
+- [x] Git info. Only branch info for now, *(or ever)*
 - [x] Adding "opt-in" bufferline function.
-- [ ] Add config options for tabline.
+- [x] Add config options for tabline.
+- [ ] icon highlight issue if user sets fg for stabline.
