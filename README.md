@@ -1,6 +1,6 @@
 # staline.nvim
-TLDR;<br/> staline(**sta**tus**line**): A simple statusline for neovim written in lua.<br/>
-stabline(s-**tabline**): A simple bufferline for neovim written in lua. (sry didnt get a better name.)
+TLDR;<br/> staline(**sta**tus**line**): A simple statusline for neovim in pure lua.<br/>
+stabline(s-**tabline**): A simple bufferline for neovim pure in lua. (sry didnt get a better name.)
 
 ### Requirements
 * Requires neovim version 0.5.0+
@@ -16,7 +16,7 @@ stabline(s-**tabline**): A simple bufferline for neovim written in lua. (sry did
     ```lua
     use { 'tamton-aquib/staline.nvim' }
     ```
-* **PS**: Doing this will install both staline and stabline.
+**PS**: Doing this will install both staline and stabline.
 
 # Statusline
 
