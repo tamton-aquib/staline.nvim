@@ -72,8 +72,7 @@ function Stabline.get_tabline()
 			if vim.api.nvim_get_current_buf() == buf then
 				if buf == 1 and stab_type == "arrow" then stab_left = " " end
 				tabline = tabline..
-				"%#StablineLeft#"..stab_left..
-				"%#StablineSel# "..
+				"%#StablineLeft#"..stab_left.."%#StablineSel# "..
 				'%#'..icon_highlight..'#'..f_icon.."%#StablineSel#"..f_name..edited..
 				"%#StablineRight#"..stab_right
 			else
