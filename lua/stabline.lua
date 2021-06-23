@@ -1,4 +1,3 @@
-local vim = vim
 local cmd = vim.api.nvim_command
 Stabline = {}
 
@@ -11,9 +10,8 @@ local type_chars={
 
 function Stabline.setup(opts)
 	_G.stabline_opts =  opts or {style = "bar"}
-	for k, v in pairs(opts) do
-		stabline_opts[k] = v
-	end
+	vim.tbl_deep_extend('force', stabline_opts, opts or {})
+
 	vim.o.tabline = '%!v:lua.require\'stabline\'.get_tabline()'
 end
 
@@ -22,26 +20,26 @@ local function call_tabline_colors()
 
 	local normal_bg = vim.api.nvim_get_hl_by_name("Normal", {})['background'] or 255
 	local normal_fg = vim.api.nvim_get_hl_by_name("Normal", {})['foreground'] or 0
-	local bg_hex = stabline_opts.bg or string.format("%x", normal_bg)
-	local fg_hex = stabline_opts.fg or string.format("%x", normal_fg)
+	local bg_hex = stabline_opts.bg or string.format("#%x", normal_bg)
+	local fg_hex = stabline_opts.fg or string.format("#%x", normal_fg)
 
-	local dark_bg = string.format("%x", normal_bg/2)
+	local dark_bg = stabline_opts.stab_bg or string.format("#%x", normal_bg/2)
 
 	cmd('hi StablineSel guifg='..fg_hex..' guibg='..bg_hex)
-	cmd('hi Stabline guibg=#'..dark_bg)
+	cmd('hi Stabline guibg='..dark_bg)
 
 	if stab_type == "bar" then
 		cmd('hi StablineLeft gui=bold guifg='..fg_hex..' guibg='..bg_hex)
 		cmd('hi StablineRight gui=bold guifg='..fg_hex..' guibg='..bg_hex)
 	elseif stab_type == "slant" then
-		cmd('hi StablineLeft guifg=#'..bg_hex..' guibg=#'..dark_bg)
-		cmd('hi StablineRight guifg=#'..bg_hex..' guibg=#'..dark_bg)
+		cmd('hi StablineLeft guifg='..bg_hex..' guibg='..dark_bg)
+		cmd('hi StablineRight guifg='..bg_hex..' guibg='..dark_bg)
 	elseif stab_type == "arrow" then
-		cmd('hi StablineLeft guifg=#'..dark_bg..' guibg='..bg_hex)
-		cmd('hi StablineRight guifg=#'..bg_hex..' guibg=#'..dark_bg)
+		cmd('hi StablineLeft guifg='..dark_bg..' guibg='..bg_hex)
+		cmd('hi StablineRight guifg='..bg_hex..' guibg='..dark_bg)
 	elseif stab_type == "bubble" then
-		cmd('hi StablineLeft guifg=#'..bg_hex..' guibg=#'..dark_bg)
-		cmd('hi StablineRight guifg=#'..bg_hex..' guibg=#'..dark_bg)
+		cmd('hi StablineLeft guifg='..bg_hex..' guibg='..dark_bg)
+		cmd('hi StablineRight guifg='..bg_hex..' guibg='..dark_bg)
 	end
 
 end
@@ -66,7 +64,7 @@ function Stabline.get_tabline()
 			local ext = string.match(f_name, "%w+%.(.+)")
 			local f_icon, icon_highlight = get_file_icon(f_name, ext)
 
-			if f_name == 'NvimTree' or f_name == 'startify' then
+			if f_name == 'NvimTree' or f_name == '' then
 				goto noice
 			elseif f_name ~= nil then
 				f_name = " "..f_name.."  "
@@ -77,16 +75,13 @@ function Stabline.get_tabline()
 			if vim.api.nvim_get_current_buf() == buf then
 				if buf == 1 and stab_type == "arrow" then stab_left = " " end
 				tabline = tabline..
-				"%#Stabline#"..
 				"%#StablineLeft#"..stab_left..
 				"%#StablineSel# "..
 				'%#'..icon_highlight..'#'..f_icon..
 				"%#StablineSel#"..f_name..edited..
 				"%#StablineRight#"..stab_right
 			else
-				tabline = tabline.."%#Stabline#  "..
-				f_icon..f_name..
-				" %#Stabline#"
+				tabline = tabline.."%#Stabline#  "..f_icon..f_name.." "
 			end
 		end
 		::noice::

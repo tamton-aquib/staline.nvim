@@ -17,9 +17,6 @@ local function get_branch()
 	local branch_name = require('plenary.job'):new({
 		command = 'git',
 		args = { 'branch', '--show-current' },
-		on_stdout = function(_, return_val)
-		return return_val
-	  end,
 	}):sync()[1]
 	return branch_name and ' '..branch_name or ""
 end
@@ -32,7 +29,7 @@ local function get_file_icon(f_name, ext)
 	return require'nvim-web-devicons'.get_icon(f_name, ext, {default = true})
 end
 
-local function call_highlights(modeColor)
+local function call_highlights(modeColor, fg, bg)
 	cmd('hi Noice guibg='..modeColor..' guifg='..fg)
 	cmd('hi Arrow guifg='..modeColor..' guibg='.."#303030")
 	cmd('hi MidArrow guifg='.."#303030"..' guibg='..bg)
@@ -40,10 +37,7 @@ local function call_highlights(modeColor)
 end
 
 function M.get_statusline()
-
-	for k, _ in pairs(Tables.defaults) do
-		_G[k] = Tables.defaults[k]
-	end
+	local t =  Tables.defaults
 
 	local mode = vim.api.nvim_get_mode()['mode']
 	local modeIcon = Tables.mode_icons[mode] or " "
@@ -51,26 +45,26 @@ function M.get_statusline()
 
 	local ext = vim.fn.expand('%:e')
 	local fullpath = vim.fn.expand('%:p') or ""
-	local f_name = full_path and '%F' or fullpath:match("^.+/(.+)$") or ""
+	local f_name = t.full_path and '%F' or fullpath:match("^.+/(.+)$") or ""
 	local f_icon = get_file_icon(f_name, ext)
 
 	local right_side, left_side = "%=", "%="
 	local edited = vim.bo.modified and "  " or " "
 
-	if filename_section == "right" then right_side = ""
-	elseif filename_section == "left" then left_side = ""
-	elseif filename_section == "none" then f_name, f_icon = "", ""
-	elseif filename_section == "center" then
+	if t.filename_section == "right" then right_side = ""
+	elseif t.filename_section == "left" then left_side = ""
+	elseif t.filename_section == "none" then f_name, f_icon = "", ""
+	elseif t.filename_section == "center" then
 	else f_name, f_icon = Tables.defaults.filename_section, "" end
 
-	local s = '%#Noice#  '..modeIcon..' %#Arrow#'..left_separator
-	..'%#MidArrow#'..left_separator.." %#BranchName#"..branch_name..
+	local s = '%#Noice#  '..modeIcon..' %#Arrow#'..t.left_separator
+	..'%#MidArrow#'..t.left_separator.." %#BranchName#"..branch_name..
 
 	left_side.." "..f_icon.."%#BranchName# "..f_name..edited.. "%#MidArrow#"..right_side
 
-	..right_separator..'%#Arrow#'..right_separator..'%#Noice#'.."  "..line_column..cool_symbol ..' '
+	..t.right_separator..'%#Arrow#'..t.right_separator..'%#Noice#'.."  "..t.line_column..t.cool_symbol ..' '
 
-	call_highlights(modeColor)
+	call_highlights(modeColor, t.fg, t.bg)
 	return s
 end
 
