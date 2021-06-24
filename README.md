@@ -144,8 +144,11 @@ require('staline').setup {
 ![my stabline config](https://i.imgur.com/cmBdfzx.png)
 
 ```lua
-require('stabline').setup {
-	style = 'slant'
+require'stabline'.setup {
+	style = "slant",
+	bg = "#986fec",
+	fg = "black",
+	stab_right = ""
 }
 ```
 
