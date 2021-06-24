@@ -50,7 +50,7 @@ end
 
 local function do_icon_hl(icon_hl)
 	local icon_bg = stabline_opts.bg or string.format("#%x", normal_bg)
-	cmd('hi '..icon_hl..' guibg='..icon_bg)
+	cmd('hi '..icon_hl..' guibg='..icon_bg..' gui=bold')
 end
 
 function Stabline.get_tabline()
