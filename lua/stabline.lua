@@ -8,6 +8,9 @@ local type_chars={
 	bubble = {left="", right=""}
 }
 
+local normal_bg = vim.api.nvim_get_hl_by_name("Normal", {})['background'] or 255
+local normal_fg = vim.api.nvim_get_hl_by_name("Normal", {})['foreground'] or 0
+
 function Stabline.setup(opts)
 	_G.stabline_opts =  opts or {style = "bar"}
 	vim.tbl_deep_extend('force', stabline_opts, opts or {})
@@ -17,8 +20,6 @@ end
 
 local function call_tabline_colors()
 	local stab_type = stabline_opts.style or "bar"
-	local normal_bg = vim.api.nvim_get_hl_by_name("Normal", {})['background'] or 255
-	local normal_fg = vim.api.nvim_get_hl_by_name("Normal", {})['foreground'] or 0
 	local bg_hex = stabline_opts.bg or string.format("#%x", normal_bg)
 	local fg_hex = stabline_opts.fg or string.format("#%x", normal_fg)
 	local dark_bg = stabline_opts.stab_bg or string.format("#%x", normal_bg/2)
@@ -47,6 +48,11 @@ local function get_file_icon(f_name, ext)
 	return require'nvim-web-devicons'.get_icon(f_name, ext, {default = true})
 end
 
+local function do_icon_hl(icon_hl)
+	local icon_bg = stabline_opts.bg or string.format("#%x", normal_bg)
+	cmd('hi '..icon_hl..' guibg='..icon_bg)
+end
+
 function Stabline.get_tabline()
 	local stab_type = stabline_opts.style or "bar"
 	local stab_left = stabline_opts.stab_left or type_chars[stab_type].left
@@ -60,6 +66,8 @@ function Stabline.get_tabline()
 			local f_name = vim.api.nvim_buf_get_name(buf):match("^.+/(.+)$") or ""
 			local ext = string.match(f_name, "%w+%.(.+)")
 			local f_icon, icon_highlight = get_file_icon(f_name, ext)
+
+			do_icon_hl(icon_highlight)
 
 			if f_name == 'NvimTree' or f_name == '' then
 				goto noice
