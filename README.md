@@ -140,7 +140,9 @@ require('staline').setup {
 
 <summary>My personal config as of editing this file:</summary>
 
-![my stabline config](https://i.imgur.com/7PsnDGa.png)
+<!-- ![my stabline config](https://i.imgur.com/7PsnDGa.png) -->
+![my stabline config](https://i.imgur.com/cmBdfzx.png)
+
 ```lua
 require('stabline').setup {
 	style = 'slant'
