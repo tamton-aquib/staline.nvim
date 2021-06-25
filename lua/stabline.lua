@@ -1,11 +1,11 @@
 Stabline = {}
 local cmd = vim.api.nvim_command
-local get_hl = vim.api.nvim_get_hl_by_name
+-- local get_hl = vim.api.nvim_get_hl_by_name
 
 local type_chars={ bar={left="┃", right=" "}, slant={left="", right=""}, arrow={left="", right=""}, bubble={left="", right=""} }
 
-local normal_bg = get_hl("Normal", {})['background'] or 255
-local normal_fg = get_hl("Normal", {})['foreground'] or 0
+local normal_bg = vim.api.nvim_get_hl_by_name("Normal", {})['background'] or 255
+local normal_fg = vim.api.nvim_get_hl_by_name("Normal", {})['foreground'] or 0
 
 function Stabline.setup(opts)
 	_G.stabline_opts =  opts or {style = "bar"}
@@ -45,9 +45,10 @@ local function get_file_icon(f_name, ext)
 end
 
 local function do_icon_hl(icon_hl)
-	local new_fg = string.format("#%x",get_hl(icon_hl or 'Normal', {})['foreground'] or 0)
+	local new_fg = string.format("#%x",vim.api.nvim_get_hl_by_name(icon_hl or 'Normal', {})['foreground'] or 0)
 	local icon_bg = stabline_opts.bg or string.format("#%x", normal_bg)
 	cmd('hi NewIconHl guibg='..icon_bg..' guifg='..new_fg..' gui=bold')
+	return '%#NewIconHl#'
 end
 
 function Stabline.get_tabline()
@@ -64,8 +65,6 @@ function Stabline.get_tabline()
 			local ext = string.match(f_name, "%w+%.(.+)")
 			local f_icon, icon_highlight = get_file_icon(f_name, ext)
 
-			do_icon_hl(icon_highlight)
-
 			if f_name == 'NvimTree' or f_name == '' then
 				goto noice
 			elseif f_name ~= nil then
@@ -77,7 +76,8 @@ function Stabline.get_tabline()
 			if vim.api.nvim_get_current_buf() == buf then
 				if buf == 1 and stab_type == "arrow" then stab_left = " " end
 				tabline = tabline.."%#StablineLeft#"..stab_left.."%#StablineSel# "..
-				'%#NewIconHl#'..f_icon.."%#StablineSel#"..f_name..edited.."%#StablineRight#"..stab_right
+				do_icon_hl(icon_highlight)..f_icon.."%#StablineSel#"..
+				f_name..edited.."%#StablineRight#"..stab_right
 			else
 				tabline = tabline.."%#Stabline#  "..f_icon..f_name.." "
 			end
