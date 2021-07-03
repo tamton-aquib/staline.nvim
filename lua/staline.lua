@@ -37,6 +37,11 @@ local function call_highlights(modeColor, fg, bg)
 end
 
 function M.get_statusline()
+	local ft = vim.api.nvim_buf_get_option(0,'filetype')
+	if ft == 'startify' or ft == 'dashboard' then
+		vim.cmd('hi DashBoard guibg=none')
+		return "%#DashBoard# "
+	end
 	local t =  Tables.defaults
 
 	local mode = vim.api.nvim_get_mode()['mode']
