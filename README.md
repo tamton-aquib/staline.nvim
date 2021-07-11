@@ -157,7 +157,7 @@ require'stabline'.setup {
 ### Features
 * Lightweight ( ~ 100 LOC each) and Fast (doesn't show up in `nvim --startuptime` logs.)
 * Unicode current mode info. Needs a Nerd Font to be installed.
-* Shows current git branch if [plenary](https://github.com/nvim-lua/plenary.nvim) is installed. (Used by Telescope)
+* Shows current git branch if [plenary](https://github.com/nvim-lua/plenary.nvim) is installed.
 * Uses [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons) if installed, else uses a default table.
 
 #### Cons
@@ -179,4 +179,3 @@ require'stabline'.setup {
 - [x] Git info. Only branch info for now, *(or ever)*
 - [x] Adding "opt-in" bufferline function.
 - [x] Add config options for tabline.
-- [ ] icon highlight issue if user sets fg for stabline.
