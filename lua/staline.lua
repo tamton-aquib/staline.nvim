@@ -3,12 +3,21 @@ local cmd = vim.api.nvim_command
 M = {}
 local Tables = require('tables')
 
+function M.set_statusline()
+	for _, win in pairs(vim.api.nvim_list_wins()) do
+		if vim.api.nvim_get_current_win() == win then
+			vim.wo[win].statusline = '%!v:lua.require\'staline\'.get_statusline("active")'
+		else
+			vim.wo[win].statusline = '%!v:lua.require\'staline\'.get_statusline()'
+		end
+	end
+end
+
 function M.setup(opts)
 	for k,_ in pairs(opts or {}) do
 		for k1,v1 in pairs(opts[k]) do Tables[k][k1] = v1 end
 	end
-
-    vim.o.statusline = '%!v:lua.require\'staline\'.get_statusline()'
+	vim.cmd [[au WinEnter,BufWinEnter,BufEnter * lua require'staline'.set_statusline()]]
 end
 
 local function get_branch()
@@ -36,22 +45,21 @@ local function call_highlights(modeColor, fg, bg)
 	cmd('hi BranchName guifg='..modeColor..' guibg='..bg)
 end
 
-function M.get_statusline()
-	local ft = vim.api.nvim_buf_get_option(0,'filetype')
-	if ft == 'startify' or ft == 'dashboard' then
-		vim.cmd('hi DashBoard guibg=none')
-		return "%#DashBoard# "
-	end
+function M.get_statusline(status)
+-- 	if not status then
+-- 		cmd('hi InactiveHi guibg=none')
+-- 		return "%#InactiveHi#%=Inactive%="
+-- 	end
 	local t =  Tables.defaults
 
 	local mode = vim.api.nvim_get_mode()['mode']
 	local modeIcon = Tables.mode_icons[mode] or " "
-	local modeColor = Tables.mode_colors[mode] or "#e27d60"
+	local modeColor = status and Tables.mode_colors[mode] or "#303030"
 
 	local ext = vim.fn.expand('%:e')
-	local fullpath = vim.fn.expand('%:p') or ""
-	local f_name = t.full_path and '%F' or fullpath:match("^.+/(.+)$") or ""
-	local f_icon = get_file_icon(f_name, ext)
+	-- local fullpath = vim.fn.expand('%:p') or ""
+	local f_name = t.full_path and '%F' or '%t' or "" -- fullpath:match("^.+/(.+)$") or ""
+	local f_icon = get_file_icon(vim.fn.expand('%:t'), ext)
 
 	local right_side, left_side = "%=", "%="
 	local edited = vim.bo.modified and "  " or " "
