@@ -17,7 +17,7 @@ function M.setup(opts)
 	for k,_ in pairs(opts or {}) do
 		for k1,v1 in pairs(opts[k]) do Tables[k][k1] = v1 end
 	end
-	vim.cmd [[au WinEnter,BufWinEnter,BufEnter * lua require'staline'.set_statusline()]]
+	vim.cmd [[au WinEnter,BufWinEnter,BufEnter,BufLeave,WinLeave,BufWinLeave * lua require'staline'.set_statusline()]]
 end
 
 local function get_branch()
@@ -58,7 +58,7 @@ function M.get_statusline(status)
 
 	local ext = vim.fn.expand('%:e')
 	-- local fullpath = vim.fn.expand('%:p') or ""
-	local f_name = t.full_path and '%F' or '%t' or "" -- fullpath:match("^.+/(.+)$") or ""
+	local f_name = t.full_path and '%F' or '%t' -- fullpath:match("^.+/(.+)$") or ""
 	local f_icon = get_file_icon(vim.fn.expand('%:t'), ext)
 
 	local right_side, left_side = "%=", "%="
