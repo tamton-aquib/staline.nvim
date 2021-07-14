@@ -34,28 +34,28 @@ stabline(s-**tabline**): A simple bufferline for neovim pure in lua. (sry didnt 
 * The Default configuration looks something like:
     ```lua
     require('staline').setup {
-		defaults = {
-			left_separator   = "",
-			right_separator  = "",
-			line_column      = "[%l/%L] :%c 並%p%% ", -- `:h stl` to see all flags.
-			fg               = "#000000",  -- Foreground text color.
-			bg               = "none",     -- Default background is transparent.
-			cool_symbol      = " ",       -- Change this to override defult OS icon.
-			filename_section = "center",   -- others: right, left, none or custom string.
-			full_path        = false
-		},
-		mode_colors = {
-			n = "#2bbb4f",
-			i = "#986fec",
-			c = "#e27d60",
-			v = "#4799eb",
-		},
-		mode_icons = {
-			n = " ",
-			i = " ",
-			c = " ",
-			v = " ",
-		}
+	    defaults = {
+	        left_separator   = "",
+	        right_separator  = "",
+	        line_column      = "[%l/%L] :%c 並%p%% ", -- `:h stl` to see all flags.
+	        fg               = "#000000",  -- Foreground text color.
+	        bg               = "none",     -- Default background is transparent.
+	        cool_symbol      = " ",       -- Change this to override defult OS icon.
+	        filename_section = "center",   -- others: right, left, none or custom string.
+	        full_path        = false
+	    },
+	    mode_colors = {
+	        n = "#2bbb4f",
+	        i = "#986fec",
+	        c = "#e27d60",
+	        v = "#4799eb",
+	    },
+	    mode_icons = {
+	        n = " ",
+	        i = " ",
+	        c = " ",
+	        v = " ",
+	    }
     }
     ```
 <details>
@@ -65,10 +65,10 @@ stabline(s-**tabline**): A simple bufferline for neovim pure in lua. (sry didnt 
 > Create color value tables to match your current colorscheme.
 ```lua
 local gruvbox = {
-	n = "#a89985",
-	i = "#84a598",
-	c = "#8fbf7f",
-	v = "#fc802d",    -- etc...
+    n = "#a89985",
+    i = "#84a598",
+    c = "#8fbf7f",
+    v = "#fc802d",    -- etc...
 }
 
 -- Assign this table as mode_colors
@@ -79,10 +79,10 @@ require('staline').setup{
 > Use non-unicode characters for showing modes.
 ```lua
 local no_unicode_modes = {
-	n = "N ",
-	i = "I ",
-	c = "C ",
-	v = "V ",    -- etc...
+    n = "N ",
+    i = "I ",
+    c = "C ",
+    v = "V ",    -- etc...
 }
 
 -- Assign this table as mode_icons.
@@ -97,14 +97,14 @@ require('staline').setup{
 ![staline.nvim](https://i.imgur.com/TCWcnP9.png)
 ```lua
 require('staline').setup {
-	defaults = {
-		cool_symbol = " ",
-		left_separator = "",
-		right_separator = "",
-	},
-	mode_colors = {
-		n = "#e27d60"
-	}
+    defaults = {
+        cool_symbol = " ",
+        left_separator = "",
+        right_separator = "",
+    },
+    mode_colors = {
+        n = "#e27d60"
+    }
 }
 ```
 
@@ -126,14 +126,14 @@ require('staline').setup {
 * The Default configuration looks something like:
     ```lua
     require('stabline').setup {
-		defaults = {
-			style       = "bar", -- others: 'arrow', 'slant', 'bubble'
-			stab_left   = "┃",   -- 😬
-			stab_right  = " ",
-			fg          = Default is fg of "Normal".
-			bg          = Default is bg of "Normal".
-			stab_bg     = Default is darker version of bg.
-		},
+	    defaults = {
+	        style       = "bar", -- others: 'arrow', 'slant', 'bubble'
+	        stab_left   = "┃",   -- 😬
+	        stab_right  = " ",
+	        fg          = Default is fg of "Normal".
+	        bg          = Default is bg of "Normal".
+	        stab_bg     = Default is darker version of bg.
+	    },
     }
     ```
 <details>
