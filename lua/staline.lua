@@ -17,7 +17,7 @@ function M.setup(opts)
 	for k,_ in pairs(opts or {}) do
 		for k1,v1 in pairs(opts[k]) do Tables[k][k1] = v1 end
 	end
-	vim.cmd [[au WinEnter,BufWinEnter,BufEnter,BufLeave,WinLeave,BufWinLeave * lua require'staline'.set_statusline()]]
+	vim.cmd [[au WinEnter,BufWinEnter,BufEnter * lua require'staline'.set_statusline()]]
 end
 
 local function get_branch()
@@ -46,10 +46,6 @@ local function call_highlights(modeColor, fg, bg)
 end
 
 function M.get_statusline(status)
--- 	if not status then
--- 		cmd('hi InactiveHi guibg=none')
--- 		return "%#InactiveHi#%=Inactive%="
--- 	end
 	local t =  Tables.defaults
 
 	local mode = vim.api.nvim_get_mode()['mode']
