@@ -52,10 +52,8 @@ function M.get_statusline(status)
 	local modeIcon = Tables.mode_icons[mode] or " "
 	local modeColor = status and Tables.mode_colors[mode] or "#303030"
 
-	local ext = vim.fn.expand('%:e')
-	-- local fullpath = vim.fn.expand('%:p') or ""
 	local f_name = t.full_path and '%F' or '%t' -- fullpath:match("^.+/(.+)$") or ""
-	local f_icon = get_file_icon(vim.fn.expand('%:t'), ext)
+	local f_icon = get_file_icon(vim.fn.expand('%:t'), vim.fn.expand('%:e'))
 
 	local right_side, left_side = "%=", "%="
 	local edited = vim.bo.modified and "  " or " "
@@ -67,11 +65,12 @@ function M.get_statusline(status)
 	else f_name, f_icon = Tables.defaults.filename_section, "" end
 
 	local s = '%#Noice#  '..modeIcon..' %#Arrow#'..t.left_separator
-	..'%#MidArrow#'..t.left_separator.." %#BranchName#"..branch_name..
+	..'%#MidArrow#'..t.left_separator.." %#BranchName#"..branch_name..left_side.." "..
 
-	left_side.." "..f_icon.."%#BranchName# "..f_name..edited.. "%#MidArrow#"..right_side
+	f_icon.."%#BranchName# "..f_name..edited.. "%#MidArrow#"..right_side..
+	"%#BranchName#"..t.cool_symbol.."%#MidArrow# "
 
-	..t.right_separator..'%#Arrow#'..t.right_separator..'%#Noice#'.."  "..t.line_column..t.cool_symbol ..' '
+	..t.right_separator..'%#Arrow#'..t.right_separator..'%#Noice#'.."  "..t.line_column ..' '
 
 	call_highlights(modeColor, t.fg, t.bg)
 	return s
