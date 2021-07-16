@@ -2,7 +2,7 @@ local cmd = vim.api.nvim_command
 
 M = {}
 local Tables = require('tables')
-local special_table = {NvimTree = {'NvimTree', ' '}, packer = {'Packer',' '}, Dashboard = {'Dashboard', '  '}}
+local special_table = {NvimTree = {'NvimTree', ' '}, packer = {'Packer',' '}, dashboard = {'Dashboard', '  '}}
 
 function M.set_statusline()
 	for _, win in pairs(vim.api.nvim_list_wins()) do
