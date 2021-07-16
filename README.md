@@ -117,6 +117,7 @@ require('staline').setup {
 }
 ```
 > Nvimtree, dashboard, and packer looks like this by default:
+
 ![Dashboard](https://i.imgur.com/QFaG8RQ.png)
 ![NvimTree](https://i.imgur.com/0ksVx2S.png)
 ![Packer](https://i.imgur.com/IPwTlFj.png)
