@@ -115,7 +115,7 @@ require('staline').setup {
 > Nvimtree, dashboard, and packer looks like this by default:
 
 ![Dashboard](https://i.imgur.com/QFaG8RQ.png) <br/>
-![NvimTree](https://i.imgur.com/0ksVx2S.png) <br/>
+![NvimTree](https://i.imgur.com/UNVxzRA.png) <br/>
 ![Packer](https://i.imgur.com/IPwTlFj.png) <br/>
 
 To turn off staline in NvimTree, set this line in init.lua (from [this issue](https://github.com/glepnir/galaxyline.nvim/issues/178))
