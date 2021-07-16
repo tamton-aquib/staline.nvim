@@ -2,6 +2,7 @@ local cmd = vim.api.nvim_command
 
 M = {}
 local Tables = require('tables')
+local special_table = {NvimTree = {'NvimTree', ' '}, packer = {'Packer',' '}, Dashboard = {'Dashboard', '  '}}
 
 function M.set_statusline()
 	for _, win in pairs(vim.api.nvim_list_wins()) do
@@ -29,8 +30,7 @@ local function get_branch()
 	}):sync()[1]
 	return branch_name and ' '..branch_name or ""
 end
-
-local branch_name = get_branch().."  "
+local branch_name = get_branch()
 
 local function get_file_icon(f_name, ext)
 	if not pcall(require, 'nvim-web-devicons') then
@@ -46,8 +46,8 @@ local function call_highlights(modeColor, fg, bg)
 end
 
 function M.get_statusline(status)
-	local t =  Tables.defaults
 
+	local t =  Tables.defaults
 	local mode = vim.api.nvim_get_mode()['mode']
 	local modeIcon = Tables.mode_icons[mode] or " "
 	local modeColor = status and Tables.mode_colors[mode] or "#303030"
@@ -65,12 +65,20 @@ function M.get_statusline(status)
 
 	call_highlights(modeColor, t.fg, t.bg)
 
+	local roger = special_table[vim.bo.ft]
+	if status and roger then
+		-- vim.cmd [[hi SpcHighlightGroup guibg=none guifg=red]]
+		return "%#BranchName#%="..roger[2]..roger[1].."%="
+	end
+
 	local s_mode = '%#Staline#  '..modeIcon
 	local s_sep = '  %#Arrow#'..t.left_separator ..'%#MidArrow#'..t.left_separator
-	local s_branch = " %#BranchName#"..branch_name
+	local s_branch = " %#BranchName#"..branch_name.."  "
+
+	local s_file = left..f_icon.."%#BranchName# "..f_name..edited.."%#MidArrow#"..right
+
 	local s_cool_icon = "%#BranchName#"..t.cool_symbol.."%#MidArrow# "
 	local s_line_column = t.right_separator..'%#Arrow#'..t.right_separator..'%#Staline#  '..t.line_column
-	local s_file = left..f_icon.."%#BranchName# "..f_name..edited.."%#MidArrow#"..right
 
 	local LEFT  = string.format("%s%s%s", s_mode, s_sep, s_branch)
 	local MID   = s_file
