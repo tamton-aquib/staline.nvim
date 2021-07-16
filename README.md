@@ -21,10 +21,6 @@ stabline(s-**tabline**): A simple bufferline for neovim in pure lua. (sry didnt 
 # Statusline
 
 ### Screenshots
-<!-- ![normal mode](https://i.imgur.com/1gXX22o.png) -->
-<!-- ![insert mode](https://i.imgur.com/0bP6y0S.png) -->
-<!-- ![visual mode](https://i.imgur.com/v1sejC8.png) -->
-<!-- ![command mode](https://i.imgur.com/TD9CGJ6.png) -->
 ![normal](https://i.imgur.com/ZBwqI5I.png)
 ![insert](https://i.imgur.com/9ADMkb7.png)
 ![visual](https://i.imgur.com/q85p45c.png)
@@ -118,9 +114,9 @@ require('staline').setup {
 ```
 > Nvimtree, dashboard, and packer looks like this by default:
 
-![Dashboard](https://i.imgur.com/QFaG8RQ.png)
-![NvimTree](https://i.imgur.com/0ksVx2S.png)
-![Packer](https://i.imgur.com/IPwTlFj.png)
+![Dashboard](https://i.imgur.com/QFaG8RQ.png) <br/>
+![NvimTree](https://i.imgur.com/0ksVx2S.png) <br/>
+![Packer](https://i.imgur.com/IPwTlFj.png) <br/>
 
 To turn off staline in NvimTree, set this line in init.lua (from [this issue](https://github.com/glepnir/galaxyline.nvim/issues/178))
 ```lua
