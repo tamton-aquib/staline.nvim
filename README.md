@@ -25,10 +25,14 @@ stabline(s-**tabline**): A simple bufferline for neovim in pure lua. (sry didnt 
 <!-- ![insert mode](https://i.imgur.com/0bP6y0S.png) -->
 <!-- ![visual mode](https://i.imgur.com/v1sejC8.png) -->
 <!-- ![command mode](https://i.imgur.com/TD9CGJ6.png) -->
-![normal](https://user-images.githubusercontent.com/77913442/125925779-667db29f-66f3-45c3-a6e4-956584e477aa.png)
-![insert](https://user-images.githubusercontent.com/77913442/125925850-a8f84b53-ee3e-4ca1-809e-9be9e31a432e.png)
-![visual](https://user-images.githubusercontent.com/77913442/125925903-c39680fe-9e03-423a-b92c-10b3990de786.png)
-![command](https://user-images.githubusercontent.com/77913442/125928738-a42a841b-1982-4e2f-a426-260e1544f5c2.png)
+![normal](https://i.imgur.com/ZBwqI5I.png)
+![insert](https://i.imgur.com/9ADMkb7.png)
+![visual](https://i.imgur.com/q85p45c.png)
+![command](https://i.imgur.com/F9cPtMx.png)
+<!-- ![normal](https://user-images.githubusercontent.com/77913442/125925779-667db29f-66f3-45c3-a6e4-956584e477aa.png) -->
+<!-- ![insert](https://user-images.githubusercontent.com/77913442/125925850-a8f84b53-ee3e-4ca1-809e-9be9e31a432e.png) -->
+<!-- ![visual](https://user-images.githubusercontent.com/77913442/125925903-c39680fe-9e03-423a-b92c-10b3990de786.png) -->
+<!-- ![command](https://user-images.githubusercontent.com/77913442/125928738-a42a841b-1982-4e2f-a426-260e1544f5c2.png) -->
 <!-- ![command](https://user-images.githubusercontent.com/77913442/125925963-958db580-686d-4947-a68d-aea0d7bb4af8.png) -->
 
 

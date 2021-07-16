@@ -18,7 +18,7 @@ function M.setup(opts)
 	for k,_ in pairs(opts or {}) do
 		for k1,v1 in pairs(opts[k]) do Tables[k][k1] = v1 end
 	end
-	vim.cmd("au BufEnter,BufWinEnter,WinEnter * lua require'staline'.set_statusline()")
+	vim.cmd [["au BufEnter,BufWinEnter,WinEnter * lua require'staline'.set_statusline()"]]
 end
 
 local function get_branch()
