@@ -9,7 +9,9 @@ function M.set_statusline()
 		if vim.api.nvim_get_current_win() == win then
 			vim.wo[win].statusline = '%!v:lua.require\'staline\'.get_statusline("active")'
 		else
-			vim.wo[win].statusline = '%!v:lua.require\'staline\'.get_statusline()'
+			if vim.api.nvim_buf_get_name(0) ~= "" then
+				vim.wo[win].statusline = '%!v:lua.require\'staline\'.get_statusline()'
+			end
 		end
 	end
 end
@@ -18,7 +20,7 @@ function M.setup(opts)
 	for k,_ in pairs(opts or {}) do
 		for k1,v1 in pairs(opts[k]) do Tables[k][k1] = v1 end
 	end
-	vim.cmd [[au BufEnter,WinEnter,BufWinEnter * lua require'staline'.set_statusline()]]
+	vim.cmd("au BufEnter,BufWinEnter,WinEnter * lua require'staline'.set_statusline()")
 end
 
 local function get_branch()
@@ -67,7 +69,6 @@ function M.get_statusline(status)
 
 	local roger = special_table[vim.bo.ft]
 	if status and roger then
-		-- vim.cmd [[hi SpcHighlightGroup guibg=none guifg=red]]
 		return "%#BranchName#%="..roger[2]..roger[1].."%="
 	end
 
