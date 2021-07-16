@@ -1,5 +1,3 @@
-local cmd = vim.api.nvim_command
-
 M = {}
 local Tables = require('tables')
 local special_table = {NvimTree = {'NvimTree', ' '}, packer = {'Packer',' '}, dashboard = {'Dashboard', '  '}}
@@ -41,10 +39,10 @@ local function get_file_icon(f_name, ext)
 end
 
 local function call_highlights(modeColor, fg, bg)
-	cmd('hi Staline guibg='..modeColor..' guifg='..fg)
-	cmd('hi Arrow guifg='..modeColor..' guibg='.."#303030")
-	cmd('hi MidArrow guifg='.."#303030"..' guibg='..bg)
-	cmd('hi BranchName guifg='..modeColor..' guibg='..bg)
+	vim.cmd('hi Staline guibg='..modeColor..' guifg='..fg)
+	vim.cmd('hi Arrow guifg='..modeColor..' guibg='.."#303030")
+	vim.cmd('hi MidArrow guifg='.."#303030"..' guibg='..bg)
+	vim.cmd('hi BranchName guifg='..modeColor..' guibg='..bg)
 end
 
 function M.get_statusline(status)
