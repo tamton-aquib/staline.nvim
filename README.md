@@ -1,6 +1,6 @@
 # staline.nvim
 TLDR;<br/> staline(**sta**tus**line**): A simple statusline for neovim in pure lua.<br/>
-stabline(s-**tabline**): A simple bufferline for neovim pure in lua. (sry didnt get a better name.)
+stabline(s-**tabline**): A simple bufferline for neovim in pure lua. (sry didnt get a better name.)
 
 ### Requirements
 * Requires neovim version 0.5.0+
