@@ -10,19 +10,19 @@ end
 Tables = {
 	sections = {
 		-- mode, left_sep, right_sep, branch, sec, filename
-		left = {'mode', 'left_double_sep', 'branch'},
-		mid  = {'filename'},
+		left = {'mode', 'left_double_sep', ' ', 'branch', 'filename'},
+		mid  = {'lsp'},
 		right = { 'cool_symbol','right_double_sep', 'line_column'}
 	},
 	defaults = {
 		left_separator = "",
 		right_separator = "",
-		line_column = "[%l/%L] :%c 並%p%% ",
+		line_column = " [%l/%L] :%c 並%p%% ",
 		cool_symbol = system_icon(),
 		fg = "#000000",
 		bg = "none",
 		full_path = false,
-		filename_section = "center",
+		-- filename_section = "center",
 	},
 
 	mode_colors = {

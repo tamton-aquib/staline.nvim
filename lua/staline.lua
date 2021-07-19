@@ -26,8 +26,7 @@ local function get_branch()
 	if not pcall(require, 'plenary') then return "" end
 
 	local branch_name = require('plenary.job'):new({
-		command = 'git',
-		args = { 'branch', '--show-current' },
+		command = 'git', args = { 'branch', '--show-current' },
 	}):sync()[1]
 	return branch_name and ' '..branch_name or ""
 end
@@ -47,6 +46,17 @@ local function call_highlights(modeColor, fg, bg)
 	vim.cmd('hi BranchName guifg='..modeColor..' guibg='..bg)
 end
 
+local function get_lsp()
+    local get = vim.lsp.diagnostic.get_count
+    local signs =
+    "%#LspDiagnosticsSignError#  "..get(0, 'Error')..
+    "%#LspDiagnosticsSignInformation#  "..get(0, 'Information')..
+    "%#LspDiagnosticsSignWarning#  "..get(0, 'Warning')..
+    "%#LspDiagnosticsSignHint# " ..get(0, 'Hint')
+
+    return signs
+end
+
 function M.get_statusline(status)
 	M.sections = {}
 
@@ -58,13 +68,7 @@ function M.get_statusline(status)
 	local f_name = vim.fn.expand('%:t')
 	local f_icon, icon_hl = get_file_icon(f_name, vim.fn.expand('%:e'))
 	local edited = vim.bo.mod and "  " or " "
-	local right, left = "%=", "%="
-
-	if t.filename_section == "right" then right = ""
-	elseif t.filename_section == "left" then left = ""
-	elseif t.filename_section == "none" then f_name, f_icon = "", ""
-	elseif t.filename_section == "center" then
-	else f_name, f_icon = Tables.defaults.filename_section, "" end
+	-- local right, left = "%=", "%="
 
 	call_highlights(modeColor, t.fg, t.bg)
 
@@ -80,14 +84,14 @@ function M.get_statusline(status)
 	M.sections['line_column'] = "%#Staline# "..t.line_column
 	M.sections['left_sep'] = "%#Arrow#"..t.left_separator
 	M.sections['right_sep'] = "%#Arrow#"..t.right_separator
-	M.sections['space'] = " "
 	M.sections['left_double_sep'] = "%#DoubleArrow#"..t.left_separator.."%#MidArrow#"..t.left_separator
 	M.sections['right_double_sep'] = "%#MidArrow#"..t.right_separator.."%#DoubleArrow#"..t.right_separator
+	M.sections['lsp'] = get_lsp()
 
 	if Tables.sections ~= nil then
 		New_sections = {left = {}, mid = {}, right = {}}
 		for _, major in pairs({ 'left', 'mid', 'right'}) do
-			for _, section in pairs(Tables.sections[major] or {}) do
+			for _, section in pairs(Tables.sections[major]) do
 				table.insert(New_sections[major], M.sections[section] or ("%#BranchName#"..section))
 			end
 		end
@@ -96,21 +100,9 @@ function M.get_statusline(status)
 		local MID  = vim.fn.join(New_sections.mid, "")
 		local RIGHT= vim.fn.join(New_sections.right, "")
 
-		return LEFT..left..MID..right..RIGHT
+		return LEFT.."%="..MID.."%="..RIGHT
 
-	else
-		local order = {
-			'mode', " ", 'left_double_sep', 'branch',
-			"%=", 'filename', "%=",
-			'cool_symbol', 'right_double_sep', 'line_column', " "
-		}
-		Else_Table = {}
-		for _, bruh in pairs(order) do
-			table.insert(Else_Table, M.sections[bruh] or ("%#BranchName#"..bruh))
-		end
-		return vim.fn.join(Else_Table, "")
 	end
-
 end
 
 return M
