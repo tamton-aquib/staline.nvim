@@ -8,12 +8,12 @@ local function system_icon()
 end
 
 Tables = {
--- 	sections = {
--- 		-- mode, left_sep, right_sep, branch, sec, filename
--- 		left = {'mode', 'left_sep'},
--- 		mid  = {'filename'},
--- 		right = { 'cool_symbol', 'branch','right_sep', 'line_column'}
--- 	},
+	sections = {
+		-- mode, left_sep, right_sep, branch, sec, filename
+		left = {'mode', 'left_double_sep'},
+		mid  = {'filename'},
+		right = { 'cool_symbol', 'branch','right_double_sep', 'line_column'}
+	},
 	defaults = {
 		left_separator = "",
 		right_separator = "",

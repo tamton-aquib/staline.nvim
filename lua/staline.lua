@@ -18,6 +18,7 @@ function M.setup(opts)
 	for k,_ in pairs(opts or {}) do
 		for k1,v1 in pairs(opts[k]) do Tables[k][k1] = v1 end
 	end
+
 	vim.cmd [[au BufEnter,BufWinEnter,WinEnter * lua require'staline'.set_statusline()]]
 end
 
@@ -83,11 +84,11 @@ function M.get_statusline(status)
 	M.sections['left_double_sep'] = "%#DoubleArrow#"..t.left_separator.."%#MidArrow#"..t.left_separator
 	M.sections['right_double_sep'] = "%#MidArrow#"..t.right_separator.."%#DoubleArrow#"..t.right_separator
 
-	if Tables.sections then
+	if Tables.sections ~= nil then
 		New_sections = {left = {}, mid = {}, right = {}}
 		for _, major in pairs({ 'left', 'mid', 'right'}) do
 			for _, section in pairs(Tables.sections[major] or {}) do
-				table.insert(New_sections[major], M.sections[section] or section)
+				table.insert(New_sections[major], M.sections[section] or ("%#BranchName#"..section))
 			end
 		end
 
@@ -96,16 +97,19 @@ function M.get_statusline(status)
 		local RIGHT= vim.fn.join(New_sections.right, "")
 
 		return LEFT..left..MID..right..RIGHT
-	end
 
-	local order = {
-		'mode', " ", 'left_double_sep', 'branch',
-		"%=", 'filename', "%=",
-		'cool_symbol', 'right_double_sep', 'line_column', " "
-	}
-	Else_Table = {}
-	for _, bruh in pairs(order) do table.insert(Else_Table, M.sections[bruh] or bruh) end
-	return vim.fn.join(Else_Table, "")
+	else
+		local order = {
+			'mode', " ", 'left_double_sep', 'branch',
+			"%=", 'filename', "%=",
+			'cool_symbol', 'right_double_sep', 'line_column', " "
+		}
+		Else_Table = {}
+		for _, bruh in pairs(order) do
+			table.insert(Else_Table, M.sections[bruh] or ("%#BranchName#"..bruh))
+		end
+		return vim.fn.join(Else_Table, "")
+	end
 
 end
 
