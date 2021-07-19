@@ -1,14 +1,20 @@
 local Tables = {}
 
 local function system_icon()
-	if vim.fn.has("win32") == 1 then return "者"
+	if vim.fn.has("win32")    == 1 then return "者"
 	elseif vim.fn.has("unix") == 1 then return " "
-	elseif vim.fn.has("mac") == 1 then return " "
+	elseif vim.fn.has("mac")  == 1 then return " "
 	end
 end
 
 Tables = {
-		defaults = {
+-- 	sections = {
+-- 		-- mode, left_sep, right_sep, branch, sec, filename
+-- 		left = {'mode', 'left_sep'},
+-- 		mid  = {'filename'},
+-- 		right = { 'cool_symbol', 'branch','right_sep', 'line_column'}
+-- 	},
+	defaults = {
 		left_separator = "",
 		right_separator = "",
 		line_column = "[%l/%L] :%c 並%p%% ",
@@ -46,27 +52,27 @@ Tables = {
 	},
 
 	file_icons = {
-		 typescript         = ' ' ,
-		 python             = ' ' ,
-		 java               = ' ' ,
-		 html               = ' ' ,
-		 css                = ' ' ,
-		 scss               = ' ' ,
-		 javascript         = ' ' ,
-		 javascriptreact    = ' ' ,
-		 markdown           = ' ' ,
-		 sh                 = ' ',
-		 zsh                = ' ',
-		 vim                = ' ',
-		 rust               = ' ',
-		 cpp                = ' ',
-		 c                  = ' ',
-		 go                 = ' ',
-		 lua                = ' ',
-		 conf               = ' ',
-		 haskel             = ' ',
-		 ruby               = ' ',
-		 txt	            = ' '
+		typescript         = ' ' ,
+		python             = ' ' ,
+		java               = ' ' ,
+		html               = ' ' ,
+		css                = ' ' ,
+		scss               = ' ' ,
+		javascript         = ' ' ,
+		javascriptreact    = ' ' ,
+		markdown           = ' ' ,
+		sh                 = ' ',
+		zsh                = ' ',
+		vim                = ' ',
+		rust               = ' ',
+		cpp                = ' ',
+		c                  = ' ',
+		go                 = ' ',
+		lua                = ' ',
+		conf               = ' ',
+		haskel             = ' ',
+		ruby               = ' ',
+		txt                = ' '
 	}
 }
 

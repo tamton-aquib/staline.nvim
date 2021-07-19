@@ -40,12 +40,14 @@ end
 
 local function call_highlights(modeColor, fg, bg)
 	vim.cmd('hi Staline guibg='..modeColor..' guifg='..fg)
-	vim.cmd('hi Arrow guifg='..modeColor..' guibg='.."#303030")
+	vim.cmd('hi Arrow guifg='..modeColor..' guibg=none')
+	vim.cmd('hi DoubleArrow guifg='..modeColor..' guibg=#303030')
 	vim.cmd('hi MidArrow guifg='.."#303030"..' guibg='..bg)
 	vim.cmd('hi BranchName guifg='..modeColor..' guibg='..bg)
 end
 
 function M.get_statusline(status)
+	M.sections = {}
 
 	local t =  Tables.defaults
 	local mode = vim.api.nvim_get_mode()['mode']
@@ -53,7 +55,7 @@ function M.get_statusline(status)
 	local modeColor = status and Tables.mode_colors[mode] or "#303030"
 
 	local f_name = vim.fn.expand('%:t')
-	local f_icon = get_file_icon(f_name, vim.fn.expand('%:e'))
+	local f_icon, icon_hl = get_file_icon(f_name, vim.fn.expand('%:e'))
 	local edited = vim.bo.mod and "  " or " "
 	local right, left = "%=", "%="
 
@@ -70,20 +72,41 @@ function M.get_statusline(status)
 		return "%#BranchName#%="..roger[2]..roger[1].."%="
 	end
 
-	local s_mode = '%#Staline#  '..modeIcon
-	local s_sep = '  %#Arrow#'..t.left_separator ..'%#MidArrow#'..t.left_separator
-	local s_branch = " %#BranchName#"..branch_name.."  "
+	M.sections['mode'] = '%#Staline#  '..modeIcon.." "
+	M.sections['branch'] = "%#BranchName# "..branch_name.."  "
+	M.sections['filename'] = "%#"..icon_hl.."#"..f_icon.."%#BranchName# "..f_name..edited.."%#MidArrow#"
+	M.sections['cool_symbol'] = "%#BranchName#"..t.cool_symbol.."%#MidArrow# "
+	M.sections['line_column'] = "%#Staline# "..t.line_column
+	M.sections['left_sep'] = "%#Arrow#"..t.left_separator
+	M.sections['right_sep'] = "%#Arrow#"..t.right_separator
+	M.sections['space'] = " "
+	M.sections['left_double_sep'] = "%#DoubleArrow#"..t.left_separator.."%#MidArrow#"..t.left_separator
+	M.sections['right_double_sep'] = "%#MidArrow#"..t.right_separator.."%#DoubleArrow#"..t.right_separator
 
-	local s_file = left..f_icon.."%#BranchName# "..f_name..edited.."%#MidArrow#"..right
+	if Tables.sections then
+		New_sections = {left = {}, mid = {}, right = {}}
+		for _, major in pairs({ 'left', 'mid', 'right'}) do
+			for _, section in pairs(Tables.sections[major] or {}) do
+				table.insert(New_sections[major], M.sections[section] or section)
+			end
+		end
 
-	local s_cool_icon = "%#BranchName#"..t.cool_symbol.."%#MidArrow# "
-	local s_line_column = t.right_separator..'%#Arrow#'..t.right_separator..'%#Staline#  '..t.line_column
+		local LEFT = vim.fn.join(New_sections.left, "")
+		local MID  = vim.fn.join(New_sections.mid, "")
+		local RIGHT= vim.fn.join(New_sections.right, "")
 
-	local LEFT  = string.format("%s%s%s", s_mode, s_sep, s_branch)
-	local MID   = s_file
-	local RIGHT = string.format("%s%s ", s_cool_icon, s_line_column)
+		return LEFT..left..MID..right..RIGHT
+	end
 
-	return string.format("%s%s%s", LEFT, MID, RIGHT)
+	local order = {
+		'mode', " ", 'left_double_sep', 'branch',
+		"%=", 'filename', "%=",
+		'cool_symbol', 'right_double_sep', 'line_column', " "
+	}
+	Else_Table = {}
+	for _, bruh in pairs(order) do table.insert(Else_Table, M.sections[bruh] or bruh) end
+	return vim.fn.join(Else_Table, "")
+
 end
 
 return M
