@@ -48,13 +48,13 @@ end
 
 local function get_lsp()
     local get = vim.lsp.diagnostic.get_count
-    local signs =
-    "%#LspDiagnosticsSignError#  "      ..get(0, 'Error')..
-    "%#LspDiagnosticsSignInformation#  "..get(0, 'Information')..
-    "%#LspDiagnosticsSignWarning#  "    ..get(0, 'Warning')..
-    "%#LspDiagnosticsSignHint# "        ..get(0, 'Hint')
+	local noice = ""
+	for Diag, sign in pairs({Error=" ", Information=" ", Warning=" ", Hint=""}) do
+		local number = get(0, Diag) > 0 and " "..sign..get(0, Diag) or ""
+		noice = noice..number
+	end
 
-    return signs
+    return "%#BranchName#"..noice
 end
 
 function M.get_statusline(status)
@@ -94,8 +94,8 @@ function M.get_statusline(status)
 		end
 	end
 
-	local LEFT = vim.fn.join(New_sections.left, "")
-	local MID  = vim.fn.join(New_sections.mid, "")
+	local LEFT = vim.fn.join(New_sections.left , "")
+	local MID  = vim.fn.join(New_sections.mid  , "")
 	local RIGHT= vim.fn.join(New_sections.right, "")
 
 	return LEFT.."%="..MID.."%="..RIGHT
