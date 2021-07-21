@@ -34,7 +34,7 @@ local branch_name = get_branch()
 
 local function get_file_icon(f_name, ext)
 	if not pcall(require, 'nvim-web-devicons') then
-		return Tables.file_icons[ext] end
+		return Tables.file_icons[ext], 'BranchName' end
 	return require'nvim-web-devicons'.get_icon(f_name, ext, {default = true})
 end
 
@@ -49,10 +49,10 @@ end
 local function get_lsp()
     local get = vim.lsp.diagnostic.get_count
     local signs =
-    "%#LspDiagnosticsSignError#  "..get(0, 'Error')..
+    "%#LspDiagnosticsSignError#  "      ..get(0, 'Error')..
     "%#LspDiagnosticsSignInformation#  "..get(0, 'Information')..
-    "%#LspDiagnosticsSignWarning#  "..get(0, 'Warning')..
-    "%#LspDiagnosticsSignHint# " ..get(0, 'Hint')
+    "%#LspDiagnosticsSignWarning#  "    ..get(0, 'Warning')..
+    "%#LspDiagnosticsSignHint# "        ..get(0, 'Hint')
 
     return signs
 end
@@ -68,7 +68,6 @@ function M.get_statusline(status)
 	local f_name = vim.fn.expand('%:t')
 	local f_icon, icon_hl = get_file_icon(f_name, vim.fn.expand('%:e'))
 	local edited = vim.bo.mod and "  " or " "
-	-- local right, left = "%=", "%="
 
 	call_highlights(modeColor, t.fg, t.bg)
 
@@ -77,32 +76,29 @@ function M.get_statusline(status)
 		return "%#BranchName#%="..roger[2]..roger[1].."%="
 	end
 
-	M.sections['mode'] = '%#Staline#  '..modeIcon.." "
-	M.sections['branch'] = "%#BranchName# "..branch_name.."  "
-	M.sections['filename'] = "%#"..icon_hl.."#"..f_icon.."%#BranchName# "..f_name..edited.."%#MidArrow#"
+	M.sections['mode']        = '%#Staline#  '..modeIcon.." "
+	M.sections['branch']      = "%#BranchName# "..branch_name.." "
+	M.sections['filename']    = "%#"..icon_hl.."#"..f_icon.."%#BranchName# "..f_name..edited.."%#MidArrow#"
 	M.sections['cool_symbol'] = "%#BranchName#"..t.cool_symbol.."%#MidArrow# "
 	M.sections['line_column'] = "%#Staline# "..t.line_column
-	M.sections['left_sep'] = "%#Arrow#"..t.left_separator
-	M.sections['right_sep'] = "%#Arrow#"..t.right_separator
-	M.sections['left_double_sep'] = "%#DoubleArrow#"..t.left_separator.."%#MidArrow#"..t.left_separator
+	M.sections['left_sep']    = "%#Arrow#"..t.left_separator
+	M.sections['right_sep']   = "%#Arrow#"..t.right_separator
+	M.sections['left_double_sep']  = "%#DoubleArrow#"..t.left_separator.."%#MidArrow#"..t.left_separator
 	M.sections['right_double_sep'] = "%#MidArrow#"..t.right_separator.."%#DoubleArrow#"..t.right_separator
-	M.sections['lsp'] = get_lsp()
+	M.sections['lsp']         = get_lsp()
 
-	if Tables.sections ~= nil then
-		New_sections = {left = {}, mid = {}, right = {}}
-		for _, major in pairs({ 'left', 'mid', 'right'}) do
-			for _, section in pairs(Tables.sections[major]) do
-				table.insert(New_sections[major], M.sections[section] or ("%#BranchName#"..section))
-			end
+	New_sections = {left = {}, mid = {}, right = {}}
+	for _, major in pairs({ 'left', 'mid', 'right'}) do
+		for _, section in pairs(Tables.sections[major]) do
+			table.insert(New_sections[major], M.sections[section] or ("%#BranchName#"..section))
 		end
-
-		local LEFT = vim.fn.join(New_sections.left, "")
-		local MID  = vim.fn.join(New_sections.mid, "")
-		local RIGHT= vim.fn.join(New_sections.right, "")
-
-		return LEFT.."%="..MID.."%="..RIGHT
-
 	end
+
+	local LEFT = vim.fn.join(New_sections.left, "")
+	local MID  = vim.fn.join(New_sections.mid, "")
+	local RIGHT= vim.fn.join(New_sections.right, "")
+
+	return LEFT.."%="..MID.."%="..RIGHT
 end
 
 return M
