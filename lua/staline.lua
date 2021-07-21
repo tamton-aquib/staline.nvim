@@ -34,7 +34,7 @@ local branch_name = get_branch()
 
 local function get_file_icon(f_name, ext)
 	if not pcall(require, 'nvim-web-devicons') then
-		return Tables.file_icons[ext], 'BranchName' end
+		return Tables.file_icons[ext] end
 	return require'nvim-web-devicons'.get_icon(f_name, ext, {default = true})
 end
 
@@ -66,7 +66,7 @@ function M.get_statusline(status)
 	local modeColor = status and Tables.mode_colors[mode] or "#303030"
 
 	local f_name = vim.fn.expand('%:t')
-	local f_icon, icon_hl = get_file_icon(f_name, vim.fn.expand('%:e'))
+	local f_icon = get_file_icon(f_name, vim.fn.expand('%:e'))
 	local edited = vim.bo.mod and "  " or " "
 
 	call_highlights(modeColor, t.fg, t.bg)
@@ -78,7 +78,7 @@ function M.get_statusline(status)
 
 	M.sections['mode']        = '%#Staline#  '..modeIcon.." "
 	M.sections['branch']      = "%#BranchName# "..branch_name.." "
-	M.sections['filename']    = "%#"..icon_hl.."#"..f_icon.."%#BranchName# "..f_name..edited.."%#MidArrow#"
+	M.sections['filename']    = f_icon.."%#BranchName# "..f_name..edited.."%#MidArrow#"
 	M.sections['cool_symbol'] = "%#BranchName#"..t.cool_symbol.."%#MidArrow# "
 	M.sections['line_column'] = "%#Staline# "..t.line_column
 	M.sections['left_sep']    = "%#Arrow#"..t.left_separator
