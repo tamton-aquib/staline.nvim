@@ -40,6 +40,7 @@ end
 
 local function call_highlights(modeColor, fg, bg)
 	vim.cmd('hi Staline guibg='..modeColor..' guifg='..fg)
+	vim.cmd('hi StalineNone guifg=none guibg='..bg)
 	vim.cmd('hi Arrow guifg='..modeColor..' guibg=none')
 	vim.cmd('hi DoubleArrow guifg='..modeColor..' guibg=#303030')
 	vim.cmd('hi MidArrow guifg='.."#303030"..' guibg='..bg)
@@ -76,21 +77,30 @@ function M.get_statusline(status)
 		return "%#BranchName#%="..roger[2]..roger[1].."%="
 	end
 
-	M.sections['mode']        = '%#Staline#  '..modeIcon.." "
-	M.sections['branch']      = "%#BranchName# "..branch_name.." "
-	M.sections['filename']    = f_icon.."%#BranchName# "..f_name..edited.."%#MidArrow#"
-	M.sections['cool_symbol'] = "%#BranchName#"..t.cool_symbol.."%#MidArrow# "
-	M.sections['line_column'] = "%#Staline# "..t.line_column
-	M.sections['left_sep']    = "%#Arrow#"..t.left_separator
-	M.sections['right_sep']   = "%#Arrow#"..t.right_separator
+	M.sections['mode']        = "  "..modeIcon.." "
+	M.sections['branch']      = " "..branch_name.." "
+	M.sections['filename']    = " "..f_icon.." "..f_name..edited.." "
+	M.sections['cool_symbol'] = " "..t.cool_symbol.." "
+	M.sections['line_column'] = " "..t.line_column.." "
+	M.sections['left_sep']    = " "..t.left_separator
+	M.sections['right_sep']   = " "..t.right_separator
 	M.sections['left_double_sep']  = "%#DoubleArrow#"..t.left_separator.."%#MidArrow#"..t.left_separator
 	M.sections['right_double_sep'] = "%#MidArrow#"..t.right_separator.."%#DoubleArrow#"..t.right_separator
 	M.sections['lsp']         = get_lsp()
 
+	local function check_section(section)
+		if string.match(section, "^-") then
+			section = vim.split(section, "-")[2]
+			return "%#Staline#"..(M.sections[section] or section)
+		else
+			return "%#BranchName#"..(M.sections[section] or section)
+		end
+	end
+
 	New_sections = {left = {}, mid = {}, right = {}}
 	for _, major in pairs({ 'left', 'mid', 'right'}) do
 		for _, section in pairs(Tables.sections[major]) do
-			table.insert(New_sections[major], M.sections[section] or ("%#BranchName#"..section))
+			table.insert(New_sections[major], check_section(section).."%#StalineNone#")
 		end
 	end
 
