@@ -9,8 +9,8 @@ end
 
 Tables = {
 	sections = {
-		left = {'-mode', 'left_double_sep', ' ', 'branch', ' | ', 'filename'},
-		mid  = {'lsp'},
+		left = {'-mode', 'left_double_sep', ' ', 'branch', 'lsp'},
+		mid  = {'filename'},
 		right = { 'cool_symbol','right_double_sep', '-line_column'}
 	},
 	defaults = {

@@ -41,7 +41,6 @@ end
 local function call_highlights(modeColor, fg, bg)
 	vim.cmd('hi Staline guibg='..modeColor..' guifg='..fg)
 	vim.cmd('hi StalineNone guifg=none guibg='..bg)
-	vim.cmd('hi Arrow guifg='..modeColor..' guibg=none')
 	vim.cmd('hi DoubleArrow guifg='..modeColor..' guibg=#303030')
 	vim.cmd('hi MidArrow guifg='.."#303030"..' guibg='..bg)
 	vim.cmd('hi BranchName guifg='..modeColor..' guibg='..bg)
@@ -82,8 +81,8 @@ function M.get_statusline(status)
 	M.sections['filename']    = " "..f_icon.." "..f_name..edited.." "
 	M.sections['cool_symbol'] = " "..t.cool_symbol.." "
 	M.sections['line_column'] = " "..t.line_column.." "
-	M.sections['left_sep']    = " "..t.left_separator
-	M.sections['right_sep']   = " "..t.right_separator
+	M.sections['left_sep']    = t.left_separator
+	M.sections['right_sep']   = t.right_separator
 	M.sections['left_double_sep']  = "%#DoubleArrow#"..t.left_separator.."%#MidArrow#"..t.left_separator
 	M.sections['right_double_sep'] = "%#MidArrow#"..t.right_separator.."%#DoubleArrow#"..t.right_separator
 	M.sections['lsp']         = get_lsp()
@@ -97,16 +96,16 @@ function M.get_statusline(status)
 		end
 	end
 
-	New_sections = {left = {}, mid = {}, right = {}}
+	Staline = {left = {}, mid = {}, right = {}}
 	for _, major in pairs({ 'left', 'mid', 'right'}) do
 		for _, section in pairs(Tables.sections[major]) do
-			table.insert(New_sections[major], check_section(section).."%#StalineNone#")
+			table.insert(Staline[major], check_section(section).."%#StalineNone#")
 		end
 	end
 
-	local LEFT = vim.fn.join(New_sections.left , "")
-	local MID  = vim.fn.join(New_sections.mid  , "")
-	local RIGHT= vim.fn.join(New_sections.right, "")
+	local LEFT = vim.fn.join(Staline.left , "")
+	local MID  = vim.fn.join(Staline.mid  , "")
+	local RIGHT= vim.fn.join(Staline.right, "")
 
 	return LEFT.."%="..MID.."%="..RIGHT
 end
