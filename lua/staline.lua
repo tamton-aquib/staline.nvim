@@ -76,7 +76,7 @@ function M.get_statusline(status)
 		return "%#BranchName#%="..roger[2]..roger[1].."%="
 	end
 
-	M.sections['mode']        = "  "..modeIcon.." "
+	M.sections['mode']        = "  "..modeIcon.."  "
 	M.sections['branch']      = " "..branch_name.." "
 	M.sections['filename']    = " "..f_icon.." "..f_name..edited.." "
 	M.sections['cool_symbol'] = " "..t.cool_symbol.." "
