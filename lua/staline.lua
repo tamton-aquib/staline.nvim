@@ -67,7 +67,7 @@ function M.get_statusline(status)
 
 	local f_name = vim.fn.expand('%:t')
 	local f_icon = get_file_icon(f_name, vim.fn.expand('%:e'))
-	local edited = vim.bo.mod and "  " or " "
+	local edited = vim.bo.mod and "  " or ""
 
 	call_highlights(modeColor, t.fg, t.bg)
 
