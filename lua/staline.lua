@@ -83,8 +83,8 @@ function M.get_statusline(status)
 	M.sections['line_column'] = " "..t.line_column.." "
 	M.sections['left_sep']    = t.left_separator
 	M.sections['right_sep']   = t.right_separator
-	M.sections['left_double_sep']  = "%#DoubleArrow#"..t.left_separator.."%#MidArrow#"..t.left_separator
-	M.sections['right_double_sep'] = "%#MidArrow#"..t.right_separator.."%#DoubleArrow#"..t.right_separator
+	M.sections['left_sep_double']  = "%#DoubleArrow#"..t.left_separator.."%#MidArrow#"..t.left_separator
+	M.sections['right_sep_double'] = "%#MidArrow#"..t.right_separator.."%#DoubleArrow#"..t.right_separator
 	M.sections['lsp']         = get_lsp()
 
 	local function check_section(section)

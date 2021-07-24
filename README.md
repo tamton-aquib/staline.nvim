@@ -129,9 +129,9 @@ require('staline').setup{
 ```lua
 require'staline'.setup{
 	sections = {
-		left = {'-mode', 'left_double_sep', 'filename', '  ', 'branch'},
+		left = {'-mode', 'left_sep_double', 'filename', '  ', 'branch'},
 		mid  = {'lsp'},
-		right= { 'cool_symbol', '  ', vim.bo.fileencoding, 'right_double_sep', '-line_column'}
+		right= { 'cool_symbol', '  ', vim.bo.fileencoding, 'right_sep_double', '-line_column'}
 	},
 	defaults = {
 		cool_symbol = "  ",
