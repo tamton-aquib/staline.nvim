@@ -28,7 +28,7 @@ local function get_branch()
 		command = 'git',
 		args = { 'branch', '--show-current' },
 	}):sync()[1]
-	return branch_name and ' '..branch_name or ""
+	return branch_name or ""
 end
 local branch_name = get_branch()
 
@@ -72,7 +72,7 @@ function M.get_statusline(status)
 
 	local s_mode = '%#Staline#  '..modeIcon
 	local s_sep = '  %#Arrow#'..t.left_separator ..'%#MidArrow#'..t.left_separator
-	local s_branch = " %#BranchName#"..branch_name.."  "
+	local s_branch = " %#BranchName#"..Tables.defaults.branch_symbol..branch_name.."  "
 
 	local s_file = left..f_icon.."%#BranchName# "..f_name..edited.."%#MidArrow#"..right
 
