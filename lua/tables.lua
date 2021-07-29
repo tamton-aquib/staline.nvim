@@ -8,7 +8,7 @@ local function system_icon()
 end
 
 Tables = {
-		defaults = {
+	defaults = {
 		left_separator = "",
 		right_separator = "",
 		line_column = "[%l/%L] :%c 並%p%% ",
@@ -17,6 +17,7 @@ Tables = {
 		bg = "none",
 		full_path = false,
 		filename_section = "center",
+		branch_symbol = " "
 	},
 
 	mode_colors = {

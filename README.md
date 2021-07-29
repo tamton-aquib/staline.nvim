@@ -49,6 +49,7 @@ PS: check out beta branch for new features like sections and lsp.
 	        cool_symbol      = " ",       -- Change this to override defult OS icon.
 	        filename_section = "center",   -- others: right, left, none or custom string.
 	        full_path        = false
+		branch_symbol    = " "
 	    },
 	    mode_colors = {
 	        n = "#2bbb4f",
