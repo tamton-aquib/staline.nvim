@@ -53,7 +53,7 @@ local function get_lsp()
 		noice = noice..number
 	end
 
-    return "%#StalineInvert#"..noice
+    return noice
 end
 
 function M.get_statusline(status)
