@@ -30,7 +30,7 @@ local function get_branch()
 	}):sync()[1]
 	return branch_name and ' '..branch_name or ""
 end
-local branch_name = get_branch()
+local branch = get_branch()
 
 local function get_file_icon(f_name, ext)
 	if not pcall(require, 'nvim-web-devicons') then
@@ -47,10 +47,10 @@ local function call_highlights(modeColor, fg, bg)
 end
 
 local function get_lsp()
-    local get = vim.lsp.diagnostic.get_count
+	local get = vim.lsp.diagnostic.get_count
 	local noice = ""
-	for Diag, sign in pairs({Error=" ", Information=" ", Warning=" ", Hint=""}) do
-		local number = get(0, Diag) > 0 and " "..sign..get(0, Diag) or ""
+	for diag, sign in pairs({Error=" ", Information=" ", Warning=" ", Hint=""}) do
+		local number = get(0, diag) > 0 and " "..sign..get(0, diag) or ""
 		noice = noice..number
 	end
 
@@ -62,11 +62,10 @@ function M.get_statusline(status)
 
 	local t =  Tables.defaults
 	local mode = vim.api.nvim_get_mode()['mode']
-	local modeIcon = Tables.mode_icons[mode] or " "
 	local modeColor = status and Tables.mode_colors[mode] or "#303030"
 
-	local f_name = vim.fn.expand('%:t')
-	local f_icon = get_file_icon(f_name, vim.fn.expand('%:e'))
+	local f_name = t.full_path and '%F' or '%t'
+	local f_icon = get_file_icon(vim.fn.expand('%:t'), vim.fn.expand('%:e'))
 	local edited = vim.bo.mod and "  " or ""
 
 	call_highlights(modeColor, t.fg, t.bg)
@@ -76,8 +75,8 @@ function M.get_statusline(status)
 		return "%#BranchName#%="..roger[2]..roger[1].."%="
 	end
 
-	M.sections['mode']        = "  "..modeIcon.."  "
-	M.sections['branch']      = " "..branch_name.." "
+	M.sections['mode']        = "  "..Tables.mode_icons[mode] or " ".."  "
+	M.sections['branch']      = " "..branch.." "
 	M.sections['filename']    = " "..f_icon.." "..f_name..edited.." "
 	M.sections['cool_symbol'] = " "..t.cool_symbol.." "
 	M.sections['line_column'] = " "..t.line_column.." "
@@ -89,23 +88,23 @@ function M.get_statusline(status)
 
 	local function check_section(section)
 		if string.match(section, "^-") then
-			section = vim.split(section, "-")[2]
+			local section = section:match("^-(.+)")
 			return "%#Staline#"..(M.sections[section] or section)
 		else
 			return "%#BranchName#"..(M.sections[section] or section)
 		end
 	end
 
-	Staline = {left = {}, mid = {}, right = {}}
+	local staline = {left = {}, mid = {}, right = {}}
 	for _, major in pairs({ 'left', 'mid', 'right'}) do
 		for _, section in pairs(Tables.sections[major]) do
-			table.insert(Staline[major], check_section(section).."%#StalineNone#")
+			table.insert(staline[major], check_section(section).."%#StalineNone#")
 		end
 	end
 
-	local LEFT = vim.fn.join(Staline.left , "")
-	local MID  = vim.fn.join(Staline.mid  , "")
-	local RIGHT= vim.fn.join(Staline.right, "")
+	local LEFT  = vim.fn.join(staline.left , "")
+	local MID   = vim.fn.join(staline.mid  , "")
+	local RIGHT = vim.fn.join(staline.right, "")
 
 	return LEFT.."%="..MID.."%="..RIGHT
 end
