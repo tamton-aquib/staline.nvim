@@ -94,7 +94,7 @@ require('staline').setup {
 
 Example:
 `sections = { mid = { 'filename' } }`
-will look like:
+will look like: <br />
 ![highilight_example](https://i.imgur.com/rp0Vei4.png)
 
 now, adding `-` at the beginning:
