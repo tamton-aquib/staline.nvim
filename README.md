@@ -91,7 +91,6 @@ require('staline').setup {
 <summary> Highlights: </summary>
 <br />
 <li> The `-` in front of sections inverts the color of that section. </li>
-<li> If you want a specific highlight for a single section, specify it as a table like { highlight, section } </li>
 
 Example:
 `sections = { mid = { 'filename' } }`
@@ -102,7 +101,8 @@ now, adding `-` at the beginning:
 `sections = { mid = { '-filename' } }`
 will look like:
 ![highlight_example2](https://i.imgur.com/mhXa9Ku.png)
-<li>Can add custom highlight</li>
+
+<li> If you want a specific highlight for a single section, specify it as a table like { highlight, section } </li>
 
 `sections = { mid = { { 'RandomHighlight', '-filename' } } }` <br />
 and then later `vim.cmd('highlight RandomHighlight guifg=#000000 guibg=#ffffff')` <br />
