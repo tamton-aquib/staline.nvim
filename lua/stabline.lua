@@ -1,6 +1,5 @@
 Stabline = {}
 local cmd = vim.api.nvim_command
--- local get_hl = vim.api.nvim_get_hl_by_name
 
 local type_chars={ bar={left="┃", right=" "}, slant={left="", right=""}, arrow={left="", right=""}, bubble={left="", right=""} }
 

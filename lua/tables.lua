@@ -2,14 +2,14 @@ local Tables = {}
 
 local function system_icon()
 	if vim.fn.has("win32")    == 1 then return "者"
-	elseif vim.fn.has("unix") == 1 then return " "
 	elseif vim.fn.has("mac")  == 1 then return " "
+	elseif vim.fn.has("unix") == 1 then return " "
 	end
 end
 
 Tables = {
 	sections = {
-		left = {'-mode', '-  ', 'left_sep_double', ' ', 'branch', 'lsp'},
+		left = {'- ', '-mode', 'left_sep_double', ' ', 'branch', 'lsp'},
 		mid  = {'filename'},
 		right = { 'cool_symbol','right_sep_double', '-line_column'}
 	},
@@ -21,8 +21,11 @@ Tables = {
 		fg = "#000000",
 		bg = "none",
 		full_path = false,
+		branch_symbol = " "
 		-- filename_section = "center",
 	},
+
+	special_table = {NvimTree = {'NvimTree', ' '}, packer = {'Packer',' '}, dashboard = {'Dashboard', '  '}},
 
 	mode_colors = {
 		 ['n']    =  "#2bbb4f", --> "#6ed57e"

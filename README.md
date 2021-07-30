@@ -88,6 +88,29 @@ require('staline').setup {
 </details>
 
 <details>
+<summary> Highlights: </summary>
+<br />
+<li> The `-` in front of sections inverts the color of that section. </li>
+<li> If you want a specific highlight for a single section, specify it as a table like { highlight, section } </li>
+
+Example:
+`sections = { mid = { 'filename' } }`
+will look like:
+![highilight_example](https://i.imgur.com/rp0Vei4.png)
+
+now, adding `-` at the beginning:
+`sections = { mid = { '-filename' } }`
+will look like:
+![highlight_example2](https://i.imgur.com/mhXa9Ku.png)
+<li>Can add custom highlight</li>
+
+`sections = { mid = { { 'RandomHighlight', '-filename' } } }` <br />
+and then later `vim.cmd('highlight RandomHighlight guifg=#000000 guibg=#ffffff')` <br />
+or provide an already defined highlight (`LspDiagnosticsError`, `Visual`)
+
+</details>
+
+<details>
 <summary> Some useful config Ideas: </summary>
 
 > Create color value tables to match your current colorscheme.
@@ -139,6 +162,7 @@ require'staline'.setup{
 		right_separator = "",
 		bg = "#303030",
 		full_path = true
+		branch_symbol = " "
 	},
 	mode_colors = {
 		n = "#986fec",

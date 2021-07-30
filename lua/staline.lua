@@ -1,6 +1,5 @@
 M = {}
 local Tables = require('tables')
-local special_table = {NvimTree = {'NvimTree', ' '}, packer = {'Packer',' '}, dashboard = {'Dashboard', '  '}}
 
 function M.set_statusline()
 	for _, win in pairs(vim.api.nvim_list_wins()) do
@@ -28,7 +27,7 @@ local function get_branch()
 	local branch_name = require('plenary.job'):new({
 		command = 'git', args = { 'branch', '--show-current' },
 	}):sync()[1]
-	return branch_name and ' '..branch_name or ""
+	return branch_name and Tables.defaults.branch_symbol..branch_name or ""
 end
 local branch = get_branch()
 
@@ -41,9 +40,9 @@ end
 local function call_highlights(modeColor, fg, bg)
 	vim.cmd('hi Staline guibg='..modeColor..' guifg='..fg)
 	vim.cmd('hi StalineNone guifg=none guibg='..bg)
-	vim.cmd('hi DoubleArrow guifg='..modeColor..' guibg=#303030')
-	vim.cmd('hi MidArrow guifg='.."#303030"..' guibg='..bg)
-	vim.cmd('hi BranchName guifg='..modeColor..' guibg='..bg)
+	vim.cmd('hi DoubleSep guifg='..modeColor..' guibg=#303030')
+	vim.cmd('hi MidSep guifg='.."#303030"..' guibg='..bg)
+	vim.cmd('hi StalineInvert guifg='..modeColor..' guibg='..bg)
 end
 
 local function get_lsp()
@@ -54,7 +53,7 @@ local function get_lsp()
 		noice = noice..number
 	end
 
-    return "%#BranchName#"..noice
+    return "%#StalineInvert#"..noice
 end
 
 function M.get_statusline(status)
@@ -70,28 +69,32 @@ function M.get_statusline(status)
 
 	call_highlights(modeColor, t.fg, t.bg)
 
-	local roger = special_table[vim.bo.ft]
+	local roger = Tables.special_table[vim.bo.ft]
 	if status and roger then
-		return "%#BranchName#%="..roger[2]..roger[1].."%="
+		return "%#StalineInvert#%="..roger[2]..roger[1].."%="
 	end
 
-	M.sections['mode']        = "  "..Tables.mode_icons[mode] or " ".."  "
+	M.sections['mode']        = (" "..Tables.mode_icons[mode].." ") or "  "
 	M.sections['branch']      = " "..branch.." "
 	M.sections['filename']    = " "..f_icon.." "..f_name..edited.." "
 	M.sections['cool_symbol'] = " "..t.cool_symbol.." "
 	M.sections['line_column'] = " "..t.line_column.." "
 	M.sections['left_sep']    = t.left_separator
 	M.sections['right_sep']   = t.right_separator
-	M.sections['left_sep_double']  = "%#DoubleArrow#"..t.left_separator.."%#MidArrow#"..t.left_separator
-	M.sections['right_sep_double'] = "%#MidArrow#"..t.right_separator.."%#DoubleArrow#"..t.right_separator
+	M.sections['left_sep_double']  = "%#DoubleSep#"..t.left_separator.."%#MidSep#"..t.left_separator
+	M.sections['right_sep_double'] = "%#MidSep#"..t.right_separator.."%#DoubleSep#"..t.right_separator
 	M.sections['lsp']         = get_lsp()
 
 	local function check_section(section)
-		if string.match(section, "^-") then
-			local section = section:match("^-(.+)")
-			return "%#Staline#"..(M.sections[section] or section)
+		if type(section) == 'string' then
+			if string.match(section, "^-") then
+				section = section:match("^-(.+)")
+				return "%#Staline#"..(M.sections[section] or section)
+			else
+				return "%#StalineInvert#"..(M.sections[section] or section)
+			end
 		else
-			return "%#BranchName#"..(M.sections[section] or section)
+			return "%#"..section[1].."#"..(M.sections[section[2]] or section[2])
 		end
 	end
 
