@@ -19,17 +19,17 @@ function M.setup(opts)
 	end
 
 	vim.cmd [[au BufEnter,BufWinEnter,WinEnter * lua require'staline'.set_statusline()]]
+	vim.cmd [[au BufEnter * lua require'staline'.get_branch()]]
 end
 
-local function get_branch()
+function M.get_branch()
 	if not pcall(require, 'plenary') then return "" end
 
 	local branch_name = require('plenary.job'):new({
 		command = 'git', args = { 'branch', '--show-current' },
 	}):sync()[1]
-	return branch_name and Tables.defaults.branch_symbol..branch_name or ""
+	M.Branch = branch_name and Tables.defaults.branch_symbol..branch_name or ""
 end
-local branch = get_branch()
 
 local function get_file_icon(f_name, ext)
 	if not pcall(require, 'nvim-web-devicons') then
@@ -88,7 +88,7 @@ function M.get_statusline(status)
 	end
 
 	M.sections['mode']        = (" "..Tables.mode_icons[mode].." ") or "  "
-	M.sections['branch']      = " "..branch.." "
+	M.sections['branch']      = " "..M.Branch.." "
 	M.sections['filename']    = " "..f_icon.." "..f_name..edited.." "
 	M.sections['cool_symbol'] = " "..t.cool_symbol.." "
 	M.sections['line_column'] = " "..t.line_column.." "
@@ -98,23 +98,15 @@ function M.get_statusline(status)
 	M.sections['right_sep_double'] = "%#MidSep#"..t.right_separator.."%#DoubleSep#"..t.right_separator
 	M.sections['lsp']         = get_lsp()
 
-	-- local staline = {left = {}, mid = {}, right = {}}
 	local staline = ""
 	for _, major in pairs({ 'left', 'mid', 'right'}) do
 		for _, section in pairs(Tables.sections[major]) do
-			-- table.insert(staline[major], check_section(section).."%#StalineNone#")
 			staline = staline .. check_section(section).."%#StalineNone#"
 		end
 		if major ~= 'right' then staline = staline .. "%=" end
 	end
 
 	return staline
-
--- 	local LEFT  = vim.fn.join(staline.left , "")
--- 	local MID   = vim.fn.join(staline.mid  , "")
--- 	local RIGHT = vim.fn.join(staline.right, "")
---
--- 	return LEFT.."%="..MID.."%="..RIGHT
 end
 
 return M
