@@ -56,6 +56,19 @@ local function get_lsp()
     return noice
 end
 
+local function check_section(section)
+	if type(section) == 'string' then
+		if string.match(section, "^-") then
+			section = section:match("^-(.+)")
+			return "%#Staline#"..(M.sections[section] or section)
+		else
+			return "%#StalineInvert#"..(M.sections[section] or section)
+		end
+	else
+		return "%#"..section[1].."#"..(M.sections[section[2]] or section[2])
+	end
+end
+
 function M.get_statusline(status)
 	M.sections = {}
 
@@ -84,19 +97,6 @@ function M.get_statusline(status)
 	M.sections['left_sep_double']  = "%#DoubleSep#"..t.left_separator.."%#MidSep#"..t.left_separator
 	M.sections['right_sep_double'] = "%#MidSep#"..t.right_separator.."%#DoubleSep#"..t.right_separator
 	M.sections['lsp']         = get_lsp()
-
-	local function check_section(section)
-		if type(section) == 'string' then
-			if string.match(section, "^-") then
-				section = section:match("^-(.+)")
-				return "%#Staline#"..(M.sections[section] or section)
-			else
-				return "%#StalineInvert#"..(M.sections[section] or section)
-			end
-		else
-			return "%#"..section[1].."#"..(M.sections[section[2]] or section[2])
-		end
-	end
 
 	-- local staline = {left = {}, mid = {}, right = {}}
 	local staline = ""
