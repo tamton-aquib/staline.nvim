@@ -25,7 +25,7 @@ Tables = {
 		-- filename_section = "center",
 	},
 
-	special_table = {NvimTree = {'NvimTree', ' '}, packer = {'Packer',' '}, dashboard = {'Dashboard', '  '}},
+	special_table = {NvimTree = {'NvimTree', ' '}, packer = {'Packer',' '}, dashboard = {'Dashboard', '  '}, help = {'Help', '龎'}},
 
 	mode_colors = {
 		 ['n']    =  "#2bbb4f", --> "#6ed57e"

@@ -98,18 +98,23 @@ function M.get_statusline(status)
 		end
 	end
 
-	local staline = {left = {}, mid = {}, right = {}}
+	-- local staline = {left = {}, mid = {}, right = {}}
+	local staline = ""
 	for _, major in pairs({ 'left', 'mid', 'right'}) do
 		for _, section in pairs(Tables.sections[major]) do
-			table.insert(staline[major], check_section(section).."%#StalineNone#")
+			-- table.insert(staline[major], check_section(section).."%#StalineNone#")
+			staline = staline .. check_section(section).."%#StalineNone#"
 		end
+		if major ~= 'right' then staline = staline .. "%=" end
 	end
 
-	local LEFT  = vim.fn.join(staline.left , "")
-	local MID   = vim.fn.join(staline.mid  , "")
-	local RIGHT = vim.fn.join(staline.right, "")
+	return staline
 
-	return LEFT.."%="..MID.."%="..RIGHT
+-- 	local LEFT  = vim.fn.join(staline.left , "")
+-- 	local MID   = vim.fn.join(staline.mid  , "")
+-- 	local RIGHT = vim.fn.join(staline.right, "")
+--
+-- 	return LEFT.."%="..MID.."%="..RIGHT
 end
 
 return M
