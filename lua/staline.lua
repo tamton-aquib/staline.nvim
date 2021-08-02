@@ -54,6 +54,12 @@ local function get_lsp()
     return lsp_details
 end
 
+local function client_name()
+	for _, name in pairs(vim.lsp.get_active_clients()) do
+		return name == vim.bo.ft and "" or name.name
+	end
+end
+
 local function check_section(section)
 	if type(section) == 'string' then
 		if string.match(section, "^-") then
@@ -95,6 +101,7 @@ function M.get_statusline(status)
 	M.sections['left_sep_double']  = "%#DoubleSep#"..t.left_separator.."%#MidSep#"..t.left_separator
 	M.sections['right_sep_double'] = "%#MidSep#"..t.right_separator.."%#DoubleSep#"..t.right_separator
 	M.sections['lsp']         = get_lsp()
+	M.sections['client_name'] = client_name()
 
 	local staline = ""
 	for _, major in pairs({ 'left', 'mid', 'right'}) do
