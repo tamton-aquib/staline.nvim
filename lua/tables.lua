@@ -21,7 +21,8 @@ Tables = {
 		fg = "#000000",
 		bg = "none",
 		full_path = false,
-		branch_symbol = " "
+		branch_symbol = " ",
+		inactive_color = "#303030"
 		-- filename_section = "center",
 	},
 

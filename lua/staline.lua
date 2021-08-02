@@ -5,10 +5,8 @@ function M.set_statusline()
 	for _, win in pairs(vim.api.nvim_list_wins()) do
 		if vim.api.nvim_get_current_win() == win then
 			vim.wo[win].statusline = '%!v:lua.require\'staline\'.get_statusline("active")'
-		else
-			if vim.api.nvim_buf_get_name(0) ~= "" then
+		elseif vim.api.nvim_buf_get_name(0) ~= "" then
 				vim.wo[win].statusline = '%!v:lua.require\'staline\'.get_statusline()'
-			end
 		end
 	end
 end
@@ -19,10 +17,10 @@ function M.setup(opts)
 	end
 
 	vim.cmd [[au BufEnter,BufWinEnter,WinEnter * lua require'staline'.set_statusline()]]
-	vim.cmd [[au BufEnter * lua require'staline'.get_branch()]]
+	vim.cmd [[au BufEnter * lua require'staline'.update_branch()]]
 end
 
-function M.get_branch()
+function M.update_branch()
 	if not pcall(require, 'plenary') then return "" end
 
 	local branch_name = require('plenary.job'):new({
@@ -47,13 +45,13 @@ end
 
 local function get_lsp()
 	local get = vim.lsp.diagnostic.get_count
-	local noice = ""
+	local lsp_details = ""
 	for diag, sign in pairs({Error=" ", Information=" ", Warning=" ", Hint=""}) do
 		local number = get(0, diag) > 0 and " "..sign..get(0, diag) or ""
-		noice = noice..number
+		lsp_details = lsp_details..number
 	end
 
-    return noice
+    return lsp_details
 end
 
 local function check_section(section)
@@ -74,7 +72,7 @@ function M.get_statusline(status)
 
 	local t =  Tables.defaults
 	local mode = vim.api.nvim_get_mode()['mode']
-	local modeColor = status and Tables.mode_colors[mode] or "#303030"
+	local modeColor = status and Tables.mode_colors[mode] or t.inactive_color
 
 	local f_name = t.full_path and '%F' or '%t'
 	local f_icon = get_file_icon(vim.fn.expand('%:t'), vim.fn.expand('%:e'))
