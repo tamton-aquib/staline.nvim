@@ -6,7 +6,7 @@ function M.set_statusline()
 		if vim.api.nvim_get_current_win() == win then
 			vim.wo[win].statusline = '%!v:lua.require\'staline\'.get_statusline("active")'
 		elseif vim.api.nvim_buf_get_name(0) ~= "" then
-				vim.wo[win].statusline = '%!v:lua.require\'staline\'.get_statusline()'
+			vim.wo[win].statusline = '%!v:lua.require\'staline\'.get_statusline()'
 		end
 	end
 end
@@ -26,6 +26,7 @@ function M.update_branch()
 	local branch_name = require('plenary.job'):new({
 		command = 'git', args = { 'branch', '--show-current' },
 	}):sync()[1]
+
 	M.Branch = branch_name and Tables.defaults.branch_symbol..branch_name or ""
 end
 
