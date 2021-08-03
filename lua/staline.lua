@@ -1,5 +1,6 @@
 M = {}
 local Tables = require('tables')
+local t =  Tables.defaults
 
 function M.set_statusline()
 	for _, win in pairs(vim.api.nvim_list_wins()) do
@@ -27,7 +28,7 @@ function M.update_branch()
 		command = 'git', args = { 'branch', '--show-current' },
 	}):sync()[1]
 
-	M.Branch = branch_name and Tables.defaults.branch_symbol..branch_name or ""
+	M.Branch = branch_name and t.branch_symbol..branch_name or ""
 end
 
 local function get_file_icon(f_name, ext)
@@ -36,12 +37,12 @@ local function get_file_icon(f_name, ext)
 	return require'nvim-web-devicons'.get_icon(f_name, ext, {default = true})
 end
 
-local function call_highlights(modeColor, fg, bg)
-	vim.cmd('hi Staline guibg='..modeColor..' guifg='..fg)
-	vim.cmd('hi StalineNone guifg=none guibg='..bg)
+local function call_highlights(modeColor)
+	vim.cmd('hi Staline guibg='..modeColor..' guifg='..t.fg)
+	vim.cmd('hi StalineNone guifg=none guibg='..t.bg)
 	vim.cmd('hi DoubleSep guifg='..modeColor..' guibg=#303030')
-	vim.cmd('hi MidSep guifg='.."#303030"..' guibg='..bg)
-	vim.cmd('hi StalineInvert guifg='..modeColor..' guibg='..bg)
+	vim.cmd('hi MidSep guifg='.."#303030"..' guibg='..t.bg)
+	vim.cmd('hi StalineInvert guifg='..modeColor..' guibg='..t.bg)
 end
 
 local function get_lsp()
@@ -77,7 +78,6 @@ end
 function M.get_statusline(status)
 	M.sections = {}
 
-	local t =  Tables.defaults
 	local mode = vim.api.nvim_get_mode()['mode']
 	local modeColor = status and Tables.mode_colors[mode] or t.inactive_color
 
@@ -85,7 +85,7 @@ function M.get_statusline(status)
 	local f_icon = get_file_icon(vim.fn.expand('%:t'), vim.fn.expand('%:e'))
 	local edited = vim.bo.mod and "  " or ""
 
-	call_highlights(modeColor, t.fg, t.bg)
+	call_highlights(modeColor)
 
 	local roger = Tables.special_table[vim.bo.ft]
 	if status and roger then

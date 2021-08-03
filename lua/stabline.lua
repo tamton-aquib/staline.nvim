@@ -84,9 +84,9 @@ function Stabline.get_tabline()
 				do_icon_hl(icon_hl)..f_icon.."%#StablineSel#"..
 				f_name..edited.."%#StablineRight#"..stab_right
 			else
-				-- tabline = tabline.."%#Stabline#  "..f_icon..f_name.." "
-				tabline = tabline.."%#StablineSepInactive#"..stab_left.."%#StablineInactive# "..
-				f_icon.."%#StablineInactive#".. f_name.."%#StablineSepInactive#"..stab_right
+				tabline = tabline.."%#Stabline#  "..f_icon..f_name.." "
+-- 				tabline = tabline.."%#StablineSepInactive#"..stab_left.."%#StablineInactive# "..
+-- 				f_icon.."%#StablineInactive#".. f_name.."%#StablineSepInactive#"..stab_right
 			end
 		end
 		::do_nothing::
