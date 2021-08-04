@@ -21,24 +21,29 @@ function Stabline.call_stabline_colors()
 	local fg_hex = opts.fg or string.format("#%x", normal_fg)
 	local dark_bg = opts.stab_bg or string.format("#%x", normal_bg/2)
 	local inactive_bg, inactive_fg = opts.inactive_bg or "#1e2127", opts.inactive_fg or "#aaaaaa"
-	local set = {}
+	local set, set_inactive = {}, {}
 
 	if stab_type == "bar" then
 		set = { left = {f = fg_hex, b = bg_hex}, right = {f = fg_hex, b = bg_hex} }
+		set_inactive = { left = {f = inactive_bg, b = inactive_bg}, right = {f = fg_hex, b = inactive_bg} }
 	elseif stab_type == "slant" then
 		set = { left = {f = bg_hex, b = dark_bg}, right = {f = bg_hex, b = dark_bg} }
+		set_inactive = { left = {f = inactive_bg, b = dark_bg}, right = {f = inactive_bg, b = dark_bg} }
 	elseif stab_type == "arrow" then
 		set = { left = {f = dark_bg, b = bg_hex}, right = {f = bg_hex, b = dark_bg} }
+		set_inactive = { left = {f = dark_bg, b = inactive_bg}, right = {f = inactive_bg, b = dark_bg} }
 	elseif stab_type == "bubble" then
 		set = { left = {f = bg_hex, b = dark_bg}, right = {f = bg_hex, b = dark_bg} }
+		set_inactive = { left = {f = inactive_bg, b = dark_bg}, right = {f = inactive_bg, b = dark_bg} }
 	end
 
-	cmd('hi StablineSel guifg='..fg_hex..' guibg='..bg_hex)
+	cmd('hi StablineSel guifg='..fg_hex..' guibg='..bg_hex..' gui='..(opts.font_active or 'bold'))
 	cmd('hi Stabline guibg='..dark_bg)
 	cmd('hi StablineLeft guifg='..set.left.f..' guibg='..set.left.b)
 	cmd('hi StablineRight guifg='..set.right.f..' guibg='..set.right.b)
 	cmd('hi StablineInactive guifg='..inactive_fg..' guibg='..inactive_bg)
-	cmd('hi StablineSepInactive guifg='..inactive_bg..' guibg='..dark_bg)
+	cmd('hi StablineSepInactiveRight guifg='..set_inactive.right.f..' guibg='..set_inactive.right.b)
+	cmd('hi StablineSepInactiveLeft guifg='..set_inactive.left.f..' guibg='..set_inactive.left.b)
 
 end
 
@@ -79,14 +84,13 @@ function Stabline.get_tabline()
 			end
 
 			if vim.api.nvim_get_current_buf() == buf then
-				if buf == 1 and stab_type == "arrow" then stab_left = " " end
+				-- if buf == 1 and stab_type == "arrow" then stab_left = " " end
 				tabline = tabline.."%#StablineLeft#"..stab_left.."%#StablineSel# "..
 				do_icon_hl(icon_hl)..f_icon.."%#StablineSel#"..
 				f_name..edited.."%#StablineRight#"..stab_right
 			else
-				tabline = tabline.."%#Stabline#  "..f_icon..f_name.." "
--- 				tabline = tabline.."%#StablineSepInactive#"..stab_left.."%#StablineInactive# "..
--- 				f_icon.."%#StablineInactive#".. f_name.."%#StablineSepInactive#"..stab_right
+				tabline = tabline.."%#StablineSepInactiveLeft#"..stab_left.."%#StablineInactive# "..
+				f_icon.."%#StablineInactive#".. f_name.."%#StablineSepInactiveRight#"..stab_right
 			end
 		end
 		::do_nothing::
