@@ -22,7 +22,8 @@ Tables = {
 		bg = "none",
 		full_path = false,
 		branch_symbol = " ",
-		inactive_color = "#303030"
+		inactive_color = "#303030",
+		font_active = "none",
 		-- filename_section = "center",
 	},
 

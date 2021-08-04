@@ -41,7 +41,7 @@ function Stabline.call_stabline_colors()
 	cmd('hi Stabline guibg='..dark_bg)
 	cmd('hi StablineLeft guifg='..set.left.f..' guibg='..set.left.b)
 	cmd('hi StablineRight guifg='..set.right.f..' guibg='..set.right.b)
-	cmd('hi StablineInactive guifg='..inactive_fg..' guibg='..inactive_bg)
+	cmd('hi StablineInactive guifg='..inactive_fg..' guibg='..inactive_bg..' gui='..(opts.font_inactive or 'none'))
 	cmd('hi StablineSepInactiveRight guifg='..set_inactive.right.f..' guibg='..set_inactive.right.b)
 	cmd('hi StablineSepInactiveLeft guifg='..set_inactive.left.f..' guibg='..set_inactive.left.b)
 
