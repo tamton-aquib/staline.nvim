@@ -19,6 +19,7 @@ function M.setup(opts)
 
 	vim.cmd [[au BufEnter,BufWinEnter,WinEnter * lua require'staline'.set_statusline()]]
 	vim.cmd [[au BufEnter * lua require'staline'.update_branch()]]
+	vim.cmd [[au ColorScheme * lua require'staline'.get_lsp()]]
 end
 
 function M.update_branch()
@@ -45,7 +46,7 @@ local function call_highlights(modeColor)
 	vim.cmd('hi StalineInvert guifg='..modeColor..' guibg='..t.bg)
 end
 
-local function get_lsp()
+function M.get_lsp()
 	local get = vim.lsp.diagnostic.get_count
 	local lsp_details = ""
 	for diag, sign in pairs({Error=" ", Information=" ", Warning=" ", Hint=""}) do
@@ -101,7 +102,7 @@ function M.get_statusline(status)
 	M.sections['right_sep']   = t.right_separator
 	M.sections['left_sep_double']  = "%#DoubleSep#"..t.left_separator.."%#MidSep#"..t.left_separator
 	M.sections['right_sep_double'] = "%#MidSep#"..t.right_separator.."%#DoubleSep#"..t.right_separator
-	M.sections['lsp']         = get_lsp()
+	M.sections['lsp']         = M.get_lsp()
 	M.sections['client_name'] = client_name()
 
 	local staline = ""

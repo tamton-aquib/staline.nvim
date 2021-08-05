@@ -56,8 +56,8 @@ end
 local function do_icon_hl(icon_hl)
 	local new_fg = string.format("#%x",vim.api.nvim_get_hl_by_name(icon_hl or 'Normal', {})['foreground'] or 0)
 	local icon_bg = Stabline.stabline_opts.bg or string.format("#%x", normal_bg)
-	cmd('hi NewIconHl guibg='..icon_bg..' guifg='..new_fg..' gui=bold')
-	return '%#NewIconHl#'
+	cmd('hi StablineTempHighlight guibg='..icon_bg..' guifg='..new_fg..' gui=bold')
+	return '%#StablineTempHighlight#'
 end
 
 function Stabline.get_tabline()
@@ -65,7 +65,7 @@ function Stabline.get_tabline()
 	local stab_type = opts.style or "bar"
 	local stab_left = opts.stab_left or type_chars[stab_type].left
 	local stab_right= opts.stab_right or  type_chars[stab_type].right
-	local tabline = ""
+	local tabline = opts.start or ""
 
 	for _, buf in pairs(vim.api.nvim_list_bufs()) do
 		if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) then
@@ -84,14 +84,15 @@ function Stabline.get_tabline()
 			end
 
 			if vim.api.nvim_get_current_buf() == buf then
-				-- if buf == 1 and stab_type == "arrow" then stab_left = " " end
+				if buf == 1 and stab_type == "arrow" then stab_left = " " end
 				tabline = tabline.."%#StablineLeft#"..stab_left.."%#StablineSel# "..
-				do_icon_hl(icon_hl)..f_icon.."%#StablineSel#"..
+				"%#StablineTempHighlight#"..f_icon.."%#StablineSel#"..
 				f_name..edited.."%#StablineRight#"..stab_right
 			else
 				tabline = tabline.."%#StablineSepInactiveLeft#"..stab_left.."%#StablineInactive# "..
 				f_icon.."%#StablineInactive#".. f_name.."%#StablineSepInactiveRight#"..stab_right
 			end
+			do_icon_hl(icon_hl)
 		end
 		::do_nothing::
 	end
