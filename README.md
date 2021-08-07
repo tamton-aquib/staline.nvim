@@ -209,7 +209,8 @@ vim.cmd [[au BufEnter,BufWinEnter,WinEnter,CmdwinEnter * if bufname('%') == "Nvi
 	        bg          = Default is bg of "Normal".
 	        inactive_bg = "#1e2127",
 	        inactive_fg = "#aaaaaa",
-	        stab_bg     = Default is darker version of bg.
+	        stab_bg     = Default is darker version of bg.,
+			font_active = "bold"
 	    },
     }
     ```
