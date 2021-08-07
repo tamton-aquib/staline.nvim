@@ -69,7 +69,7 @@ function Stabline.get_tabline()
 
 	for _, buf in pairs(vim.api.nvim_list_bufs()) do
 		if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) then
-			local edited = vim.bo.modified and "" or ""
+			local edited = vim.bo.modified and "" or " "
 
 			local f_name = vim.api.nvim_buf_get_name(buf):match("^.+/(.+)$") or ""
 			local ext = string.match(f_name, "%w+%.(.+)")
@@ -85,12 +85,12 @@ function Stabline.get_tabline()
 
 			if vim.api.nvim_get_current_buf() == buf then
 				if buf == 1 and stab_type == "arrow" then stab_left = " " end
-				tabline = tabline.."%#StablineLeft#"..stab_left.."%#StablineSel# "..
-				"%#StablineTempHighlight#"..f_icon.."%#StablineSel#"..  f_name..
-				edited.."%#StablineRight#"..stab_right
+				tabline = tabline.."%#StablineLeft#"..stab_left.."%#StablineSel#   "..
+				"%#StablineTempHighlight#"..f_icon.."%#StablineSel#"..f_name..
+				edited.." ".."%#StablineRight#"..stab_right
 			else
-				tabline = tabline.."%#StablineSepInactiveLeft#"..stab_left.."%#StablineInactive# "..
-				f_icon.."%#StablineInactive#".. f_name.."%#StablineSepInactiveRight#"..stab_right
+				tabline = tabline.."%#StablineSepInactiveLeft#"..stab_left.."%#StablineInactive#   "..
+				f_icon.."%#StablineInactive#".. f_name.."  %#StablineSepInactiveRight#"..stab_right
 			end
 		end
 		::do_nothing::
