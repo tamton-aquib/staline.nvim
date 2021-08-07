@@ -254,9 +254,9 @@ require'stabline'.setup {
 ### TODO
 
 - [x] ~Include more filetype support.~
-- [x] User configuration options. Needs more work.
-- [x] Git info. Only branch info for now, *(or ever)*
-- [x] Adding "opt-in" bufferline function.
-- [x] Add config options for bufferline.
+- [x] ~User configuration options. Needs more work.~
+- [x] ~Git info. Only branch info for now, *(or ever)*~
+- [x] ~Adding "opt-in" bufferline function.~
+- [x] ~Add config options for bufferline.~
 - [ ] lsp client name in staline.
 - [ ] buf numbers in stabline.
