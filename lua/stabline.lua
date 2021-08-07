@@ -43,8 +43,8 @@ function Stabline.call_stabline_colors()
 	cmd('hi StablineLeft guifg='..set.left.f..' guibg='..set.left.b)
 	cmd('hi StablineRight guifg='..set.right.f..' guibg='..set.right.b)
 	cmd('hi StablineInactive guifg='..inactive_fg..' guibg='..inactive_bg..' gui='..(opts.font_inactive or 'none'))
-	cmd('hi StablineSepInactiveRight guifg='..set_inactive.right.f..' guibg='..set_inactive.right.b)
-	cmd('hi StablineSepInactiveLeft guifg='..set_inactive.left.f..' guibg='..set_inactive.left.b)
+	cmd('hi StablineInactiveRight guifg='..set_inactive.right.f..' guibg='..set_inactive.right.b)
+	cmd('hi StablineInactiveLeft guifg='..set_inactive.left.f..' guibg='..set_inactive.left.b)
 end
 
 local function get_file_icon(f_name, ext)
@@ -65,7 +65,7 @@ function Stabline.get_tabline()
 	local stab_type = opts.style or "bar"
 	local stab_left = opts.stab_left or type_chars[stab_type].left
 	local stab_right= opts.stab_right or  type_chars[stab_type].right
-	local tabline = opts.start or "%#Stabline#"
+	local tabline = opts.start and ("%#Stabline#"..opts.start) or "%#Stabline#"
 
 	for _, buf in pairs(vim.api.nvim_list_bufs()) do
 		if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) then
@@ -81,17 +81,14 @@ function Stabline.get_tabline()
 				f_name = " "..f_name.." "
 			end
 
-			do_icon_hl(icon_hl)
+			local s = vim.api.nvim_get_current_buf() == buf and true or false
 
-			if vim.api.nvim_get_current_buf() == buf then
-				if buf == 1 and stab_type == "arrow" then stab_left = " " end
-				tabline = tabline.."%#StablineLeft#"..stab_left.."%#StablineSel#   "..
-				"%#StablineTempHighlight#"..f_icon.."%#StablineSel#"..f_name..
-				edited.." ".."%#StablineRight#"..stab_right
-			else
-				tabline = tabline.."%#StablineSepInactiveLeft#"..stab_left.."%#StablineInactive#   "..
-				f_icon.."%#StablineInactive#".. f_name.."  %#StablineSepInactiveRight#"..stab_right
-			end
+			tabline = tabline..
+			"%#Stabline"..(s and "" or "Inactive").."Left#"..stab_left..
+			"%#Stabline"..(s and "Sel" or "Inactive").."#   "..
+			(s and do_icon_hl(icon_hl) or "")..f_icon..
+			"%#Stabline"..(s and "Sel" or "Inactive").."#"..f_name..(s and edited or " ").." "..
+			"%#Stabline"..(s and "" or "Inactive").."Right#"..stab_right
 		end
 		::do_nothing::
 	end
