@@ -1,15 +1,13 @@
 M = {}
 local Tables = require('tables')
-local special_table = {NvimTree = {'NvimTree', ' '}, packer = {'Packer',' '}, dashboard = {'Dashboard', '  '}}
+local t =  Tables.defaults
 
 function M.set_statusline()
 	for _, win in pairs(vim.api.nvim_list_wins()) do
 		if vim.api.nvim_get_current_win() == win then
 			vim.wo[win].statusline = '%!v:lua.require\'staline\'.get_statusline("active")'
-		else
-			if vim.api.nvim_buf_get_name(0) ~= "" then
-				vim.wo[win].statusline = '%!v:lua.require\'staline\'.get_statusline()'
-			end
+		elseif vim.api.nvim_buf_get_name(0) ~= "" then
+			vim.wo[win].statusline = '%!v:lua.require\'staline\'.get_statusline()'
 		end
 	end
 end
@@ -18,17 +16,19 @@ function M.setup(opts)
 	for k,_ in pairs(opts or {}) do
 		for k1,v1 in pairs(opts[k]) do Tables[k][k1] = v1 end
 	end
+
 	vim.cmd [[au BufEnter,BufWinEnter,WinEnter * lua require'staline'.set_statusline()]]
+	vim.cmd [[au BufEnter,WinEnter * lua require'staline'.update_branch()]]
 end
 
-local function get_branch()
+function M.update_branch()
 	if not pcall(require, 'plenary') then return "" end
 
 	local branch_name = require('plenary.job'):new({
-		command = 'git',
-		args = { 'branch', '--show-current' },
+		command = 'git', args = { 'branch', '--show-current' },
 	}):sync()[1]
-	return branch_name and Tables.defaults.branch_symbol..branch_name or ""
+
+	M.Branch_name =  branch_name and t.branch_symbol..branch_name or ""
 end
 
 local function get_file_icon(f_name, ext)
@@ -37,52 +37,83 @@ local function get_file_icon(f_name, ext)
 	return require'nvim-web-devicons'.get_icon(f_name, ext, {default = true})
 end
 
-local function call_highlights(modeColor, fg, bg)
-	vim.cmd('hi Staline guibg='..modeColor..' guifg='..fg)
-	vim.cmd('hi Arrow guifg='..modeColor..' guibg='.."#303030")
-	vim.cmd('hi MidArrow guifg='.."#303030"..' guibg='..bg)
-	vim.cmd('hi BranchName guifg='..modeColor..' guibg='..bg)
+local function call_highlights(modeColor)
+	vim.cmd('hi Staline guibg='..modeColor..' guifg='..t.fg..' gui='..(t.font_active or 'none'))
+	vim.cmd('hi StalineNone guifg=none guibg='..t.bg)
+	vim.cmd('hi DoubleSep guifg='..modeColor..' guibg=#303030')
+	vim.cmd('hi MidSep guifg='.."#303030"..' guibg='..t.bg)
+	vim.cmd('hi StalineInvert guifg='..modeColor..' guibg='..t.bg)
+end
+
+function M.get_lsp()
+	local lsp_details = ""
+	for type, sign in pairs(Tables.lsp_symbols or {}) do
+		local count = vim.lsp.diagnostic.get_count(0, type)
+		local hl = t.true_colors and "%#LspDiagnosticsDefault"..type.."#" or " "
+		local number = count > 0 and hl..sign..count.." " or ""
+		lsp_details = lsp_details..number
+	end
+
+	return lsp_details
+end
+
+local function client_name()
+	for _, name in pairs(vim.lsp.get_active_clients()) do
+		return name == vim.bo.ft and "" or name.name
+	end
+end
+
+local function check_section(section)
+	if type(section) == 'string' then
+		if string.match(section, "^-") then
+			section = section:match("^-(.+)")
+			return "%#Staline#"..(M.sections[section] or section)
+		else
+			return "%#StalineInvert#"..(M.sections[section] or section)
+		end
+	else
+		return "%#"..section[1].."#"..(M.sections[section[2]] or section[2])
+	end
 end
 
 function M.get_statusline(status)
+	M.sections = {}
 
-	local t =  Tables.defaults
 	local mode = vim.api.nvim_get_mode()['mode']
-	local modeIcon = Tables.mode_icons[mode] or " "
-	local modeColor = status and Tables.mode_colors[mode] or "#303030"
+	local modeColor = status and Tables.mode_colors[mode] or t.inactive_color
 
-	local f_name = vim.fn.expand('%:t')
-	local f_icon = get_file_icon(f_name, vim.fn.expand('%:e'))
-	local edited = vim.bo.mod and "  " or " "
-	local right, left = "%=", "%="
+	local f_name = t.full_path and '%F' or '%t'
+	local f_icon = get_file_icon(vim.fn.expand('%:t'), vim.fn.expand('%:e'))
+	local edited = vim.bo.mod and "  " or ""
 
-	if t.filename_section == "right" then right = ""
-	elseif t.filename_section == "left" then left = ""
-	elseif t.filename_section == "none" then f_name, f_icon = "", ""
-	elseif t.filename_section == "center" then
-	else f_name, f_icon = Tables.defaults.filename_section, "" end
+	call_highlights(modeColor)
 
-	call_highlights(modeColor, t.fg, t.bg)
-
-	local roger = special_table[vim.bo.ft]
+	local roger = Tables.special_table[vim.bo.ft]
 	if status and roger then
-		return "%#BranchName#%="..roger[2]..roger[1].."%="
+		return "%#StalineInvert#%="..roger[2]..roger[1].."%="
 	end
 
-	local s_mode = '%#Staline#  '..modeIcon
-	local s_sep = '  %#Arrow#'..t.left_separator ..'%#MidArrow#'..t.left_separator
-	local s_branch = " %#BranchName#"..get_branch().."  "
+	M.sections['mode']             = (" "..Tables.mode_icons[mode].." ") or "  "
+	M.sections['branch']           = " "..M.Branch_name.." "
+	M.sections['filename']         = " "..f_icon.." "..f_name..edited.." "
+	M.sections['cool_symbol']      = " "..t.cool_symbol.." "
+	M.sections['line_column']      = " "..t.line_column.." "
+	M.sections['left_sep']         = t.left_separator
+	M.sections['right_sep']        = t.right_separator
+	M.sections['left_sep_double']  = "%#DoubleSep#"..t.left_separator.."%#MidSep#"..t.left_separator
+	M.sections['right_sep_double'] = "%#MidSep#"..t.right_separator.."%#DoubleSep#"..t.right_separator
+	M.sections['lsp']              = M.get_lsp()
+	M.sections['lsp_name']         = client_name()
 
-	local s_file = left..f_icon.."%#BranchName# "..f_name..edited.."%#MidArrow#"..right
+	local staline = ""
+	for _, major in pairs({ 'left', 'mid', 'right'}) do
+		for _, section in pairs(Tables.sections[major]) do
+			staline = staline .. check_section(section).."%#StalineNone#"
+		end
+		if major ~= 'right' then staline = staline .. "%=" end
+	end
 
-	local s_cool_icon = "%#BranchName#"..t.cool_symbol.."%#MidArrow# "
-	local s_line_column = t.right_separator..'%#Arrow#'..t.right_separator..'%#Staline#  '..t.line_column
-
-	local LEFT  = string.format("%s%s%s", s_mode, s_sep, s_branch)
-	local MID   = s_file
-	local RIGHT = string.format("%s%s ", s_cool_icon, s_line_column)
-
-	return string.format("%s%s%s", LEFT, MID, RIGHT)
+	return staline
 end
 
 return M
