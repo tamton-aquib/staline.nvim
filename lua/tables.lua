@@ -9,7 +9,7 @@ end
 
 Tables = {
 	sections = {
-		left = {'- ', '-mode', 'left_sep_double', ' ', 'branch', 'lsp'},
+		left = {'-  ', '-mode', 'left_sep_double', ' ', 'branch', 'lsp'},
 		mid  = {'filename'},
 		right = { 'cool_symbol','right_sep_double', '-line_column'}
 	},
@@ -26,9 +26,8 @@ Tables = {
 		full_path = false,
 		branch_symbol = " ",
 		inactive_color = "#303030",
-		font_active = "none",
+		font_active = "none",          -- bold,italic etc.
 		true_colors = false
-		-- filename_section = "center",
 	},
 
 	special_table = {NvimTree = {'NvimTree', ' '}, packer = {'Packer',' '}, dashboard = {'Dashboard', '  '}, help = {'Help', '龎'}},

@@ -16,7 +16,8 @@ stabline(s-**tabline**): A simple bufferline for neovim written in lua. (sry did
     ```lua
     use 'tamton-aquib/staline.nvim'
     ```
-**PS**: Doing this will install both staline and stabline.
+**NOTE:** Doing this will install both staline and stabline. <br />
+But separate setup() is required for each to load up.
 
 # Statusline
 
@@ -37,19 +38,20 @@ require('staline').setup{}
 ```lua
 require('staline').setup {
 	sections = {
-		left  = { '-mode', 'left_sep_double', ' ', 'branch', 'lsp' },
-		mid   = { 'filename' },
+		left = { '- ', '-mode', 'left_sep_double', ' ', 'branch', 'lsp' },
+		mid  = { 'filename' },
 		right = { 'cool_symbol','right_sep_double', '-line_column' }
-	},
+	}, -- check highlights section in readme to know what "-" means
 	defaults = {
-		left_separator   = "",
-		right_separator  = "",
-		line_column      = "[%l/%L] :%c 並%p%% ", -- `:h stl` to see all flags.
-		fg               = "#000000",  -- Foreground text color.
-		bg               = "none",     -- Default background is transparent.
-		cool_symbol      = " ",       -- Change this to override defult OS icon.
-		filename_section = "center",   -- others: right, left, none or custom string.
-		full_path        = false
+		left_separator  = "",
+		right_separator = "",
+		line_column     = "[%l/%L] :%c 並%p%% ", -- `:h stl` to see all flags.
+		fg              = "#000000",  -- Foreground text color.
+		bg              = "none",     -- Default background is transparent.
+		cool_symbol     = " ",       -- Change this to override defult OS icon.
+		full_path       = false
+		font_active     = "none",     -- "bold", "italic", "bold,italic", etc
+		true_colors     = false       -- true lsp colors.
 	},
 	mode_colors = {
 		n = "#2bbb4f",
@@ -77,13 +79,13 @@ require('staline').setup {
 | filename     | shows filename |
 | cool_symbol  | an icon according to the OS type (cutomizable) |
 | lsp          | lsp diagnostics (number of errors, warnings, etc) |
+| lsp_name     | lsp client name |
 | line_column  | shows line, column, percentage, etc |
 | left_sep     | single left separator |
 | right_sep    | single right separator |
-| left_sep_double    | Double left separator with a shade of gray |
+| left_sep_double     | Double left separator with a shade of gray |
 | right_sep_double    | Double right separator with a shade of gray |
 
-**PS: adding '-' to front of a section inverts the fg and bg colors.** (as seen in the default example)
 
 </details>
 
@@ -106,7 +108,7 @@ will look like:
 
 `sections = { mid = { { 'RandomHighlight', '-filename' } } }` <br />
 and then later `vim.cmd('highlight RandomHighlight guifg=#000000 guibg=#ffffff')` <br />
-or provide an already defined highlight (`LspDiagnosticsError`, `Visual`)
+or provide an already defined highlight `{LspDiagnosticsError, Visual}`
 
 </details>
 
@@ -145,14 +147,12 @@ require('staline').setup{
 ```
 > My personal config as of editing this file:
 
-<!-- ![staline.nvim](https://i.imgur.com/TCWcnP9.png) -->
 ![staline.nvim](https://i.imgur.com/7mrzpBK.png)
-<!-- https://i.imgur.com/7mrzpBK.png -->
 
 ```lua
 require'staline'.setup{
 	sections = {
-		left = {'-mode', 'left_sep_double', 'filename', '  ', 'branch'},
+		left = {'- ', '-mode', 'left_sep_double', 'filename', '  ', 'branch'},
 		mid  = {'lsp'},
 		right= { 'cool_symbol', '  ', vim.bo.fileencoding, 'right_sep_double', '-line_column'}
 	},
@@ -161,7 +161,7 @@ require'staline'.setup{
 		left_separator = "",
 		right_separator = "",
 		bg = "#303030",
-		full_path = true
+		full_path = false,
 		branch_symbol = " "
 	},
 	mode_colors = {
@@ -172,6 +172,7 @@ require'staline'.setup{
 	}
 }
 ```
+NOTE: as seen in this example, adding custom strings (like `vim.bo.fileencoding`) inside sections is possible.
 > Nvimtree, dashboard, and packer looks like this by default:
 
 ![Dashboard](https://i.imgur.com/QFaG8RQ.png) <br/>
@@ -210,7 +211,7 @@ vim.cmd [[au BufEnter,BufWinEnter,WinEnter,CmdwinEnter * if bufname('%') == "Nvi
 	        inactive_bg = "#1e2127",
 	        inactive_fg = "#aaaaaa",
 	        stab_bg     = Default is darker version of bg.,
-			font_active = "bold"
+            font_active = "bold"
 	    },
     }
     ```
@@ -232,7 +233,8 @@ require'stabline'.setup {
 </details>
 
 ### Features
-* Lightweight ( below 150 LOC each) and Fast.
+* Lightweight ( below **150 LOC** each)
+* Fast (staline+stabline took **< 1ms** from packers profiling method).
 * Unicode current mode info. Needs a Nerd Font to be installed.
 * Shows current git branch if [plenary](https://github.com/nvim-lua/plenary.nvim) is installed.
 * Uses [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons) if installed, else uses a default table.
@@ -251,8 +253,10 @@ require'stabline'.setup {
 
 ### TODO
 
-- [x] Include more filetype support.
+- [x] ~Include more filetype support.~
 - [x] User configuration options. Needs more work.
 - [x] Git info. Only branch info for now, *(or ever)*
 - [x] Adding "opt-in" bufferline function.
-- [x] Add config options for tabline.
+- [x] Add config options for bufferline.
+- [ ] lsp client name in staline.
+- [ ] buf numbers in stabline.
