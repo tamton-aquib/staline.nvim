@@ -2,6 +2,7 @@ Stabline = {}
 local cmd = vim.api.nvim_command
 
 local type_chars={ bar={left="┃", right=" "}, slant={left="", right=""}, arrow={left="", right=""}, bubble={left="", right=""} }
+-- NOTE: options: inactive_fg, inactive_bg, fg, bg, start, style, stab_left, stab_right, font_active, font_inactive, stab_bg
 
 local normal_bg = vim.api.nvim_get_hl_by_name("Normal", {})['background'] or 255
 local normal_fg = vim.api.nvim_get_hl_by_name("Normal", {})['foreground'] or 0
@@ -44,7 +45,6 @@ function Stabline.call_stabline_colors()
 	cmd('hi StablineInactive guifg='..inactive_fg..' guibg='..inactive_bg..' gui='..(opts.font_inactive or 'none'))
 	cmd('hi StablineSepInactiveRight guifg='..set_inactive.right.f..' guibg='..set_inactive.right.b)
 	cmd('hi StablineSepInactiveLeft guifg='..set_inactive.left.f..' guibg='..set_inactive.left.b)
-
 end
 
 local function get_file_icon(f_name, ext)
@@ -65,7 +65,7 @@ function Stabline.get_tabline()
 	local stab_type = opts.style or "bar"
 	local stab_left = opts.stab_left or type_chars[stab_type].left
 	local stab_right= opts.stab_right or  type_chars[stab_type].right
-	local tabline = opts.start or ""
+	local tabline = opts.start or "%#Stabline#"
 
 	for _, buf in pairs(vim.api.nvim_list_bufs()) do
 		if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) then
@@ -77,22 +77,21 @@ function Stabline.get_tabline()
 
 			if f_name == 'NvimTree' or f_name == '' then
 				goto do_nothing
-			elseif f_name ~= nil then
-				f_name = " "..f_name.."  "
 			else
-				f_name = ""
+				f_name = " "..f_name.." "
 			end
+
+			do_icon_hl(icon_hl)
 
 			if vim.api.nvim_get_current_buf() == buf then
 				if buf == 1 and stab_type == "arrow" then stab_left = " " end
 				tabline = tabline.."%#StablineLeft#"..stab_left.."%#StablineSel# "..
-				"%#StablineTempHighlight#"..f_icon.."%#StablineSel#"..
-				f_name..edited.."%#StablineRight#"..stab_right
+				"%#StablineTempHighlight#"..f_icon.."%#StablineSel#"..  f_name..
+				edited.."%#StablineRight#"..stab_right
 			else
 				tabline = tabline.."%#StablineSepInactiveLeft#"..stab_left.."%#StablineInactive# "..
 				f_icon.."%#StablineInactive#".. f_name.."%#StablineSepInactiveRight#"..stab_right
 			end
-			do_icon_hl(icon_hl)
 		end
 		::do_nothing::
 	end
@@ -101,4 +100,3 @@ function Stabline.get_tabline()
 end
 
 return Stabline
-

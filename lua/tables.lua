@@ -13,6 +13,9 @@ Tables = {
 		mid  = {'filename'},
 		right = { 'cool_symbol','right_sep_double', '-line_column'}
 	},
+
+	lsp_symbols = {Error=" ", Information=" ", Warning=" ", Hint=""},
+
 	defaults = {
 		left_separator = "",
 		right_separator = "",
@@ -24,6 +27,7 @@ Tables = {
 		branch_symbol = " ",
 		inactive_color = "#303030",
 		font_active = "none",
+		true_colors = false
 		-- filename_section = "center",
 	},
 

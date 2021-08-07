@@ -18,8 +18,7 @@ function M.setup(opts)
 	end
 
 	vim.cmd [[au BufEnter,BufWinEnter,WinEnter * lua require'staline'.set_statusline()]]
-	vim.cmd [[au BufEnter * lua require'staline'.update_branch()]]
-	vim.cmd [[au ColorScheme * lua require'staline'.get_lsp()]]
+	vim.cmd [[au BufEnter,WinEnter * lua require'staline'.update_branch()]]
 end
 
 function M.update_branch()
@@ -29,7 +28,7 @@ function M.update_branch()
 		command = 'git', args = { 'branch', '--show-current' },
 	}):sync()[1]
 
-	M.Branch = branch_name and t.branch_symbol..branch_name or ""
+	M.Branch_name =  branch_name and t.branch_symbol..branch_name or ""
 end
 
 local function get_file_icon(f_name, ext)
@@ -47,14 +46,15 @@ local function call_highlights(modeColor)
 end
 
 function M.get_lsp()
-	local get = vim.lsp.diagnostic.get_count
 	local lsp_details = ""
-	for diag, sign in pairs({Error=" ", Information=" ", Warning=" ", Hint=""}) do
-		local number = get(0, diag) > 0 and " "..sign..get(0, diag) or ""
+	for type, sign in pairs(Tables.lsp_symbols or {}) do
+		local count = vim.lsp.diagnostic.get_count(0, type)
+		local hl = t.true_colors and "%#LspDiagnosticsDefault"..type.."#" or " "
+		local number = count > 0 and hl..sign..count.." " or ""
 		lsp_details = lsp_details..number
 	end
 
-    return lsp_details
+	return lsp_details
 end
 
 local function client_name()
@@ -93,17 +93,17 @@ function M.get_statusline(status)
 		return "%#StalineInvert#%="..roger[2]..roger[1].."%="
 	end
 
-	M.sections['mode']        = (" "..Tables.mode_icons[mode].." ") or "  "
-	M.sections['branch']      = " "..M.Branch.." "
-	M.sections['filename']    = " "..f_icon.." "..f_name..edited.." "
-	M.sections['cool_symbol'] = " "..t.cool_symbol.." "
-	M.sections['line_column'] = " "..t.line_column.." "
-	M.sections['left_sep']    = t.left_separator
-	M.sections['right_sep']   = t.right_separator
+	M.sections['mode']             = (" "..Tables.mode_icons[mode].." ") or "  "
+	M.sections['branch']           = " "..M.Branch_name.." "
+	M.sections['filename']         = " "..f_icon.." "..f_name..edited.." "
+	M.sections['cool_symbol']      = " "..t.cool_symbol.." "
+	M.sections['line_column']      = " "..t.line_column.." "
+	M.sections['left_sep']         = t.left_separator
+	M.sections['right_sep']        = t.right_separator
 	M.sections['left_sep_double']  = "%#DoubleSep#"..t.left_separator.."%#MidSep#"..t.left_separator
 	M.sections['right_sep_double'] = "%#MidSep#"..t.right_separator.."%#DoubleSep#"..t.right_separator
-	M.sections['lsp']         = M.get_lsp()
-	M.sections['client_name'] = client_name()
+	M.sections['lsp']              = M.get_lsp()
+	M.sections['lsp_name']         = client_name()
 
 	local staline = ""
 	for _, major in pairs({ 'left', 'mid', 'right'}) do
