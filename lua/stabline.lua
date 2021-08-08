@@ -87,7 +87,7 @@ function Stabline.get_tabline()
 			"%#Stabline"..(s and "" or "Inactive").."Left#"..stab_left..
 			"%#Stabline"..(s and "Sel" or "Inactive").."#   "..
 			(s and do_icon_hl(icon_hl) or "")..f_icon..
-			"%#Stabline"..(s and "Sel" or "Inactive").."#"..f_name.." "..(s and edited or " ")
+			"%#Stabline"..(s and "Sel" or "Inactive").."#"..f_name.." "..(s and edited or " ")..
 			"%#Stabline"..(s and "" or "Inactive").."Right#"..stab_right
 		end
 		::do_nothing::
