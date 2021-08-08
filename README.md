@@ -41,11 +41,6 @@ require('staline').setup{}
 
 ```lua
 require('staline').setup {
-	sections = {
-		left = { '- ', '-mode', 'left_sep_double', ' ', 'branch', 'lsp' },
-		mid  = { 'filename' },
-		right = { 'cool_symbol','right_sep_double', '-line_column' }
-	}, -- check highlights section in readme to know what "-" means
 	defaults = {
 		left_separator  = "",
 		right_separator = "",
@@ -68,7 +63,12 @@ require('staline').setup {
 		i = " ",
 		c = " ",
 		v = " ",   -- etc..
-	}
+	},
+	sections = {
+		left = { '- ', '-mode', 'left_sep_double', ' ', 'branch', 'lsp' },
+		mid  = { 'filename' },
+		right = { 'cool_symbol','right_sep_double', '-line_column' }
+	}    -- check highlights section in readme to know what "-" means
 }
 ```
 </details>
