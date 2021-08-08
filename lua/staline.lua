@@ -45,7 +45,7 @@ local function call_highlights(modeColor)
 	vim.cmd('hi StalineInvert guifg='..modeColor..' guibg='..t.bg)
 end
 
-function M.get_lsp()
+local function get_lsp()
 	local lsp_details = ""
 	for type, sign in pairs(Tables.lsp_symbols or {}) do
 		local count = vim.lsp.diagnostic.get_count(0, type)
@@ -102,7 +102,7 @@ function M.get_statusline(status)
 	M.sections['right_sep']        = t.right_separator
 	M.sections['left_sep_double']  = "%#DoubleSep#"..t.left_separator.."%#MidSep#"..t.left_separator
 	M.sections['right_sep_double'] = "%#MidSep#"..t.right_separator.."%#DoubleSep#"..t.right_separator
-	M.sections['lsp']              = M.get_lsp()
+	M.sections['lsp']              = get_lsp()
 	M.sections['lsp_name']         = client_name()
 
 	local staline = ""
