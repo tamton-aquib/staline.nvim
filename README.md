@@ -22,10 +22,14 @@ But separate setup() is required for each to load up.
 # Statusline
 
 #### Screenshots
-![normal](https://i.imgur.com/ZBwqI5I.png)
-![insert](https://i.imgur.com/9ADMkb7.png)
-![visual](https://i.imgur.com/q85p45c.png)
-![command](https://i.imgur.com/F9cPtMx.png)
+![normal](https://i.imgur.com/LFmEROF.png)
+![insert](https://i.imgur.com/rzqMwXU.png)
+![command](https://i.imgur.com/jDuOdpK.png)
+![visual](https://i.imgur.com/dO1pKaj.png)
+<!-- ![normal](https://i.imgur.com/ZBwqI5I.png) -->
+<!-- ![insert](https://i.imgur.com/9ADMkb7.png) -->
+<!-- ![visual](https://i.imgur.com/q85p45c.png) -->
+<!-- ![command](https://i.imgur.com/F9cPtMx.png) -->
 
 
 #### Configuration
@@ -234,7 +238,7 @@ require'stabline'.setup {
 
 ### Features
 * Lightweight ( below **150 LOC** each)
-* Fast (staline+stabline took **< 1ms** from packers profiling method).
+* Fast. staline+stabline took **< 1ms**. (packers profiling)
 * Unicode current mode info. Needs a Nerd Font to be installed.
 * Shows current git branch if [plenary](https://github.com/nvim-lua/plenary.nvim) is installed.
 * Uses [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons) if installed, else uses a default table.
