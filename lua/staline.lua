@@ -17,7 +17,7 @@ function M.setup(opts)
 		for k1,v1 in pairs(opts[k]) do Tables[k][k1] = v1 end
 	end
 
-	vim.cmd [[au BufEnter,BufWinEnter,WinEnter,FileType * lua require'staline'.set_statusline()]]
+	vim.cmd [[au BufEnter,BufWinEnter,WinEnter,BufReadPost * lua require'staline'.set_statusline()]]
 	vim.cmd [[au BufEnter,WinEnter * lua require'staline'.update_branch()]]
 end
 
