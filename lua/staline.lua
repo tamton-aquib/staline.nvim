@@ -18,7 +18,7 @@ function M.setup(opts)
 	end
 
 	vim.cmd [[au BufEnter,BufWinEnter,WinEnter,BufReadPost * lua require'staline'.set_statusline()]]
-	vim.cmd [[au BufEnter,WinEnter * lua require'staline'.update_branch()]]
+	vim.cmd [[au BufEnter,WinEnter,BufWinEnter,BufReadPost * lua require'staline'.update_branch()]]
 end
 
 function M.update_branch()
