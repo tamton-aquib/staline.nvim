@@ -58,13 +58,13 @@ Tables = {
 	['']  = ' ',
 
 	-- taken from lualine
-	['no']   = 'O-PENDING',
-	['nov']  = 'O-PENDING',
-	['noV']  = 'O-PENDING',
-	['no'] = 'O-PENDING',
-	['niI']  = 'NORMAL',
-	['niR']  = 'NORMAL',
-	['niV']  = 'NORMAL',
+	['no']   = ' ',
+	['nov']  = ' ',
+	['noV']  = ' ',
+	['no'] = ' ',
+	['niI']  = ' ',
+	['niR']  = ' ',
+	['niV']  = ' ',
     },
 
     file_icons = {
