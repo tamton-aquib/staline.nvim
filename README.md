@@ -110,7 +110,7 @@ will look like:
 
 <li> If you want a specific highlight for a single section, specify it as a table like { highlight, section } </li>
 
-`sections = { mid = { { 'RandomHighlight', '-filename' } } }` <br />
+`sections = { mid = { { 'RandomHighlight', 'filename' } } }` <br />
 and then later `vim.cmd('highlight RandomHighlight guifg=#000000 guibg=#ffffff')` <br />
 or provide an already defined highlight `{LspDiagnosticsError, Visual}`
 
