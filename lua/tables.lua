@@ -9,7 +9,7 @@ end
 
 Tables = {
 	sections = {
-		left = {'- ', '-mode', 'left_sep_double', ' ', 'branch', 'lsp'},
+		left = {'- ', '-mode', 'left_sep_double', ' ', 'branch'},
 		mid  = {'filename'},
 		right = { 'cool_symbol','right_sep_double', '-line_column'}
 	},

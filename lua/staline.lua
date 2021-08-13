@@ -85,6 +85,7 @@ function M.get_statusline(status)
 	local f_name = t.full_path and '%F' or '%t'
 	local f_icon = get_file_icon(vim.fn.expand('%:t'), vim.fn.expand('%:e'))
 	local edited = vim.bo.mod and "  " or ""
+	local size = string.format("%.1f", vim.fn.getfsize(vim.api.nvim_buf_get_name(0))/1024)
 
 	call_highlights(modeColor)
 
@@ -96,6 +97,7 @@ function M.get_statusline(status)
 	M.sections['mode']             = (" "..Tables.mode_icons[mode].." ") or "  "
 	M.sections['branch']           = " "..(M.Branch_name or "").." "
 	M.sections['filename']         = " "..f_icon.." "..f_name..edited.." "
+	M.sections['file_size']        = " " ..size.. " "
 	M.sections['cool_symbol']      = " "..t.cool_symbol.." "
 	M.sections['line_column']      = " "..t.line_column.." "
 	M.sections['left_sep']         = t.left_separator

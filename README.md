@@ -65,7 +65,7 @@ require('staline').setup {
 		v = " ",   -- etc..
 	},
 	sections = {
-		left = { '- ', '-mode', 'left_sep_double', ' ', 'branch', 'lsp' },
+		left = { '- ', '-mode', 'left_sep_double', ' ', 'branch' },
 		mid  = { 'filename' },
 		right = { 'cool_symbol','right_sep_double', '-line_column' }
 	}    -- check highlights section in readme to know what "-" means
@@ -81,6 +81,7 @@ require('staline').setup {
 | mode         | shows the mode       |
 | branch       | shows git branch |
 | filename     | shows filename |
+| file_size    | shows file size |
 | cool_symbol  | an icon according to the OS type (cutomizable) |
 | lsp          | lsp diagnostics (number of errors, warnings, etc) |
 | lsp_name     | lsp client name |
@@ -89,6 +90,8 @@ require('staline').setup {
 | right_sep    | single right separator |
 | left_sep_double     | Double left separator with a shade of gray |
 | right_sep_double    | Double right separator with a shade of gray |
+
+NOTE: lsp, lsp_name, file_size are not included in the default settings.
 
 
 </details>
