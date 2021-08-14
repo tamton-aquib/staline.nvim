@@ -66,7 +66,7 @@ require('staline').setup {
 	},
 	sections = {
 		left = { '- ', '-mode', 'left_sep_double', ' ', 'branch' },
-		mid  = { 'filename' },
+		mid  = { 'file_name' },
 		right = { 'cool_symbol','right_sep_double', '-line_column' }
 	}    -- check highlights section in readme to know what "-" means
 }
@@ -80,8 +80,8 @@ require('staline').setup {
 |---------|-----|
 | mode         | shows the mode       |
 | branch       | shows git branch |
-| filename     | shows filename |
-| file_size    | shows file size |
+| file_name     | shows filename |
+| file_size     | shows file size |
 | cool_symbol  | an icon according to the OS type (cutomizable) |
 | lsp          | lsp diagnostics (number of errors, warnings, etc) |
 | lsp_name     | lsp client name |
@@ -102,18 +102,18 @@ NOTE: lsp, lsp_name, file_size are not included in the default settings.
 <li> The `-` in front of sections inverts the color of that section. </li>
 
 Example:
-`sections = { mid = { 'filename' } }`
+`sections = { mid = { 'file_name' } }`
 will look like: <br />
 ![highilight_example](https://i.imgur.com/rp0Vei4.png)
 
 now, adding `-` at the beginning:
-`sections = { mid = { '-filename' } }`
+`sections = { mid = { '-file_name' } }`
 will look like:
 ![highlight_example2](https://i.imgur.com/mhXa9Ku.png)
 
 <li> If you want a specific highlight for a single section, specify it as a table like { highlight, section } </li>
 
-`sections = { mid = { { 'RandomHighlight', '-filename' } } }` <br />
+`sections = { mid = { { 'RandomHighlight', '-file_name' } } }` <br />
 and then later `vim.cmd('highlight RandomHighlight guifg=#000000 guibg=#ffffff')` <br />
 or provide an already defined highlight `{LspDiagnosticsError, Visual}`
 
@@ -159,7 +159,7 @@ require('staline').setup{
 ```lua
 require'staline'.setup{
 	sections = {
-		left = {'- ', '-mode', 'left_sep_double', 'filename', '  ', 'branch'},
+		left = {'- ', '-mode', 'left_sep_double', 'file_name', '  ', 'branch'},
 		mid  = {'lsp'},
 		right= { 'cool_symbol', '  ', vim.bo.fileencoding, 'right_sep_double', '-line_column'}
 	},
