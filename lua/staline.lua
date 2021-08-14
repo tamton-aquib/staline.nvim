@@ -97,7 +97,7 @@ function M.get_statusline(status)
 	M.sections['mode']             = (" "..Tables.mode_icons[mode].." ") or "  "
 	M.sections['branch']           = " "..(M.Branch_name or "").." "
 	M.sections['filename']         = " "..f_icon.." "..f_name..edited.." "
-	M.sections['file_size']        = " " ..size.. " "
+	M.sections['file_size']        = " " ..size.. "k "
 	M.sections['cool_symbol']      = " "..t.cool_symbol.." "
 	M.sections['line_column']      = " "..t.line_column.." "
 	M.sections['left_sep']         = t.left_separator
