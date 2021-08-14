@@ -21,6 +21,7 @@ function M.setup(opts)
 	vim.cmd [[au BufEnter,WinEnter * lua require'staline'.update_branch()]]
 end
 
+-- PERF: git command for branch_name according to file location instead of cwd
 function M.update_branch()
 	if not pcall(require, 'plenary') then return "" end
 
@@ -57,12 +58,14 @@ local function get_lsp()
 	return lsp_details
 end
 
+-- TODO: need to make this clean
 local function client_name()
 	for _, name in pairs(vim.lsp.get_active_clients()) do
 		return name == vim.bo.ft and "" or name.name
 	end
 end
 
+-- TODO: should this be changed to {'section', fg, bg} ?
 local function check_section(section)
 	if type(section) == 'string' then
 		if string.match(section, "^-") then
@@ -83,8 +86,10 @@ function M.get_statusline(status)
 	local modeColor = status and Tables.mode_colors[mode] or t.inactive_color
 
 	local f_name = t.full_path and '%F' or '%t'
+	-- TODO: original color of icon
 	local f_icon = get_file_icon(vim.fn.expand('%:t'), vim.fn.expand('%:e'))
 	local edited = vim.bo.mod and "  " or ""
+	-- TODO: need to support b, or mb
 	local size = string.format("%.1f", vim.fn.getfsize(vim.api.nvim_buf_get_name(0))/1024)
 
 	call_highlights(modeColor)
@@ -96,7 +101,7 @@ function M.get_statusline(status)
 
 	M.sections['mode']             = (" "..Tables.mode_icons[mode].." ") or "  "
 	M.sections['branch']           = " "..(M.Branch_name or "").." "
-	M.sections['file_name']         = " "..f_icon.." "..f_name..edited.." "
+	M.sections['file_name']        = " "..f_icon.." "..f_name..edited.." "
 	M.sections['file_size']        = " " ..size.. "k "
 	M.sections['cool_symbol']      = " "..t.cool_symbol.." "
 	M.sections['line_column']      = " "..t.line_column.." "
