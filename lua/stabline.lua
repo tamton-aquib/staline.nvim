@@ -76,7 +76,7 @@ function Stabline.get_tabline()
 			local ext = string.match(f_name, "%w+%.(.+)")
 			local f_icon, icon_hl = get_file_icon(f_name, ext)
 
-			if vim.tbl_contains(exclude_fts, vim.bo[buf].ft) then
+			if vim.tbl_contains(exclude_fts, vim.bo[buf].ft) or f_name == "" then
 				goto do_nothing
 			else
 				f_name = " ".. f_name .." "
