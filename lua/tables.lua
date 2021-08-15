@@ -8,11 +8,11 @@ local function system_icon()
 end
 
 Tables = {
-    sections = {
-	left = {'- ', '-mode', 'left_sep_double', ' ', 'branch', 'lsp'},
-	mid  = {'filename'},
-	right = { 'cool_symbol','right_sep_double', '-line_column'}
-    },
+	sections = {
+		left = {'- ', '-mode', 'left_sep_double', ' ', 'branch'},
+		mid  = {'file_name'},
+		right = { 'cool_symbol','right_sep_double', '-line_column'}
+	},
 
     lsp_symbols = {Error=" ", Information=" ", Warning=" ", Hint=""},
 

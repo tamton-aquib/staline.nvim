@@ -62,6 +62,7 @@ end
 
 function Stabline.get_tabline()
 	local opts = Stabline.stabline_opts
+	local exclude_fts = opts.exclude_fts or {'NvimTree', 'help', 'dashboard', 'lir'}
 	local stab_type = opts.style or "bar"
 	local stab_left = opts.stab_left or type_chars[stab_type].left
 	local stab_right= opts.stab_right or type_chars[stab_type].right
@@ -75,10 +76,10 @@ function Stabline.get_tabline()
 			local ext = string.match(f_name, "%w+%.(.+)")
 			local f_icon, icon_hl = get_file_icon(f_name, ext)
 
-			if f_name == 'NvimTree' or f_name == '' then
+			if vim.tbl_contains(exclude_fts, vim.bo[buf].ft) or f_name == "" then
 				goto do_nothing
 			else
-				f_name = " "..f_name.." "
+				f_name = " ".. f_name .." "
 			end
 
 			local s = vim.api.nvim_get_current_buf() == buf and true or false
