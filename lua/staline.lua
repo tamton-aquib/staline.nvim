@@ -48,6 +48,7 @@ end
 
 local function get_lsp()
 	local lsp_details = ""
+
 	for type, sign in pairs(Tables.lsp_symbols or {}) do
 		local count = vim.lsp.diagnostic.get_count(0, type)
 		local hl = t.true_colors and "%#LspDiagnosticsDefault"..type.."#" or " "
@@ -58,10 +59,9 @@ local function get_lsp()
 	return lsp_details
 end
 
--- TODO: need to make this clean
-local function client_name()
-	for _, name in pairs(vim.lsp.get_active_clients()) do
-		return name == vim.bo.ft and "" or name.name
+local function lsp_client_name()
+	for _, name in ipairs(vim.lsp.get_active_clients()) do
+		return name.name == vim.bo.ft and "" or t.lsp_client_symbol..name.name
 	end
 end
 
@@ -110,10 +110,10 @@ function M.get_statusline(status)
 	M.sections['left_sep_double']  = "%#DoubleSep#"..t.left_separator.."%#MidSep#"..t.left_separator
 	M.sections['right_sep_double'] = "%#MidSep#"..t.right_separator.."%#DoubleSep#"..t.right_separator
 	M.sections['lsp']              = get_lsp()
-	M.sections['lsp_name']         = client_name()
+	M.sections['lsp_name']         = lsp_client_name()
 
 	local staline = ""
-	for _, major in pairs({ 'left', 'mid', 'right'}) do
+	for _, major in ipairs({ 'left', 'mid', 'right'}) do
 		for _, section in pairs(Tables.sections[major]) do
 			staline = staline .. check_section(section).."%#StalineNone#"
 		end

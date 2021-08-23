@@ -16,19 +16,20 @@ Tables = {
 
     lsp_symbols = {Error=" ", Information=" ", Warning=" ", Hint=""},
 
-    defaults = {
-	left_separator = "",
-	right_separator = "",
-	line_column = " [%l/%L] :%c 並%p%% ",
-	cool_symbol = system_icon(),
-	fg = "#000000",
-	bg = "none",
-	full_path = false,
-	branch_symbol = " ",
-	inactive_color = "#303030",
-	font_active = "none",          -- bold,italic etc.
-	true_colors = false
-    },
+	defaults = {
+		left_separator = "",
+		right_separator = "",
+		line_column = " [%l/%L] :%c 並%p%% ",
+		cool_symbol = system_icon(),
+		fg = "#000000",
+		bg = "none",
+		full_path = false,
+		branch_symbol = " ",
+		inactive_color = "#303030",
+		font_active = "none",          -- bold,italic etc.
+		true_colors = false,
+		lsp_client_symbol = " "
+	},
 
     special_table = {NvimTree = {'NvimTree', ' '}, packer = {'Packer',' '}, dashboard = {'Dashboard', '  '}, help = {'Help', '龎'}},
 
