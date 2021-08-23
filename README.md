@@ -37,7 +37,7 @@ But separate setup() is required for each to load up.
 require('staline').setup{}
 ```
 <details>
-<summary> The Default configuration looks something like: </summary>
+<summary> Click to see default configuration </summary>
 
 ```lua
 require('staline').setup {
@@ -68,13 +68,12 @@ require('staline').setup {
 		left = { '- ', '-mode', 'left_sep_double', ' ', 'branch' },
 		mid  = { 'file_name' },
 		right = { 'cool_symbol','right_sep_double', '-line_column' }
-	}    -- check highlights section in readme to know what "-" means
+	}
 }
 ```
 </details>
 
-<details>
-<summary> All sections: </summary>
+#### Sections:
 
 | section | use |
 |---------|-----|
@@ -91,107 +90,9 @@ require('staline').setup {
 | left_sep_double     | Double left separator with a shade of gray |
 | right_sep_double    | Double right separator with a shade of gray |
 
-NOTE: lsp, lsp_name, file_size are not included in the default settings.
+> `lsp`, `lsp_name`, `file_size` are not included in the default settings.
 
-
-</details>
-
-<details>
-<summary> Highlights: </summary>
-<br />
-<li> The `-` in front of sections inverts the color of that section. </li>
-
-Example:
-`sections = { mid = { 'file_name' } }`
-will look like: <br />
-![highilight_example](https://i.imgur.com/rp0Vei4.png)
-
-now, adding `-` at the beginning:
-`sections = { mid = { '-file_name' } }`
-will look like:
-![highlight_example2](https://i.imgur.com/mhXa9Ku.png)
-
-<li> If you want a specific highlight for a single section, specify it as a table like { highlight, section } </li>
-
-`sections = { mid = { { 'RandomHighlight', '-file_name' } } }` <br />
-and then later `vim.cmd('highlight RandomHighlight guifg=#000000 guibg=#ffffff')` <br />
-or provide an already defined highlight `{LspDiagnosticsError, Visual}`
-
-</details>
-
-<details>
-<summary> Some useful config Ideas: </summary>
-
-> Create color value tables to match your current colorscheme.
-```lua
-local gruvbox = {
-    n = "#a89985",
-    i = "#84a598",
-    c = "#8fbf7f",
-    v = "#fc802d",    -- etc...
-}
-
--- Assign this table as mode_colors
-require('staline').setup{
-	mode_colors = gruvbox
-}
-```
-> Use non-unicode characters for showing modes.
-```lua
-local no_unicode_modes = {
-    n = "N ",
-    i = "I ",
-    c = "C ",
-    v = "V ",    -- etc...
-}
-
--- Assign this table as mode_icons.
-require('staline').setup{
-	mode_icons = no_unicode_modes
-}
-
--- You could change the seperators too if you want.
-```
-> My personal config as of editing this file:
-
-![staline.nvim](https://i.imgur.com/7mrzpBK.png)
-
-```lua
-require'staline'.setup{
-	sections = {
-		left = {'- ', '-mode', 'left_sep_double', 'file_name', '  ', 'branch'},
-		mid  = {'lsp'},
-		right= { 'cool_symbol', '  ', vim.bo.fileencoding, 'right_sep_double', '-line_column'}
-	},
-	defaults = {
-		cool_symbol = "  ",
-		left_separator = "",
-		right_separator = "",
-		bg = "#303030",
-		full_path = false,
-		branch_symbol = " "
-	},
-	mode_colors = {
-		n = "#986fec",
-		i = "#e86671",
-		ic= "#e86671",
-		c = "#e27d60"
-	}
-}
-```
-NOTE: as seen in this example, adding custom strings (like `vim.bo.fileencoding`) inside sections is possible.
-> Nvimtree, dashboard, and packer looks like this by default:
-
-![Dashboard](https://i.imgur.com/QFaG8RQ.png) <br/>
-![NvimTree](https://i.imgur.com/UNVxzRA.png) <br/>
-![Packer](https://i.imgur.com/IPwTlFj.png) <br/>
-
-To turn off staline in NvimTree, set this line in init.lua (from [this issue](https://github.com/glepnir/galaxyline.nvim/issues/178))
-```lua
-vim.cmd [[au BufEnter,BufWinEnter,WinEnter,CmdwinEnter * if bufname('%') == "NvimTree" | set laststatus=0 | else | set laststatus=2 | endif]]
-```
-
-</details>
+See [wiki](https://github.com/tamton-aquib/staline.nvim/wiki) to know more
 
 # Bufferline
 

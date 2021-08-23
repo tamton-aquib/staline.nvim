@@ -27,7 +27,8 @@ Tables = {
 		branch_symbol = " ",
 		inactive_color = "#303030",
 		font_active = "none",          -- bold,italic etc.
-		true_colors = false
+		true_colors = false,
+		lsp_client_symbol = " "
 	},
 
 	special_table = {NvimTree = {'NvimTree', ' '}, packer = {'Packer',' '}, dashboard = {'Dashboard', '  '}, help = {'Help', '龎'}},
