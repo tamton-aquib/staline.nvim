@@ -66,7 +66,7 @@ function Stabline.get_tabline()
 	local stab_type = opts.style or "bar"
 	local stab_left = opts.stab_left or type_chars[stab_type].left
 	local stab_right= opts.stab_right or type_chars[stab_type].right
-	local tabline = opts.start and ("%#Stabline#"..opts.start) or "%#Stabline#"
+	local tabline = opts.stab_start and ("%#Stabline#"..opts.stab_start) or "%#Stabline#"
 
 	for _, buf in pairs(vim.api.nvim_list_bufs()) do
 		if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) then
