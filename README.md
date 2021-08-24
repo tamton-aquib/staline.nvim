@@ -92,7 +92,7 @@ require('staline').setup {
 
 > `lsp`, `lsp_name`, `file_size` are not included in the default settings.
 
-See [wiki](https://github.com/tamton-aquib/staline.nvim/wiki) to know more
+Check out [wiki](https://github.com/tamton-aquib/staline.nvim/wiki) to see some premade configs and tips.
 
 # Bufferline
 
