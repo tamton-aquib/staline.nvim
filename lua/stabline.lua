@@ -94,7 +94,7 @@ function Stabline.get_tabline()
 		::do_nothing::
 	end
 
-	return tabline.."%#Stabline#"
+	return tabline.."%#Stabline#%="..(opts.stab_end or "")
 end
 
 return Stabline
