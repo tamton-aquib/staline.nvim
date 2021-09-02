@@ -66,7 +66,7 @@ local function lsp_client_name()
 end
 
 -- TODO: should this be changed to {'section', fg, bg} ?
-local function check_section(section)
+local function parse_section(section)
 	if type(section) == 'string' then
 		if string.match(section, "^-") then
 			section = section:match("^-(.+)")
@@ -74,6 +74,8 @@ local function check_section(section)
 		else
 			return "%#StalineInvert#"..(M.sections[section] or section)
 		end
+	elseif type(section) == 'function' then
+		return "%#StalineInvert#"..section()
 	else
 		return "%#"..section[1].."#"..(M.sections[section[2]] or section[2])
 	end
@@ -115,7 +117,7 @@ function M.get_statusline(status)
 	local staline = ""
 	for _, major in ipairs({ 'left', 'mid', 'right'}) do
 		for _, section in pairs(Tables.sections[major]) do
-			staline = staline .. check_section(section).."%#StalineNone#"
+			staline = staline .. parse_section(section).."%#StalineNone#"
 		end
 		if major ~= 'right' then staline = staline .. "%=" end
 	end
