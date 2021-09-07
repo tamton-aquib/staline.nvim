@@ -86,6 +86,7 @@ function M.get_statusline(status)
 
 	local mode = vim.api.nvim_get_mode()['mode']
 	local modeColor = status and Tables.mode_colors[mode] or t.inactive_color
+	local modeIcon = Tables.mode_icons[mode] or ""
 
 	local f_name = t.full_path and '%F' or '%t'
 	-- TODO: original color of icon
@@ -101,7 +102,7 @@ function M.get_statusline(status)
 		return "%#StalineInvert#%="..roger[2]..roger[1].."%="
 	end
 
-	M.sections['mode']             = (" "..Tables.mode_icons[mode].." ") or "  "
+	M.sections['mode']             = (" "..modeIcon.." ")
 	M.sections['branch']           = " "..(M.Branch_name or "").." "
 	M.sections['file_name']        = " "..f_icon.." "..f_name..edited.." "
 	M.sections['file_size']        = " " ..size.. "k "
