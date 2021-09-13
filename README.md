@@ -92,7 +92,8 @@ require('staline').setup {
 
 > `lsp`, `lsp_name`, `file_size` are not included in the default settings.
 
-Check out [wiki](https://github.com/tamton-aquib/staline.nvim/wiki) to see some premade configs and tips.
+Check out [wiki](https://github.com/tamton-aquib/staline.nvim/wiki) to see some premade configs and tips. <br />
+To know more about colors and highlights, check [highlights wiki](https://github.com/tamton-aquib/staline.nvim/wiki/Highlights)
 
 # Bufferline
 
@@ -109,20 +110,20 @@ Check out [wiki](https://github.com/tamton-aquib/staline.nvim/wiki) to see some 
 	```
 * The Default configuration looks something like:
     ```lua
-    require('stabline').setup {
-	    defaults = {
-	        style       = "bar", -- others: arrow, slant, bubble
-	        stab_left   = "┃",   -- 😬
-	        stab_right  = " ",
-	        fg          = Default is fg of "Normal".
-	        bg          = Default is bg of "Normal".
-	        inactive_bg = "#1e2127",
-	        inactive_fg = "#aaaaaa",
-	        stab_bg     = Default is darker version of bg.,
-            font_active = "bold",
+	require('stabline').setup {
+		defaults = {
+			style       = "bar", -- others: arrow, slant, bubble
+			stab_left   = "┃",   -- 😬
+			stab_right  = " ",
+			fg          = Default is fg of "Normal".
+			bg          = Default is bg of "Normal".
+			inactive_bg = "#1e2127",
+			inactive_fg = "#aaaaaa",
+			stab_bg     = Default is darker version of bg.,
+			font_active = "bold",
 			exclude_fts = {'NvimTree', 'dashboard', 'lir'}
-	    },
-    }
+		},
+	}
     ```
 <details>
 

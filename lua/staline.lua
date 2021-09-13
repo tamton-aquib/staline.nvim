@@ -116,7 +116,7 @@ function M.get_statusline(status)
 	M.sections['lsp_name']         = lsp_client_name()
 
 	local staline = ""
-	for _, major in ipairs({ 'left', 'mid', 'right'}) do
+	for _, major in ipairs({ 'left', 'mid', 'right' }) do
 		for _, section in pairs(Tables.sections[major]) do
 			staline = staline .. parse_section(section).."%#StalineNone#"
 		end
