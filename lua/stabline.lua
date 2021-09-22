@@ -1,4 +1,4 @@
-Stabline = {}
+local Stabline = {}
 local cmd = vim.api.nvim_command
 
 local type_chars={ bar={left="┃", right=" "}, slant={left="", right=""}, arrow={left="", right=""}, bubble={left="", right=""} }

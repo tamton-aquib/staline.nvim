@@ -1,4 +1,4 @@
-M = {}
+local M = {}
 local Tables = require('tables')
 local t =  Tables.defaults
 
