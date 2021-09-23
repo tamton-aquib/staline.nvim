@@ -31,7 +31,13 @@ Tables = {
 		lsp_client_symbol = " "
 	},
 
-	special_table = {NvimTree = {'NvimTree', ' '}, packer = {'Packer',' '}, dashboard = {'Dashboard', '  '}, help = {'Help', '龎'}},
+	special_table = {
+		NvimTree = { 'NvimTree', ' ' },
+		packer = { 'Packer',' ' },
+		dashboard = { 'Dashboard', '  ' },
+		help = { 'Help', '龎' },
+		qf = { "QuickFix", " " }
+	},
 
 	mode_colors = {
 		['n']    =  "#2bbb4f", --> "#6ed57e"
@@ -59,20 +65,20 @@ Tables = {
 		['niV']  = ' ',
 
 		['i']   = ' ',
-		['s']   = ' ',
-		['S']   = ' ',
 		['ic']  = ' ',
 		['ix']  = ' ',
+		['s']   = ' ',
+		['S']   = ' ',
 
 		['v']   = ' ',
 		['V']   = ' ',
-		['c']   = ' ',
+		['']  = ' ',
 		['r']   = '﯒ ',
 		['r?']  = ' ',
+		['c']   = ' ',
 		['t']   = ' ',
 		['!']   = ' ',
 		['R']   = ' ',
-		['']  = ' ',
 	},
 
 	file_icons = {

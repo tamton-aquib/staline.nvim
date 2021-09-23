@@ -71,7 +71,9 @@ require('staline').setup {
 	}
 }
 ```
-</details>
+</details> <br />
+
+To know more about colors and highlights, check [highlights wiki](https://github.com/tamton-aquib/staline.nvim/wiki/Highlights)
 
 #### Sections:
 
@@ -92,8 +94,18 @@ require('staline').setup {
 
 > `lsp`, `lsp_name`, `file_size` are not included in the default settings.
 
+#### Showcase
+
+* Evil Line:
+![evil_line](https://i.imgur.com/q64sLaw.png)
+
+* Pebble Line:
+![pebble_line](https://i.imgur.com/iieuF1h.png)
+
+* Simple Line:
+![simple_line](https://i.imgur.com/o3OAdLi.png)
+
 Check out [wiki](https://github.com/tamton-aquib/staline.nvim/wiki) to see some premade configs and tips. <br />
-To know more about colors and highlights, check [highlights wiki](https://github.com/tamton-aquib/staline.nvim/wiki/Highlights)
 
 # Bufferline
 
@@ -115,13 +127,17 @@ To know more about colors and highlights, check [highlights wiki](https://github
 			style       = "bar", -- others: arrow, slant, bubble
 			stab_left   = "┃",   -- 😬
 			stab_right  = " ",
+			
 			fg          = Default is fg of "Normal".
 			bg          = Default is bg of "Normal".
 			inactive_bg = "#1e2127",
 			inactive_fg = "#aaaaaa",
 			stab_bg     = Default is darker version of bg.,
+
 			font_active = "bold",
-			exclude_fts = {'NvimTree', 'dashboard', 'lir'}
+			exclude_fts = {'NvimTree', 'dashboard', 'lir'},
+			stab_start  = ""   -- The starting of stabline
+			stab_end    = ""
 		},
 	}
     ```
@@ -143,8 +159,7 @@ require'stabline'.setup {
 </details>
 
 ### Features
-* Lightweight ( below **150 LOC** each)
-* Fast. staline+stabline took **< 1ms**. (packers profiling)
+* Lightweight and Fast. staline+stabline took **< 1ms**. (packers profiling)
 * Unicode current mode info. Needs a Nerd Font to be installed.
 * Shows current git branch if [plenary](https://github.com/nvim-lua/plenary.nvim) is installed.
 * Uses [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons) if installed, else uses a default table.
@@ -163,7 +178,6 @@ require'stabline'.setup {
 
 ### TODO
 
-- [x] ~Include more filetype support.~
 - [x] ~User configuration options. Needs more work.~
 - [x] ~Git info. Only branch info for now, *(or ever)*~
 - [x] ~Adding "opt-in" bufferline function.~
