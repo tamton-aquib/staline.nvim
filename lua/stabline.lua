@@ -1,5 +1,4 @@
 local Stabline = {}
-local cmd = vim.api.nvim_command
 
 local type_chars={ bar={left="┃", right=" "}, slant={left="", right=""}, arrow={left="", right=""}, bubble={left="", right=""} }
 -- NOTE: options: inactive_fg, inactive_bg, fg, bg, start, style, stab_left, stab_right, font_active, font_inactive, stab_bg
@@ -38,13 +37,13 @@ function Stabline.call_stabline_colors()
 		set_inactive = { left = {f = inactive_bg, b = dark_bg}, right = {f = inactive_bg, b = dark_bg} }
 	end
 
-	cmd('hi StablineSel guifg='..fg_hex..' guibg='..bg_hex..' gui='..(opts.font_active or 'bold'))
-	cmd('hi Stabline guibg='..dark_bg)
-	cmd('hi StablineLeft guifg='..set.left.f..' guibg='..set.left.b)
-	cmd('hi StablineRight guifg='..set.right.f..' guibg='..set.right.b)
-	cmd('hi StablineInactive guifg='..inactive_fg..' guibg='..inactive_bg..' gui='..(opts.font_inactive or 'none'))
-	cmd('hi StablineInactiveRight guifg='..set_inactive.right.f..' guibg='..set_inactive.right.b)
-	cmd('hi StablineInactiveLeft guifg='..set_inactive.left.f..' guibg='..set_inactive.left.b)
+	vim.cmd('hi StablineSel guifg='..fg_hex..' guibg='..bg_hex..' gui='..(opts.font_active or 'bold'))
+	vim.cmd('hi Stabline guibg='..dark_bg)
+	vim.cmd('hi StablineLeft guifg='..set.left.f..' guibg='..set.left.b)
+	vim.cmd('hi StablineRight guifg='..set.right.f..' guibg='..set.right.b)
+	vim.cmd('hi StablineInactive guifg='..inactive_fg..' guibg='..inactive_bg..' gui='..(opts.font_inactive or 'none'))
+	vim.cmd('hi StablineInactiveRight guifg='..set_inactive.right.f..' guibg='..set_inactive.right.b)
+	vim.cmd('hi StablineInactiveLeft guifg='..set_inactive.left.f..' guibg='..set_inactive.left.b)
 end
 
 local function get_file_icon(f_name, ext)
@@ -54,9 +53,12 @@ local function get_file_icon(f_name, ext)
 end
 
 local function do_icon_hl(icon_hl)
-	local new_fg = string.format("#%x",vim.api.nvim_get_hl_by_name(icon_hl or 'Normal', {})['foreground'] or 0)
+	local new_fg = string.format(
+		"#%x",
+		vim.api.nvim_get_hl_by_name(icon_hl or 'Normal', {})['foreground'] or 0
+	)
 	local icon_bg = Stabline.stabline_opts.bg or string.format("#%x", normal_bg)
-	cmd('hi StablineTempHighlight guibg='..icon_bg..' guifg='..new_fg..' gui=bold')
+	vim.cmd('hi StablineTempHighlight guibg='..icon_bg..' guifg='..new_fg..' gui=bold')
 	return '%#StablineTempHighlight#'
 end
 

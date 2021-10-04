@@ -51,7 +51,7 @@ local function get_lsp()
 
 	for type, sign in pairs(Tables.lsp_symbols or {}) do
 		local count = vim.lsp.diagnostic.get_count(0, type)
-		local hl = t.true_colors and "%#LspDiagnosticsDefault"..type.."#" or " "
+		local hl = t.true_colors and "%#Diagnostic"..type.."#" or " "
 		local number = count > 0 and hl..sign..count.." " or ""
 		lsp_details = lsp_details..number
 	end

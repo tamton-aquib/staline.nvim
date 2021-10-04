@@ -14,7 +14,7 @@ Tables = {
 		right = { 'cool_symbol','right_sep_double', '-line_column'}
 	},
 
-	lsp_symbols = {Error=" ", Information=" ", Warning=" ", Hint=""},
+	lsp_symbols = {Error=" ", Info=" ", Warn=" ", Hint=""},
 
 	defaults = {
 		left_separator = "",
