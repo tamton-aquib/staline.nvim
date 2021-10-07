@@ -100,7 +100,7 @@ Tables = {
 		go                 = ' ',
 		lua                = ' ',
 		conf               = ' ',
-		haskel             = ' ',
+		haskell             = ' ',
 		ruby               = ' ',
 		txt                = ' '
 	}
