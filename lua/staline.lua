@@ -39,11 +39,11 @@ local function get_file_icon(f_name, ext)
 end
 
 local function call_highlights(modeColor)
-	vim.cmd('hi Staline guibg='..modeColor..' guifg='..t.fg..' gui='..t.font_active)
+	vim.cmd('hi Staline guifg='..modeColor..' guibg='..t.bg..' gui='..t.font_active)
+	vim.cmd('hi StalineFill guibg='..modeColor..' guifg='..t.fg..' gui='..t.font_active)
 	vim.cmd('hi StalineNone guifg=none guibg='..t.bg)
 	vim.cmd('hi DoubleSep guifg='..modeColor..' guibg=#303030')
 	vim.cmd('hi MidSep guifg='.."#303030"..' guibg='..t.bg)
-	vim.cmd('hi StalineInvert guifg='..modeColor..' guibg='..t.bg..' gui='..t.font_active)
 end
 
 local function get_lsp()
@@ -70,12 +70,12 @@ local function parse_section(section)
 	if type(section) == 'string' then
 		if string.match(section, "^-") then
 			section = section:match("^-(.+)")
-			return "%#Staline#"..(M.sections[section] or section)
+			return "%#StalineFill#"..(M.sections[section] or section)
 		else
-			return "%#StalineInvert#"..(M.sections[section] or section)
+			return "%#Staline#"..(M.sections[section] or section)
 		end
 	elseif type(section) == 'function' then
-		return "%#StalineInvert#"..section()
+		return "%#Staline#"..section()
 	else
 		return "%#"..section[1].."#"..(M.sections[section[2]] or section[2])
 	end
@@ -99,7 +99,7 @@ function M.get_statusline(status)
 
 	local roger = Tables.special_table[vim.bo.ft]
 	if status and roger then
-		return "%#StalineInvert#%="..roger[2]..roger[1].."%="
+		return "%#Staline#%="..roger[2]..roger[1].."%="
 	end
 
 	M.sections['mode']             = (" "..modeIcon.." ")

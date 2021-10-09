@@ -9,12 +9,12 @@ end
 
 Tables = {
 	sections = {
-		left = {'- ', '-mode', 'left_sep_double', ' ', 'branch'},
+		left = { '- ', '-mode', 'left_sep_double', ' ', 'branch' },
 		mid  = {'file_name'},
-		right = { 'cool_symbol','right_sep_double', '-line_column'}
+		right = { 'cool_symbol','right_sep_double', '-line_column' }
 	},
 
-	lsp_symbols = {Error=" ", Info=" ", Warn=" ", Hint=""},
+	lsp_symbols = { Error=" ", Info=" ", Warn=" ", Hint="" },
 
 	defaults = {
 		left_separator = "",
@@ -100,7 +100,7 @@ Tables = {
 		go                 = ' ',
 		lua                = ' ',
 		conf               = ' ',
-		haskell             = ' ',
+		haskel             = ' ',
 		ruby               = ' ',
 		txt                = ' '
 	}
