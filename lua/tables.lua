@@ -26,6 +26,7 @@ Tables = {
 		full_path = false,
 		branch_symbol = " ",
 		inactive_color = "#303030",
+		inactive_bgcolor = "none",
 		font_active = "none",          -- bold,italic etc.
 		true_colors = false,
 		lsp_client_symbol = " "
