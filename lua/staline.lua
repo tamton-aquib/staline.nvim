@@ -38,12 +38,12 @@ local function get_file_icon(f_name, ext)
 	return require'nvim-web-devicons'.get_icon(f_name, ext, {default = true})
 end
 
-local function call_highlights(modeColor)
-	vim.cmd('hi Staline guifg='..modeColor..' guibg='..t.bg..' gui='..t.font_active)
-	vim.cmd('hi StalineFill guibg='..modeColor..' guifg='..t.fg..' gui='..t.font_active)
-	vim.cmd('hi StalineNone guifg=none guibg='..t.bg)
-	vim.cmd('hi DoubleSep guifg='..modeColor..' guibg=#303030')
-	vim.cmd('hi MidSep guifg='.."#303030"..' guibg='..t.bg)
+local function call_highlights(fgColor, bgColor)
+	vim.cmd('hi Staline guifg='..fgColor..' guibg='..bgColor..' gui='..t.font_active)
+	vim.cmd('hi StalineFill guibg='..fgColor..' guifg='..t.fg..' gui='..t.font_active)
+	vim.cmd('hi StalineNone guifg=none guibg='..bgColor)
+	vim.cmd('hi DoubleSep guifg='..fgColor..' guibg=#303030')
+	vim.cmd('hi MidSep guifg='.."#303030"..' guibg='..bgColor)
 end
 
 local function get_lsp()
@@ -85,7 +85,8 @@ function M.get_statusline(status)
 	M.sections = {}
 
 	local mode = vim.api.nvim_get_mode()['mode']
-	local modeColor = status and Tables.mode_colors[mode] or t.inactive_color
+	local fgColor = status and Tables.mode_colors[mode] or t.inactive_color
+	local bgColor = status and t.bg or t.inactive_bgcolor
 	local modeIcon = Tables.mode_icons[mode] or ""
 
 	local f_name = t.full_path and '%F' or '%t'
@@ -95,7 +96,7 @@ function M.get_statusline(status)
 	-- TODO: need to support b, or mb
 	local size = string.format("%.1f", vim.fn.getfsize(vim.api.nvim_buf_get_name(0))/1024)
 
-	call_highlights(modeColor)
+	call_highlights(fgColor, bgColor)
 
 	local roger = Tables.special_table[vim.bo.ft]
 	if status and roger then
