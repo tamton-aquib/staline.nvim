@@ -13,29 +13,26 @@ function M.set_statusline()
 end
 
 function M.setup(opts)
-	for k,_ in pairs(opts or {}) do
-		for k1,v1 in pairs(opts[k]) do Tables[k][k1] = v1 end
-	end
+	for k,_ in pairs(opts or {}) do for k1,v1 in pairs(opts[k]) do Tables[k][k1] = v1 end end
 
-	vim.cmd [[au BufEnter,BufWinEnter,WinEnter,BufReadPost * lua require'staline'.set_statusline()]]
+	vim.cmd [[au BufEnter,WinEnter,BufWinEnter,BufReadPost,ColorScheme * lua require'staline'.set_statusline()]]
 	vim.cmd [[au BufEnter,WinEnter,BufWinEnter,BufReadPost * lua require'staline'.update_branch()]]
 end
 
 -- PERF: git command for branch_name according to file location instead of cwd
 function M.update_branch()
-	if not pcall(require, 'plenary') then return "" end
+	local status, ok = pcall(require, 'plenary.job')
 
-	local branch_name = require('plenary.job'):new({
-		command = 'git', args = { 'branch', '--show-current' },
-	}):sync()[1]
-
-	M.Branch_name =  branch_name and t.branch_symbol..branch_name or ""
+	if status then
+		local branch = ok:new({command='git', args={'branch', '--show-current'}}):sync()[1]
+		M.Branch_name = branch and t.branch_symbol..branch or ""
+	end
 end
 
 local function get_file_icon(f_name, ext)
-	if not pcall(require, 'nvim-web-devicons') then
-		return Tables.file_icons[ext] end
-	return require'nvim-web-devicons'.get_icon(f_name, ext, {default = true})
+	local status, icons = pcall(require, 'nvim-web-devicons')
+	if not status then return Tables.file_icons[ext] end
+	return icons.get_icon(f_name, ext, {default = true})
 end
 
 local function call_highlights(fgColor, bgColor)
@@ -87,7 +84,7 @@ function M.get_statusline(status)
 	local mode = vim.api.nvim_get_mode()['mode']
 	local fgColor = status and Tables.mode_colors[mode] or t.inactive_color
 	local bgColor = status and t.bg or t.inactive_bgcolor
-	local modeIcon = Tables.mode_icons[mode] or ""
+	local modeIcon = Tables.mode_icons[mode] or " "
 
 	local f_name = t.full_path and '%F' or '%t'
 	-- TODO: original color of icon
@@ -99,9 +96,7 @@ function M.get_statusline(status)
 	call_highlights(fgColor, bgColor)
 
 	local roger = Tables.special_table[vim.bo.ft]
-	if status and roger then
-		return "%#Staline#%="..roger[2]..roger[1].."%="
-	end
+	if status and roger then return "%#Staline#%="..roger[2]..roger[1].."%=" end
 
 	M.sections['mode']             = (" "..modeIcon.." ")
 	M.sections['branch']           = " "..(M.Branch_name or "").." "

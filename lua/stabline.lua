@@ -84,7 +84,7 @@ function Stabline.get_tabline()
 				f_name = " ".. f_name .." "
 			end
 
-			local s = vim.api.nvim_get_current_buf() == buf and true or false
+			local s = vim.api.nvim_get_current_buf() == buf
 
 			tabline = tabline..
 			"%#Stabline"..(s and "" or "Inactive").."Left#"..stab_left..
