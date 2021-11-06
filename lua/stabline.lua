@@ -10,7 +10,7 @@ function Stabline.setup(opts)
 	Stabline.stabline_opts =  opts or {style = "bar"}
 	vim.tbl_deep_extend('force', Stabline.stabline_opts, opts or {})
 
-	vim.cmd [[au BufEnter * lua require"stabline".call_stabline_colors()]]
+	vim.cmd [[au BufEnter,ColorScheme * lua require"stabline".call_stabline_colors()]]
 	vim.o.tabline = '%!v:lua.require\'stabline\'.get_tabline()'
 end
 
@@ -47,9 +47,9 @@ function Stabline.call_stabline_colors()
 end
 
 local function get_file_icon(f_name, ext)
-	if not pcall(require, 'nvim-web-devicons') then
-		return require'tables'.file_icons[ext] or " " end
-	return require'nvim-web-devicons'.get_icon(f_name, ext, {default = true})
+	local status, icons = pcall(require, 'nvim-web-devicons')
+	if not status then return require'tables'.file_icons[ext] or " " end
+	return icons.get_icon(f_name, ext, {default = true})
 end
 
 local function do_icon_hl(icon_hl)
