@@ -86,11 +86,15 @@ function Stabline.get_tabline()
 
 			local s = vim.api.nvim_get_current_buf() == buf
 
+			-- TODO: change to format so as to remove padding??
 			tabline = tabline..
 			"%#Stabline"..(s and "" or "Inactive").."Left#"..stab_left..
 			"%#Stabline"..(s and "Sel" or "Inactive").."#   "..
+			(" "):rep(opts.padding or 1)..
 			(s and do_icon_hl(icon_hl) or "")..f_icon..
-			"%#Stabline"..(s and "Sel" or "Inactive").."#"..f_name.." "..(s and edited or " ")..
+			"%#Stabline"..(s and "Sel" or "Inactive").."#"..f_name.." "..
+			(" "):rep(opts.padding or 1)..
+			(s and edited or " ")..
 			"%#Stabline"..(s and "" or "Inactive").."Right#"..stab_right
 		end
 		::do_nothing::
