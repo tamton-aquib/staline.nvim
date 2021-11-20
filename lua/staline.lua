@@ -21,11 +21,14 @@ end
 
 -- PERF: git command for branch_name according to file location instead of cwd
 function M.update_branch()
-	local status, ok = pcall(require, 'plenary.job')
+	local cmd = io.popen('git branch --show-current 2> /dev/null')
+	local branch = cmd:read("*l") or cmd:read("*a")
+	cmd:close()
 
-	if status then
-		local branch = ok:new({command='git', args={'branch', '--show-current'}}):sync()[1]
-		M.Branch_name = branch and t.branch_symbol..branch or ""
+	if branch ~= "" then
+		M.Branch_name = t.branch_symbol .. branch
+	else
+		M.Branch_name = ""
 	end
 end
 
