@@ -37,7 +37,9 @@ Tables = {
 		packer = { 'Packer',' ' },
 		dashboard = { 'Dashboard', '  ' },
 		help = { 'Help', '龎' },
-		qf = { "QuickFix", " " }
+		qf = { "QuickFix", " " },
+		alpha = { "Alpha", "  " },
+		TelescopePrompt = { 'Telescope', "  " },
 	},
 
 	mode_colors = {
