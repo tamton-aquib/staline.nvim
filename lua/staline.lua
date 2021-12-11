@@ -60,9 +60,11 @@ local function get_lsp()
 end
 
 local function lsp_client_name()
-	for _, name in ipairs(vim.lsp.get_active_clients()) do
-		return name.name == vim.bo.ft and "" or t.lsp_client_symbol..name.name
+	local clients = {}
+	for _, client in pairs(vim.lsp.buf_get_clients(0)) do
+		clients[#clients+1] = t.lsp_client_symbol .. client.name
 	end
+	return table.concat(clients)
 end
 
 -- TODO: should this be changed to {'section', fg, bg} ?
@@ -82,6 +84,8 @@ local function parse_section(section)
 end
 
 function M.get_statusline(status)
+	if Tables.special_table[vim.bo.ft] ~= nil then return "%#Staline#%=" .. Tables.special_table[vim.bo.ft][2] .. Tables.special_table[vim.bo.ft][1] .. "%=" end
+
 	M.sections = {}
 
 	local mode = vim.api.nvim_get_mode()['mode']
@@ -92,14 +96,11 @@ function M.get_statusline(status)
 	local f_name = t.full_path and '%F' or '%t'
 	-- TODO: original color of icon
 	local f_icon = get_file_icon(vim.fn.expand('%:t'), vim.fn.expand('%:e'))
-	local edited = vim.bo.mod and "  " or ""
+	local edited = vim.bo.mod and t.mod_symbol or ""
 	-- TODO: need to support b, or mb
 	local size = string.format("%.1f", vim.fn.getfsize(vim.api.nvim_buf_get_name(0))/1024)
 
 	call_highlights(fgColor, bgColor)
-
-	local roger = Tables.special_table[vim.bo.ft]
-	if status and roger then return "%#Staline#%="..roger[2]..roger[1].."%=" end
 
 	M.sections['mode']             = (" "..modeIcon.." ")
 	M.sections['branch']           = " "..(M.Branch_name or "").." "
@@ -113,6 +114,7 @@ function M.get_statusline(status)
 	M.sections['right_sep_double'] = "%#MidSep#"..t.right_separator.."%#DoubleSep#"..t.right_separator
 	M.sections['lsp']              = get_lsp()
 	M.sections['lsp_name']         = lsp_client_name()
+	M.sections['cwd']              = " " .. vim.fn.fnamemodify(vim.fn.getcwd(), ':t') .. " "
 
 	local staline = ""
 	for _, major in ipairs({ 'left', 'mid', 'right' }) do
