@@ -51,6 +51,7 @@ require('staline').setup {
 		full_path       = false
 		font_active     = "none",     -- "bold", "italic", "bold,italic", etc
 		true_colors     = false       -- true lsp colors.
+		mod_symbol      = "  ",
 	},
 	mode_colors = {
 		n = "#2bbb4f",
@@ -91,6 +92,7 @@ To know more about colors and highlights, check [highlights wiki](https://github
 | right_sep    | single right separator |
 | left_sep_double     | Double left separator with a shade of gray |
 | right_sep_double    | Double right separator with a shade of gray |
+| cwd | Current working directory |
 
 > `lsp`, `lsp_name`, `file_size` are not included in the default settings.
 
@@ -127,7 +129,7 @@ Check out [wiki](https://github.com/tamton-aquib/staline.nvim/wiki) to see some 
 			style       = "bar", -- others: arrow, slant, bubble
 			stab_left   = "┃",   -- 😬
 			stab_right  = " ",
-			
+
 			fg          = Default is fg of "Normal".
 			bg          = Default is bg of "Normal".
 			inactive_bg = "#1e2127",
