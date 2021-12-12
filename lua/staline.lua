@@ -64,7 +64,7 @@ local function lsp_client_name()
 	for _, client in pairs(vim.lsp.buf_get_clients(0)) do
 		clients[#clients+1] = t.lsp_client_symbol .. client.name
 	end
-	return table.concat(clients)
+	return table.concat(clients, ' ')
 end
 
 -- TODO: should this be changed to {'section', fg, bg} ?
