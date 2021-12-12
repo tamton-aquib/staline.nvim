@@ -29,6 +29,7 @@ Tables = {
 		inactive_bgcolor = "none",
 		font_active = "none",          -- bold,italic etc.
 		true_colors = false,
+		mod_symbol      = "  ",
 		lsp_client_symbol = " "
 	},
 
@@ -39,6 +40,8 @@ Tables = {
 		help = { 'Help', '龎' },
 		qf = { "QuickFix", " " },
 		alpha = { "Alpha", "  " },
+		Jaq = { "Jaq", "  "},
+		Fm = { "Fm", "  "},
 		TelescopePrompt = { 'Telescope', "  " },
 	},
 
