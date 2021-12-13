@@ -1,6 +1,6 @@
 local M = {}
 local Tables = require('tables')
-local t =  Tables.defaults
+local t = Tables.defaults
 
 function M.set_statusline()
 	for _, win in pairs(vim.api.nvim_list_wins()) do
@@ -50,7 +50,7 @@ local function get_lsp()
 	local lsp_details = ""
 
 	for type, sign in pairs(Tables.lsp_symbols or {}) do
-		local count = vim.lsp.diagnostic.get_count(0, type)
+		local count = #vim.diagnostic.get(0, { severity=type })
 		local hl = t.true_colors and "%#Diagnostic"..type.."#" or " "
 		local number = count > 0 and hl..sign..count.." " or ""
 		lsp_details = lsp_details..number
@@ -62,12 +62,11 @@ end
 local function lsp_client_name()
 	local clients = {}
 	for _, client in pairs(vim.lsp.buf_get_clients(0)) do
-		clients[#clients+1] = t.lsp_client_symbol .. client.name
+		clients[#clients+1] = client.name
 	end
-	return table.concat(clients, ' ')
+	return t.lsp_client_symbol .. table.concat(clients, ',')
 end
 
--- TODO: should this be changed to {'section', fg, bg} ?
 local function parse_section(section)
 	if type(section) == 'string' then
 		if string.match(section, "^-") then
@@ -97,8 +96,8 @@ function M.get_statusline(status)
 	-- TODO: original color of icon
 	local f_icon = get_file_icon(vim.fn.expand('%:t'), vim.fn.expand('%:e'))
 	local edited = vim.bo.mod and t.mod_symbol or ""
-	-- TODO: need to support b, or mb
-	local size = string.format("%.1f", vim.fn.getfsize(vim.api.nvim_buf_get_name(0))/1024)
+	-- TODO: need to support b, or mb?
+	local size = ("%.1f"):format(vim.fn.getfsize(vim.api.nvim_buf_get_name(0))/1024)
 
 	call_highlights(fgColor, bgColor)
 

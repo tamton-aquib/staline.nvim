@@ -44,14 +44,19 @@ require('staline').setup {
 	defaults = {
 		left_separator  = "",
 		right_separator = "",
-		line_column     = "[%l/%L] :%c 並%p%% ", -- `:h stl` to see all flags.
-		fg              = "#000000",  -- Foreground text color.
-		bg              = "none",     -- Default background is transparent.
 		cool_symbol     = " ",       -- Change this to override defult OS icon.
 		full_path       = false
-		font_active     = "none",     -- "bold", "italic", "bold,italic", etc
-		true_colors     = false       -- true lsp colors.
 		mod_symbol      = "  ",
+		lsp_client_symbol = " "
+		line_column     = "[%l/%L] :%c 並%p%% ", -- `:h stl` to see all flags.
+
+		fg              = "#000000",  -- Foreground text color.
+		bg              = "none",     -- Default background is transparent.
+		inactive_color  = "#303030",
+		inactive_bgcolor = "none",
+		true_colors     = false       -- true lsp colors.
+		font_active     = "none",     -- "bold", "italic", "bold,italic", etc
+		branch_symbol   = " ",
 	},
 	mode_colors = {
 		n = "#2bbb4f",
@@ -69,7 +74,17 @@ require('staline').setup {
 		left = { '- ', '-mode', 'left_sep_double', ' ', 'branch' },
 		mid  = { 'file_name' },
 		right = { 'cool_symbol','right_sep_double', '-line_column' }
+	},
+	special_table = {
+		NvimTree = { 'NvimTree', ' ' },
+		packer = { 'Packer',' ' },        -- etc
 	}
+	lsp_symbols = {
+		Error=" ",
+		Info=" ",
+		Warn=" ",
+		Hint=""
+	},
 }
 ```
 </details> <br />
@@ -137,7 +152,7 @@ Check out [wiki](https://github.com/tamton-aquib/staline.nvim/wiki) to see some 
 			stab_bg     = Default is darker version of bg.,
 
 			font_active = "bold",
-			exclude_fts = {'NvimTree', 'dashboard', 'lir'},
+			exclude_fts = { 'NvimTree', 'dashboard', 'lir' },
 			stab_start  = ""   -- The starting of stabline
 			stab_end    = ""
 		},
@@ -163,7 +178,7 @@ require'stabline'.setup {
 ### Features
 * Lightweight and Fast. staline+stabline took **< 1ms**. (packers profiling)
 * Unicode current mode info. Needs a Nerd Font to be installed.
-* Shows current git branch if [plenary](https://github.com/nvim-lua/plenary.nvim) is installed.
+* Has few builtin sections to chose from.
 * Uses [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons) if installed, else uses a default table.
 
 #### Cons
@@ -184,5 +199,5 @@ require'stabline'.setup {
 - [x] ~Git info. Only branch info for now, *(or ever)*~
 - [x] ~Adding "opt-in" bufferline function.~
 - [x] ~Add config options for bufferline.~
-- [ ] lsp client name in staline.
+- [x] lsp client name in staline.
 - [ ] buf numbers in stabline.

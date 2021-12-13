@@ -8,7 +8,6 @@ local normal_fg = vim.api.nvim_get_hl_by_name("Normal", {})['foreground'] or 0
 
 function Stabline.setup(opts)
 	Stabline.stabline_opts =  opts or {style = "bar"}
-	vim.tbl_deep_extend('force', Stabline.stabline_opts, opts or {})
 
 	vim.cmd [[au BufEnter,ColorScheme * lua require"stabline".call_stabline_colors()]]
 	vim.o.tabline = '%!v:lua.require\'stabline\'.get_tabline()'
@@ -17,8 +16,8 @@ end
 function Stabline.call_stabline_colors()
 	local opts = Stabline.stabline_opts
 	local stab_type = opts.style or "bar"
-	local bg_hex = opts.bg or string.format("#%x", normal_bg)
-	local fg_hex = opts.fg or string.format("#%x", normal_fg)
+	local bg_hex = opts.bg or ("#%x"):format(normal_bg)
+	local fg_hex = opts.fg or ("#%x"):format(normal_fg)
 	local dark_bg = opts.stab_bg or string.format("#%x", normal_bg/2)
 	local inactive_bg, inactive_fg = opts.inactive_bg or "#1e2127", opts.inactive_fg or "#aaaaaa"
 	local set, set_inactive = {}, {}
@@ -78,11 +77,8 @@ function Stabline.get_tabline()
 			local ext = string.match(f_name, "%w+%.(.+)")
 			local f_icon, icon_hl = get_file_icon(f_name, ext)
 
-			if vim.tbl_contains(exclude_fts, vim.bo[buf].ft) or f_name == "" then
-				goto do_nothing
-			else
-				f_name = " ".. f_name .." "
-			end
+			local conditions = vim.tbl_contains(exclude_fts, vim.bo[buf].ft) or f_name == ""
+			if conditions then goto do_nothing else f_name = " ".. f_name .." " end
 
 			local s = vim.api.nvim_get_current_buf() == buf
 
