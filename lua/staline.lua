@@ -34,7 +34,7 @@ end
 
 local function get_file_icon(f_name, ext)
 	local status, icons = pcall(require, 'nvim-web-devicons')
-	if not status then return Tables.file_icons[ext] end
+	if not status then return Tables.file_icons[ext] or " " end
 	return icons.get_icon(f_name, ext, {default = true})
 end
 

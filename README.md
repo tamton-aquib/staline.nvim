@@ -109,7 +109,21 @@ To know more about colors and highlights, check [highlights wiki](https://github
 | right_sep_double    | Double right separator with a shade of gray |
 | cwd | Current working directory |
 
-> `lsp`, `lsp_name`, `file_size` are not included in the default settings.
+__A section (left, right or mid) can take:__
+* Already defnined section or a simple string:
+	* `"branch"`
+	* `"a simple string"`
+* An array of { highlight, string }
+	* `{ "DiagnosticsError", "danger_icon" }`
+	* `{ "CustomHighlight", "simple_string" }`
+* A function for dynamic content
+	```lua
+	function()
+	    return "computed_dynamic_string"
+	end
+	```
+
+> `lsp`, `lsp_name`, `file_size` sections are not included in the default settings.
 
 #### Showcase
 
