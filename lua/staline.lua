@@ -1,6 +1,7 @@
 local M = {}
 local Tables = require('tables')
 local t = Tables.defaults
+local redirect = vim.fn.has('win32') == 1 and "nul" or "/dev/null"
 
 function M.set_statusline()
 	for _, win in pairs(vim.api.nvim_list_wins()) do
@@ -21,7 +22,7 @@ end
 
 -- PERF: git command for branch_name according to file location instead of cwd
 function M.update_branch()
-	local cmd = io.popen('git branch --show-current 2> /dev/null')
+  local cmd = io.popen('git branch --show-current 2>' .. redirect)
 	local branch = cmd:read("*l") or cmd:read("*a")
 	cmd:close()
 
