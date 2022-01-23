@@ -1,5 +1,5 @@
 local M = {}
-local Tables = require('tables')
+local Tables = require('staline.config')
 local t = Tables.defaults
 local redirect = vim.fn.has('win32') == 1 and "nul" or "/dev/null"
 
@@ -22,15 +22,11 @@ end
 
 -- PERF: git command for branch_name according to file location instead of cwd
 function M.update_branch()
-  local cmd = io.popen('git branch --show-current 2>' .. redirect)
+	local cmd = io.popen('git branch --show-current 2>' .. redirect)
 	local branch = cmd:read("*l") or cmd:read("*a")
 	cmd:close()
 
-	if branch ~= "" then
-		M.Branch_name = t.branch_symbol .. branch
-	else
-		M.Branch_name = ""
-	end
+	M.Branch_name = branch ~= "" and t.branch_symbol .. branch or ""
 end
 
 local function get_file_icon(f_name, ext)
@@ -68,6 +64,7 @@ local function lsp_client_name()
 	return t.lsp_client_symbol .. table.concat(clients, ',')
 end
 
+-- TODO: check colors inside function type
 local function parse_section(section)
 	if type(section) == 'string' then
 		if string.match(section, "^-") then
@@ -116,6 +113,7 @@ function M.get_statusline(status)
 	M.sections['lsp_name']         = lsp_client_name()
 	M.sections['cwd']              = " " .. vim.fn.fnamemodify(vim.fn.getcwd(), ':t') .. " "
 
+	-- TODO: use tables instead of string maybe
 	local staline = ""
 	for _, major in ipairs({ 'left', 'mid', 'right' }) do
 		for _, section in pairs(Tables.sections[major]) do
