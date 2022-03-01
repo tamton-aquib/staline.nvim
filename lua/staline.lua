@@ -20,7 +20,7 @@ function M.setup(opts)
 	vim.cmd [[au BufEnter,WinEnter,BufWinEnter,BufReadPost * lua require'staline'.update_branch()]]
 end
 
--- PERF: git command for branch_name according to file location instead of cwd
+-- PERF: git command for branch_name according to file location instead of cwd?
 function M.update_branch()
 	local cmd = io.popen('git branch --show-current 2>' .. redirect)
 	local branch = cmd:read("*l") or cmd:read("*a")
@@ -81,7 +81,10 @@ local function parse_section(section)
 end
 
 function M.get_statusline(status)
-	if Tables.special_table[vim.bo.ft] ~= nil then return "%#Staline#%=" .. Tables.special_table[vim.bo.ft][2] .. Tables.special_table[vim.bo.ft][1] .. "%=" end
+	local ft = vim.bo.ft
+	if Tables.special_table[ft] ~= nil then
+		return "%#Staline#%=" .. Tables.special_table[ft][2] .. Tables.special_table[ft][1] .. "%="
+	end
 
 	M.sections = {}
 

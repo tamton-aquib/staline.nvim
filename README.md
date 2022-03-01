@@ -3,7 +3,7 @@ TLDR;<br/> staline(**sta**tus**line**): A simple statusline for neovim written i
 stabline(s-**tabline**): A simple bufferline for neovim written in lua. (sry didnt get a better name.)
 
 ### Requirements
-* Requires neovim version 0.5.0+
+* Requires neovim version 0.6.0+
 * `vim.opt.laststatus=2` in your init.lua for statusline.
 * `vim.opt.showtabline=2` in your init.lua for bufferline.
 
