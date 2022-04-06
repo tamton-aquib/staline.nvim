@@ -1,4 +1,5 @@
 local Stabline = {}
+local stabline_loaded
 
 local type_chars={ bar={left="┃", right=" "}, slant={left="", right=""}, arrow={left="", right=""}, bubble={left="", right=""} }
 -- NOTE: options: inactive_fg, inactive_bg, fg, bg, start, style, stab_left, stab_right, font_active, font_inactive, stab_bg
@@ -7,6 +8,7 @@ local normal_bg = vim.api.nvim_get_hl_by_name("Normal", {})['background'] or 255
 local normal_fg = vim.api.nvim_get_hl_by_name("Normal", {})['foreground'] or 0
 
 function Stabline.setup(opts)
+	if stabline_loaded then return else stabline_loaded = true end
 	Stabline.stabline_opts =  opts or {style = "bar"}
 
 	vim.cmd [[au BufEnter,ColorScheme * lua require"stabline".call_stabline_colors()]]

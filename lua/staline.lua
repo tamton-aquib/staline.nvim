@@ -1,4 +1,5 @@
 local M = {}
+local staline_loaded
 local Tables = require('staline.config')
 local t = Tables.defaults
 local redirect = vim.fn.has('win32') == 1 and "nul" or "/dev/null"
@@ -14,10 +15,11 @@ function M.set_statusline()
 end
 
 function M.setup(opts)
+	if staline_loaded then return else staline_loaded = true end
 	for k,_ in pairs(opts or {}) do for k1,v1 in pairs(opts[k]) do Tables[k][k1] = v1 end end
 
-	vim.cmd [[au BufEnter,WinEnter,BufWinEnter,BufReadPost,ColorScheme * lua require'staline'.set_statusline()]]
-	vim.cmd [[au BufEnter,WinEnter,BufWinEnter,BufReadPost * lua require'staline'.update_branch()]]
+	vim.cmd [[au BufEnter,BufReadPost,ColorScheme * lua require'staline'.set_statusline()]]
+	vim.cmd [[au BufEnter * lua require'staline'.update_branch()]]
 end
 
 -- PERF: git command for branch_name according to file location instead of cwd?
@@ -81,9 +83,9 @@ local function parse_section(section)
 end
 
 function M.get_statusline(status)
-	local ft = vim.bo.ft
-	if Tables.special_table[ft] ~= nil then
-		return "%#Staline#%=" .. Tables.special_table[ft][2] .. Tables.special_table[ft][1] .. "%="
+	if Tables.special_table[vim.bo.ft] ~= nil then
+		local special = Tables.special_table[vim.bo.ft]
+		return "%#Staline#%=" .. special[2] .. special[1] .. "%="
 	end
 
 	M.sections = {}
