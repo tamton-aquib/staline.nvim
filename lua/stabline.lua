@@ -18,8 +18,8 @@ end
 function Stabline.call_stabline_colors()
 	local opts = Stabline.stabline_opts
 	local stab_type = opts.style or "bar"
-	local bg_hex = opts.bg or ("#%x"):format(normal_bg)
-	local fg_hex = opts.fg or ("#%x"):format(normal_fg)
+	local bg_hex = opts.bg or ("#%06x"):format(normal_bg)
+	local fg_hex = opts.fg or ("#%06x"):format(normal_fg)
 	local dark_bg = opts.stab_bg or string.format("#%x", normal_bg/2)
 	local inactive_bg, inactive_fg = opts.inactive_bg or "#1e2127", opts.inactive_fg or "#aaaaaa"
 	local set, set_inactive = {}, {}
