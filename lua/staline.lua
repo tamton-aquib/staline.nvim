@@ -37,12 +37,12 @@ local function get_file_icon(f_name, ext)
 	return icons.get_icon(f_name, ext, {default = true})
 end
 
-local function call_highlights(fgColor, bgColor)
-	vim.cmd('hi Staline guifg='..fgColor..' guibg='..bgColor..' gui='..t.font_active)
-	vim.cmd('hi StalineFill guibg='..fgColor..' guifg='..t.fg..' gui='..t.font_active)
-	vim.cmd('hi StalineNone guifg=none guibg='..bgColor)
-	vim.cmd('hi DoubleSep guifg='..fgColor..' guibg=#303030')
-	vim.cmd('hi MidSep guifg='.."#303030"..' guibg='..bgColor)
+local function call_highlights(fg, bg)
+	vim.cmd('hi Staline guifg='..fg..' guibg='..bg..' gui='..t.font_active)
+	vim.cmd('hi StalineFill guibg='..fg..' guifg='..t.fg..' gui='..t.font_active)
+	vim.cmd('hi StalineNone guifg=none guibg='..bg)
+	vim.cmd('hi DoubleSep guifg='..fg..' guibg=#303030')
+	vim.cmd('hi MidSep guifg=#303030 guibg='..bg)
 end
 
 local function get_lsp()

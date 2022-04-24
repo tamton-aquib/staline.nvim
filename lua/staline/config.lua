@@ -7,6 +7,10 @@ local function system_icon()
 	end
 end
 
+local function extract_hl(hl)
+    return ("#%06x"):format(vim.api.nvim_get_hl_by_name(hl, true).foreground or 255)
+end
+
 Tables = {
 	sections = {
 		left = { '- ', '-mode', 'left_sep_double', ' ', 'branch' },
@@ -29,7 +33,7 @@ Tables = {
 		inactive_bgcolor = "none",
 		font_active = "none",          -- bold,italic etc.
 		true_colors = false,
-		mod_symbol      = "  ",
+		mod_symbol = "  ",
 		lsp_client_symbol = " "
 	},
 
@@ -46,18 +50,18 @@ Tables = {
 	},
 
 	mode_colors = {
-		['n']    =  "#2bbb4f", --> "#6ed57e"
-		['v']    =  "#4799eb",
-		['V']    =  "#4799eb",
-		['i']    =  "#986fec",
-		['ic']   =  "#986fec",
-		['s']    =  "#986fec",
-		['S']    =  "#986fec",
-		['c']    =  "#e27d60",
-		['t']    =  "#ffd55b", --> "#" fff94c
-		['r']    =  "#fff94c",
-		['R']    =  "#fff94c",
-		['']   =  "#4799eb"
+        ["n"]  = extract_hl("Function"),
+        ["c"]  = extract_hl("Identifier"),
+        ["i"]  = extract_hl("Keyword"),
+		['ic'] = extract_hl("Keyword"),
+		['s']  = extract_hl("Keyword"),
+		['S']  = extract_hl("Keyword"),
+        ["v"]  = extract_hl("Type"),
+        ["V"]  = extract_hl("Type"),
+		[''] = extract_hl("Type"),
+		['t']  = extract_hl("Identifier"),
+		['r']  = extract_hl("Statement"),
+		['R']  = extract_hl("Statement")
 	},
 
 	mode_icons = {
