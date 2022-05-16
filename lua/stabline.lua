@@ -1,50 +1,58 @@
 local Stabline = {}
+local util = require("staline.utils")
 local stabline_loaded
+local normal_bg, normal_fg
+local opts = {
+    style='bar', inactive_bg="#1e2127", inactive_fg="#aaaaaa",
+    exclude_fts={'NvimTree', 'help', 'dashboard', 'lir', 'alpha'},
+    font_active='bold', font_inactive='none'
+} -- NOTE: other opts: fg, bg
 
 local type_chars={ bar={left="┃", right=" "}, slant={left="", right=""}, arrow={left="", right=""}, bubble={left="", right=""} }
--- NOTE: options: inactive_fg, inactive_bg, fg, bg, start, style, stab_left, stab_right, font_active, font_inactive, stab_bg
+-- NOTE: options: start, style, stab_left, stab_right, font_active, font_inactive, stab_bg
 
-local normal_bg = vim.api.nvim_get_hl_by_name("Normal", {})['background'] or 255
-local normal_fg = vim.api.nvim_get_hl_by_name("Normal", {})['foreground'] or 0
-
-function Stabline.setup(opts)
+function Stabline.setup(setup_opts)
 	if stabline_loaded then return else stabline_loaded = true end
-	Stabline.stabline_opts =  opts or {style = "bar"}
+    opts = vim.tbl_deep_extend('force', opts, setup_opts or {})
 
-	vim.cmd [[au BufEnter,ColorScheme * lua require"stabline".call_stabline_colors()]]
+    vim.api.nvim_create_autocmd({'BufEnter', 'ColorScheme'}, {
+        callback = Stabline.refresh_colors, pattern = "*"
+    })
 	vim.o.tabline = '%!v:lua.require\'stabline\'.get_tabline()'
 end
 
-function Stabline.call_stabline_colors()
-	local opts = Stabline.stabline_opts
-	local stab_type = opts.style or "bar"
+function Stabline.refresh_colors()
+    local normal = vim.api.nvim_get_hl_by_name('Normal', {})
+    normal_bg, normal_fg = normal.background or 255 , normal.foreground or 0
+
+	local stab_type = opts.style
 	local bg_hex = opts.bg or ("#%06x"):format(normal_bg)
 	local fg_hex = opts.fg or ("#%06x"):format(normal_fg)
-	local dark_bg = opts.stab_bg or string.format("#%x", normal_bg/2)
-	local inactive_bg, inactive_fg = opts.inactive_bg or "#1e2127", opts.inactive_fg or "#aaaaaa"
-	local set, set_inactive = {}, {}
+	local dark_bg = opts.stab_bg or util.extract_hl('NormalFloat', true) -- TODO: clean later?
+	local inactive_bg, inactive_fg = opts.inactive_bg, opts.inactive_fg
+	local active, inactive = {}, {}
 
 	if stab_type == "bar" then
-		set = { left = {f = fg_hex, b = bg_hex}, right = {f = fg_hex, b = bg_hex} }
-		set_inactive = { left = {f = inactive_bg, b = inactive_bg}, right = {f = fg_hex, b = inactive_bg} }
+		active = { left = {f = fg_hex, b = bg_hex}, right = {f = fg_hex, b = bg_hex} }
+		inactive = { left = {f = inactive_bg, b = inactive_bg}, right = {f = fg_hex, b = inactive_bg} }
 	elseif stab_type == "slant" then
-		set = { left = {f = bg_hex, b = dark_bg}, right = {f = bg_hex, b = dark_bg} }
-		set_inactive = { left = {f = inactive_bg, b = dark_bg}, right = {f = inactive_bg, b = dark_bg} }
+		active = { left = {f = bg_hex, b = dark_bg}, right = {f = bg_hex, b = dark_bg} }
+		inactive = { left = {f = inactive_bg, b = dark_bg}, right = {f = inactive_bg, b = dark_bg} }
 	elseif stab_type == "arrow" then
-		set = { left = {f = dark_bg, b = bg_hex}, right = {f = bg_hex, b = dark_bg} }
-		set_inactive = { left = {f = dark_bg, b = inactive_bg}, right = {f = inactive_bg, b = dark_bg} }
+		active = { left = {f = dark_bg, b = bg_hex}, right = {f = bg_hex, b = dark_bg} }
+		inactive = { left = {f = dark_bg, b = inactive_bg}, right = {f = inactive_bg, b = dark_bg} }
 	elseif stab_type == "bubble" then
-		set = { left = {f = bg_hex, b = dark_bg}, right = {f = bg_hex, b = dark_bg} }
-		set_inactive = { left = {f = inactive_bg, b = dark_bg}, right = {f = inactive_bg, b = dark_bg} }
+		active = { left = {f = bg_hex, b = dark_bg}, right = {f = bg_hex, b = dark_bg} }
+		inactive = { left = {f = inactive_bg, b = dark_bg}, right = {f = inactive_bg, b = dark_bg} }
 	end
 
-	vim.cmd('hi StablineSel guifg='..fg_hex..' guibg='..bg_hex..' gui='..(opts.font_active or 'bold'))
-	vim.cmd('hi Stabline guibg='..dark_bg)
-	vim.cmd('hi StablineLeft guifg='..set.left.f..' guibg='..set.left.b)
-	vim.cmd('hi StablineRight guifg='..set.right.f..' guibg='..set.right.b)
-	vim.cmd('hi StablineInactive guifg='..inactive_fg..' guibg='..inactive_bg..' gui='..(opts.font_inactive or 'none'))
-	vim.cmd('hi StablineInactiveRight guifg='..set_inactive.right.f..' guibg='..set_inactive.right.b)
-	vim.cmd('hi StablineInactiveLeft guifg='..set_inactive.left.f..' guibg='..set_inactive.left.b)
+    util.colorize('StablineSel', fg_hex, bg_hex, opts.font_active)
+	util.colorize('Stabline', nil, dark_bg, nil)
+	util.colorize('StablineLeft',active.left.f, active.left.b, nil)
+	util.colorize('StablineRight',active.right.f, active.right.b)
+	util.colorize('StablineInactive', inactive_fg, inactive_bg, opts.font_inactive)
+	util.colorize('StablineInactiveRight', inactive.right.f, inactive.right.b)
+	util.colorize('StablineInactiveLeft', inactive.left.f, inactive.left.b)
 end
 
 local function get_file_icon(f_name, ext)
@@ -54,19 +62,14 @@ local function get_file_icon(f_name, ext)
 end
 
 local function do_icon_hl(icon_hl)
-	local new_fg = string.format(
-		"#%x",
-		vim.api.nvim_get_hl_by_name(icon_hl or 'Normal', {})['foreground'] or 0
-	)
-	local icon_bg = Stabline.stabline_opts.bg or string.format("#%x", normal_bg)
-	vim.cmd('hi StablineTempHighlight guibg='..icon_bg..' guifg='..new_fg..' gui=bold')
+    local new_fg = util.extract_hl(icon_hl)
+	local icon_bg = opts.bg or string.format("#%06x", normal_bg)
+    vim.api.nvim_set_hl(0, 'StablineTempHighlight', {bg=icon_bg, fg=new_fg})
 	return '%#StablineTempHighlight#'
 end
 
 function Stabline.get_tabline()
-	local opts = Stabline.stabline_opts
-	local exclude_fts = opts.exclude_fts or {'NvimTree', 'help', 'dashboard', 'lir'}
-	local stab_type = opts.style or "bar"
+	local stab_type = opts.style
 	local stab_left = opts.stab_left or type_chars[stab_type].left
 	local stab_right= opts.stab_right or type_chars[stab_type].right
 	local tabline = opts.stab_start and ("%#Stabline#"..opts.stab_start) or "%#Stabline#"
@@ -79,20 +82,19 @@ function Stabline.get_tabline()
 			local ext = string.match(f_name, "%w+%.(.+)")
 			local f_icon, icon_hl = get_file_icon(f_name, ext)
 
-			local conditions = vim.tbl_contains(exclude_fts, vim.bo[buf].ft) or f_name == ""
+			local conditions = vim.tbl_contains(opts.exclude_fts, vim.bo[buf].ft) or f_name == ""
 			if conditions then goto do_nothing else f_name = " ".. f_name .." " end
 
 			local s = vim.api.nvim_get_current_buf() == buf
 
-			-- TODO: change to format so as to remove padding??
+			-- TODO: change to `format` so as to remove padding??
 			tabline = tabline..
 			"%#Stabline"..(s and "" or "Inactive").."Left#"..stab_left..
 			"%#Stabline"..(s and "Sel" or "Inactive").."#   "..
 			(" "):rep(opts.padding or 1)..
 			(s and do_icon_hl(icon_hl) or "")..f_icon..
 			"%#Stabline"..(s and "Sel" or "Inactive").."#"..f_name.." "..
-			(" "):rep(opts.padding or 1)..
-			(s and edited or " ")..
+			(" "):rep(opts.padding or 1).. (s and edited or " ")..
 			"%#Stabline"..(s and "" or "Inactive").."Right#"..stab_right
 		end
 		::do_nothing::

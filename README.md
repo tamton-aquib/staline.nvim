@@ -3,8 +3,8 @@ TLDR;<br/> staline(**sta**tus**line**): A simple statusline for neovim written i
 stabline(s-**tabline**): A simple bufferline for neovim written in lua. (sry didnt get a better name.)
 
 ### Requirements
-* Requires neovim version 0.6.0+
-* `vim.opt.laststatus=2` in your init.lua for statusline.
+* Requires neovim version >= 0.7
+* `vim.opt.laststatus=2` in your init.lua for statusline. (or `3` for global line)
 * `vim.opt.showtabline=2` in your init.lua for bufferline.
 
 ### Installation
@@ -26,15 +26,10 @@ But separate setup() is required for each to load up.
 ![insert](https://i.imgur.com/rzqMwXU.png)
 ![command](https://i.imgur.com/jDuOdpK.png)
 ![visual](https://i.imgur.com/dO1pKaj.png)
-<!-- ![normal](https://i.imgur.com/ZBwqI5I.png) -->
-<!-- ![insert](https://i.imgur.com/9ADMkb7.png) -->
-<!-- ![visual](https://i.imgur.com/q85p45c.png) -->
-<!-- ![command](https://i.imgur.com/F9cPtMx.png) -->
-
 
 #### Configuration
 ```lua
-require('staline').setup{}
+require('staline').setup()
 ```
 <details>
 <summary> Click to see default configuration </summary>
@@ -146,10 +141,9 @@ Check out [wiki](https://github.com/tamton-aquib/staline.nvim/wiki) to see some 
 ![arrow mode](https://i.imgur.com/ERDzicw.png)
 ![bubble mode](https://i.imgur.com/UjbeyjR.png)
 
-
 * Configuration
 	```lua
-	require('stabline').setup{}
+	require('stabline').setup()
 	```
 * The Default configuration looks something like:
     ```lua

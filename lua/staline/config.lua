@@ -1,20 +1,11 @@
 local Tables = {}
-
-local function system_icon()
-	if vim.fn.has("win32")    == 1 then return "者"
-	elseif vim.fn.has("mac")  == 1 then return " "
-	elseif vim.fn.has("unix") == 1 then return " "
-	end
-end
-
-local function extract_hl(hl)
-    return ("#%06x"):format(vim.api.nvim_get_hl_by_name(hl, true).foreground or 255)
-end
+local util = require("staline.utils")
+local extract_hl = util.extract_hl
 
 Tables = {
 	sections = {
 		left = { '- ', '-mode', 'left_sep_double', ' ', 'branch' },
-		mid  = {'file_name'},
+		mid  = { 'file_name' },
 		right = { 'cool_symbol','right_sep_double', '-line_column' }
 	},
 
@@ -24,7 +15,7 @@ Tables = {
 		left_separator = "",
 		right_separator = "",
 		line_column = " [%l/%L] :%c 並%p%% ",
-		cool_symbol = system_icon(),
+		cool_symbol = util.system_icon(),
 		fg = "#000000",
 		bg = "none",
 		full_path = false,
