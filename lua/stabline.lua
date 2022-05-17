@@ -6,10 +6,8 @@ local opts = {
     style='bar', inactive_bg="#1e2127", inactive_fg="#aaaaaa",
     exclude_fts={'NvimTree', 'help', 'dashboard', 'lir', 'alpha'},
     font_active='bold', font_inactive='none'
-} -- NOTE: other opts: fg, bg
-
+} -- NOTE: other opts: fg, bg, stab_start, stab_end, stab_right, stab_left, stab_bg
 local type_chars={ bar={left="┃", right=" "}, slant={left="", right=""}, arrow={left="", right=""}, bubble={left="", right=""} }
--- NOTE: options: start, style, stab_left, stab_right, font_active, font_inactive, stab_bg
 
 function Stabline.setup(setup_opts)
 	if stabline_loaded then return else stabline_loaded = true end
@@ -23,7 +21,7 @@ end
 
 function Stabline.refresh_colors()
     local normal = vim.api.nvim_get_hl_by_name('Normal', {})
-    normal_bg, normal_fg = normal.background or 255 , normal.foreground or 0
+    normal_bg, normal_fg = normal.background or 16777215 , normal.foreground or 0
 
 	local stab_type = opts.style
 	local bg_hex = opts.bg or ("#%06x"):format(normal_bg)

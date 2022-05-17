@@ -1,6 +1,7 @@
 local M = {}
 local staline_loaded
 local Tables = require('staline.config')
+local colorize = require("staline.utils").colorize
 local t = Tables.defaults
 local redirect = vim.fn.has('win32') == 1 and "nul" or "/dev/null"
 
@@ -18,8 +19,10 @@ function M.setup(opts)
 	if staline_loaded then return else staline_loaded = true end
 	for k,_ in pairs(opts or {}) do for k1,v1 in pairs(opts[k]) do Tables[k][k1] = v1 end end
 
-	vim.cmd [[au BufEnter,BufReadPost,ColorScheme * lua require'staline'.set_statusline()]]
-	vim.cmd [[au BufEnter * lua require'staline'.update_branch()]]
+	vim.api.nvim_create_autocmd('BufEnter', {callback=M.update_branch, pattern="*"})
+    vim.api.nvim_create_autocmd({'BufEnter', 'BufReadPost', 'ColorScheme'}, {
+        pattern="*", callback=M.set_statusline
+    })
 end
 
 -- PERF: git command for branch_name according to file location instead of cwd?
@@ -38,17 +41,17 @@ local function get_file_icon(f_name, ext)
 end
 
 local function call_highlights(fg, bg)
-	vim.cmd('hi Staline guifg='..fg..' guibg='..bg..' gui='..t.font_active)
-	vim.cmd('hi StalineFill guibg='..fg..' guifg='..t.fg..' gui='..t.font_active)
-	vim.cmd('hi StalineNone guifg=none guibg='..bg)
-	vim.cmd('hi DoubleSep guifg='..fg..' guibg=#303030')
-	vim.cmd('hi MidSep guifg=#303030 guibg='..bg)
+	colorize('Staline', fg, bg, t.font_active)
+	colorize('StalineFill', t.fg, fg, t.font_active)
+	colorize('StalineNone', nil, bg)
+	colorize('DoubleSep', fg, t.inactive_color)
+	colorize('MidSep', t.inactive_color, bg)
 end
 
 local function get_lsp()
 	local lsp_details = ""
 
-	for type, sign in pairs(Tables.lsp_symbols or {}) do
+	for type, sign in pairs(Tables.lsp_symbols) do
 		local count = #vim.diagnostic.get(0, { severity=type })
 		local hl = t.true_colors and "%#Diagnostic"..type.."#" or " "
 		local number = count > 0 and hl..sign..count.." " or ""

@@ -149,7 +149,7 @@ Check out [wiki](https://github.com/tamton-aquib/staline.nvim/wiki) to see some 
     ```lua
 	require('stabline').setup {
 		style       = "bar", -- others: arrow, slant, bubble
-		stab_left   = "┃",   -- 😬
+		stab_left   = "┃",
 		stab_right  = " ",
 
 		-- fg          = Default is fg of "Normal".
@@ -182,7 +182,7 @@ require'stabline'.setup {
 </details>
 
 ### Features
-* Lightweight and Fast. staline+stabline took **< 1ms**. (packers profiling)
+* Lightweight and Fast. staline+stabline took **< 0.5ms**. (packers profiling)
 * Unicode current mode info. Needs a Nerd Font to be installed.
 * Has few builtin sections to chose from.
 * Uses [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons) if installed, else uses a default table.
