@@ -1,11 +1,12 @@
 local M = {}
 local staline_loaded
 local Tables = require('staline.config')
-local colorize = require("staline.utils").colorize
+local util = require("staline.utils")
+local colorize = util.colorize
 local t = Tables.defaults
 local redirect = vim.fn.has('win32') == 1 and "nul" or "/dev/null"
 
-function M.set_statusline()
+local set_statusline = function()
 	for _, win in pairs(vim.api.nvim_list_wins()) do
 		if vim.api.nvim_get_current_win() == win then
 			vim.wo[win].statusline = '%!v:lua.require\'staline\'.get_statusline("active")'
@@ -15,18 +16,8 @@ function M.set_statusline()
 	end
 end
 
-function M.setup(opts)
-	if staline_loaded then return else staline_loaded = true end
-	for k,_ in pairs(opts or {}) do for k1,v1 in pairs(opts[k]) do Tables[k][k1] = v1 end end
-
-	vim.api.nvim_create_autocmd('BufEnter', {callback=M.update_branch, pattern="*"})
-    vim.api.nvim_create_autocmd({'BufEnter', 'BufReadPost', 'ColorScheme'}, {
-        pattern="*", callback=M.set_statusline
-    })
-end
-
 -- PERF: git command for branch_name according to file location instead of cwd?
-function M.update_branch()
+local update_branch = function()
 	local cmd = io.popen('git branch --show-current 2>' .. redirect)
 	local branch = cmd:read("*l") or cmd:read("*a")
 	cmd:close()
@@ -34,13 +25,17 @@ function M.update_branch()
 	M.Branch_name = branch ~= "" and t.branch_symbol .. branch or ""
 end
 
-local function get_file_icon(f_name, ext)
-	local status, icons = pcall(require, 'nvim-web-devicons')
-	if not status then return Tables.file_icons[ext] or " " end
-	return icons.get_icon(f_name, ext, {default = true})
+M.setup = function(opts)
+	if staline_loaded then return else staline_loaded = true end
+	for k,_ in pairs(opts or {}) do for k1,v1 in pairs(opts[k]) do Tables[k][k1] = v1 end end
+
+	vim.api.nvim_create_autocmd('BufEnter', {callback=update_branch, pattern="*"})
+    vim.api.nvim_create_autocmd({'BufEnter', 'BufReadPost', 'ColorScheme'}, {
+        pattern="*", callback=set_statusline
+    })
 end
 
-local function call_highlights(fg, bg)
+local call_highlights = function(fg, bg)
 	colorize('Staline', fg, bg, t.font_active)
 	colorize('StalineFill', t.fg, fg, t.font_active)
 	colorize('StalineNone', nil, bg)
@@ -48,7 +43,7 @@ local function call_highlights(fg, bg)
 	colorize('MidSep', t.inactive_color, bg)
 end
 
-local function get_lsp()
+local get_lsp = function()
 	local lsp_details = ""
 
 	for type, sign in pairs(Tables.lsp_symbols) do
@@ -61,7 +56,7 @@ local function get_lsp()
 	return lsp_details
 end
 
-local function lsp_client_name()
+local lsp_client_name = function()
 	local clients = {}
 	for _, client in pairs(vim.lsp.buf_get_clients(0)) do
 		clients[#clients+1] = client.name
@@ -70,7 +65,7 @@ local function lsp_client_name()
 end
 
 -- TODO: check colors inside function type
-local function parse_section(section)
+local parse_section = function(section)
 	if type(section) == 'string' then
 		if string.match(section, "^-") then
 			section = section:match("^-(.+)")
@@ -85,7 +80,7 @@ local function parse_section(section)
 	end
 end
 
-function M.get_statusline(status)
+M.get_statusline = function(status)
 	if Tables.special_table[vim.bo.ft] ~= nil then
 		local special = Tables.special_table[vim.bo.ft]
 		return "%#Staline#%=" .. special[2] .. special[1] .. "%="
@@ -100,7 +95,7 @@ function M.get_statusline(status)
 
 	local f_name = t.full_path and '%F' or '%t'
 	-- TODO: original color of icon
-	local f_icon = get_file_icon(vim.fn.expand('%:t'), vim.fn.expand('%:e'))
+	local f_icon = util.get_file_icon(vim.fn.expand('%:t'), vim.fn.expand('%:e'))
 	local edited = vim.bo.mod and t.mod_symbol or ""
 	-- TODO: need to support b, or mb?
 	local size = ("%.1f"):format(vim.fn.getfsize(vim.api.nvim_buf_get_name(0))/1024)

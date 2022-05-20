@@ -171,7 +171,7 @@ Check out [wiki](https://github.com/tamton-aquib/staline.nvim/wiki) to see some 
 ![my stabline config](https://i.imgur.com/cmBdfzx.png)
 
 ```lua
-require'stabline'.setup {
+require('stabline').setup {
 	style = "slant",
 	bg = "#986fec",
 	fg = "black",
@@ -182,7 +182,7 @@ require'stabline'.setup {
 </details>
 
 ### Features
-* Lightweight and Fast. staline+stabline took **< 0.5ms**. (packers profiling)
+* Lightweight and Fast. staline+stabline took **< 1ms**. (packers profiling)
 * Unicode current mode info. Needs a Nerd Font to be installed.
 * Has few builtin sections to chose from.
 * Uses [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons) if installed, else uses a default table.

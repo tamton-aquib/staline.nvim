@@ -9,17 +9,7 @@ local opts = {
 } -- NOTE: other opts: fg, bg, stab_start, stab_end, stab_right, stab_left, stab_bg
 local type_chars={ bar={left="┃", right=" "}, slant={left="", right=""}, arrow={left="", right=""}, bubble={left="", right=""} }
 
-function Stabline.setup(setup_opts)
-	if stabline_loaded then return else stabline_loaded = true end
-    opts = vim.tbl_deep_extend('force', opts, setup_opts or {})
-
-    vim.api.nvim_create_autocmd({'BufEnter', 'ColorScheme'}, {
-        callback = Stabline.refresh_colors, pattern = "*"
-    })
-	vim.o.tabline = '%!v:lua.require\'stabline\'.get_tabline()'
-end
-
-function Stabline.refresh_colors()
+local refresh_colors = function()
     local normal = vim.api.nvim_get_hl_by_name('Normal', {})
     normal_bg, normal_fg = normal.background or 16777215 , normal.foreground or 0
 
@@ -53,20 +43,24 @@ function Stabline.refresh_colors()
 	util.colorize('StablineInactiveLeft', inactive.left.f, inactive.left.b)
 end
 
-local function get_file_icon(f_name, ext)
-	local status, icons = pcall(require, 'nvim-web-devicons')
-	if not status then return require('staline.config').file_icons[ext] or " " end
-	return icons.get_icon(f_name, ext, {default = true})
+Stabline.setup = function(setup_opts)
+	if stabline_loaded then return else stabline_loaded = true end
+    opts = vim.tbl_deep_extend('force', opts, setup_opts or {})
+
+    vim.api.nvim_create_autocmd({'BufEnter', 'ColorScheme'}, {
+        callback = refresh_colors, pattern = "*"
+    })
+	vim.o.tabline = '%!v:lua.require\'stabline\'.get_tabline()'
 end
 
-local function do_icon_hl(icon_hl)
+local do_icon_hl = function(icon_hl)
     local new_fg = util.extract_hl(icon_hl)
 	local icon_bg = opts.bg or string.format("#%06x", normal_bg)
     vim.api.nvim_set_hl(0, 'StablineTempHighlight', {bg=icon_bg, fg=new_fg})
 	return '%#StablineTempHighlight#'
 end
 
-function Stabline.get_tabline()
+Stabline.get_tabline = function()
 	local stab_type = opts.style
 	local stab_left = opts.stab_left or type_chars[stab_type].left
 	local stab_right= opts.stab_right or type_chars[stab_type].right
@@ -78,7 +72,7 @@ function Stabline.get_tabline()
 
 			local f_name = vim.api.nvim_buf_get_name(buf):match("^.+/(.+)$") or ""
 			local ext = string.match(f_name, "%w+%.(.+)")
-			local f_icon, icon_hl = get_file_icon(f_name, ext)
+			local f_icon, icon_hl = util.get_file_icon(f_name, ext)
 
 			local conditions = vim.tbl_contains(opts.exclude_fts, vim.bo[buf].ft) or f_name == ""
 			if conditions then goto do_nothing else f_name = " ".. f_name .." " end
