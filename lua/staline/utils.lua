@@ -1,9 +1,9 @@
 local U = {}
 
 U.get_file_icon = function(f_name, ext)
-	local status, icons = pcall(require, 'nvim-web-devicons')
-	if not status then return require('staline.config').file_icons[ext] or " " end
-	return icons.get_icon(f_name, ext, {default = true})
+    local status, icons = pcall(require, 'nvim-web-devicons')
+    if not status then return require('staline.config').file_icons[ext] or " " end
+    return icons.get_icon(f_name, ext, {default = true})
 end
 
 
@@ -27,10 +27,10 @@ U.colorize = function(n, fg, bg, style)
 end
 
 U.system_icon = function()
-	if vim.fn.has("win32")    == 1 then return "者"
-	elseif vim.fn.has("mac")  == 1 then return " "
-	elseif vim.fn.has("unix") == 1 then return " "
-	end
+    if vim.fn.has("win32")    == 1 then return "者"
+    elseif vim.fn.has("mac")  == 1 then return " "
+    elseif vim.fn.has("unix") == 1 then return " "
+    end
 end
 
 return U
