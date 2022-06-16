@@ -12,6 +12,7 @@ Tables = {
     lsp_symbols = { Error=" ", Info=" ", Warn=" ", Hint="" },
 
     defaults = {
+        expand_null_ls = false,
         left_separator = "",
         right_separator = "",
         line_column = " [%l/%L] :%c 並%p%% ",
