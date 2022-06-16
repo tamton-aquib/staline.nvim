@@ -56,12 +56,36 @@ local get_lsp = function()
     return lsp_details
 end
 
+-- Get all null-ls sources that match the current buffer's filetype
+local get_attached_null_ls_sources = function()
+    local filetype = vim.bo.filetype
+    -- I don't think there's a need to do a pcall for null-ls since
+    -- this function will only be called when 'null-ls' is in the
+    -- active lsp clients table
+    local null_ls_sources = require('null-ls').get_sources()
+    local ret = {}
+    for _, source in pairs(null_ls_sources) do
+        if source.filetypes[filetype] then table.insert(ret, source) end
+    end
+    return ret
+end
+
 local lsp_client_name = function()
     local clients = {}
     for _, client in pairs(vim.lsp.buf_get_clients(0)) do
-        clients[#clients+1] = client.name
+        if t.expand_null_ls then
+          if client.name == 'null-ls' then
+              for _, source in pairs(get_attached_null_ls_sources()) do
+                clients[#clients + 1] = source.name .. '[null-ls]'
+              end
+          else
+              clients[#clients + 1] = client.name
+          end
+        else
+            clients[#clients + 1] = client.name
+        end
     end
-    return t.lsp_client_symbol .. table.concat(clients, ',')
+    return t.lsp_client_symbol .. table.concat(clients, ', ')
 end
 
 -- TODO: check colors inside function type
