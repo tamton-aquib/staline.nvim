@@ -65,7 +65,11 @@ local get_attached_null_ls_sources = function()
     local null_ls_sources = require('null-ls').get_sources()
     local ret = {}
     for _, source in pairs(null_ls_sources) do
-        if source.filetypes[filetype] then table.insert(ret, source) end
+        if source.filetypes[filetype] then
+          if not vim.tbl_contains(ret, source.name) then
+            table.insert(ret, source.name)
+          end
+        end
     end
     return ret
 end
@@ -76,7 +80,7 @@ local lsp_client_name = function()
         if t.expand_null_ls then
           if client.name == 'null-ls' then
               for _, source in pairs(get_attached_null_ls_sources()) do
-                clients[#clients + 1] = source.name .. '[null-ls]'
+                clients[#clients + 1] = source .. t.null_ls_symbol
               end
           else
               clients[#clients + 1] = client.name
