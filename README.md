@@ -37,8 +37,8 @@ require('staline').setup()
 ```lua
 require('staline').setup {
 	defaults = {
-    expand_null_ls = false,  -- This expands out all the null-ls sources to be shown on the statusline
-    null_ls_symbol = "",  -- A symbol to indicate that a source is coming from null-ls
+    		expand_null_ls = false,  -- This expands out all the null-ls sources to be shown on the statusline
+    		null_ls_symbol = "",  -- A symbol to indicate that a source is coming from null-ls
 		left_separator  = "",
 		right_separator = "",
 		cool_symbol     = " ",       -- Change this to override default OS icon.
