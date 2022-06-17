@@ -13,6 +13,7 @@ Tables = {
 
     defaults = {
         expand_null_ls = false,
+        null_ls_symbol = "",
         left_separator = "",
         right_separator = "",
         line_column = " [%l/%L] :%c 並%p%% ",
