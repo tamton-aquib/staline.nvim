@@ -9,9 +9,9 @@ local redirect = vim.fn.has('win32') == 1 and "nul" or "/dev/null"
 local set_statusline = function()
     for _, win in pairs(vim.api.nvim_list_wins()) do
         if vim.api.nvim_get_current_win() == win then
-            vim.wo[win].statusline = '%!v:lua.require("staline").get_statusline("active")'
+            vim.wo[win].statusline = '%!v:lua.require\'staline\'.get_statusline("active")'
         elseif vim.api.nvim_buf_get_name(0) ~= "" then
-            vim.wo[win].statusline = '%!v:lua.require("staline").get_statusline()'
+            vim.wo[win].statusline = '%!v:lua.require\'staline\'.get_statusline()'
         end
     end
 end
@@ -20,10 +20,8 @@ end
 local update_branch = function()
     local cmd = io.popen('git branch --show-current 2>' .. redirect)
     local branch = ''
-    if cmd ~= nil then
-        branch = cmd:read("*l") or cmd:read("*a")
-        cmd:close()
-    end
+    branch = cmd:read("*l") or cmd:read("*a")
+    cmd:close()
 
     M.Branch_name = branch ~= "" and t.branch_symbol .. branch or ""
 end
@@ -32,7 +30,6 @@ M.setup = function(opts)
     if staline_loaded then return else staline_loaded = true end
     for k,_ in pairs(opts or {}) do for k1,v1 in pairs(opts[k]) do conf[k][k1] = v1 end end
 
-    -- local staline_augrp = vim.api.nvim_create_augroup()
     vim.api.nvim_create_autocmd('BufEnter', {callback=update_branch})
     vim.api.nvim_create_autocmd({'BufEnter', 'BufReadPost', 'ColorScheme'}, {
         pattern="*", callback=set_statusline
