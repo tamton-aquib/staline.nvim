@@ -1,17 +1,17 @@
 local M = {}
 local staline_loaded
-local Tables = require('staline.config')
+local conf = require("staline.config")
 local util = require("staline.utils")
 local colorize = util.colorize
-local t = Tables.defaults
+local t = conf.defaults
 local redirect = vim.fn.has('win32') == 1 and "nul" or "/dev/null"
 
 local set_statusline = function()
     for _, win in pairs(vim.api.nvim_list_wins()) do
         if vim.api.nvim_get_current_win() == win then
-            vim.wo[win].statusline = '%!v:lua.require\'staline\'.get_statusline("active")'
+            vim.wo[win].statusline = '%!v:lua.require("staline").get_statusline("active")'
         elseif vim.api.nvim_buf_get_name(0) ~= "" then
-            vim.wo[win].statusline = '%!v:lua.require\'staline\'.get_statusline()'
+            vim.wo[win].statusline = '%!v:lua.require("staline").get_statusline()'
         end
     end
 end
@@ -19,17 +19,21 @@ end
 -- PERF: git command for branch_name according to file location instead of cwd?
 local update_branch = function()
     local cmd = io.popen('git branch --show-current 2>' .. redirect)
-    local branch = cmd:read("*l") or cmd:read("*a")
-    cmd:close()
+    local branch = ''
+    if cmd ~= nil then
+        branch = cmd:read("*l") or cmd:read("*a")
+        cmd:close()
+    end
 
     M.Branch_name = branch ~= "" and t.branch_symbol .. branch or ""
 end
 
 M.setup = function(opts)
     if staline_loaded then return else staline_loaded = true end
-    for k,_ in pairs(opts or {}) do for k1,v1 in pairs(opts[k]) do Tables[k][k1] = v1 end end
+    for k,_ in pairs(opts or {}) do for k1,v1 in pairs(opts[k]) do conf[k][k1] = v1 end end
 
-    vim.api.nvim_create_autocmd('BufEnter', {callback=update_branch, pattern="*"})
+    -- local staline_augrp = vim.api.nvim_create_augroup()
+    vim.api.nvim_create_autocmd('BufEnter', {callback=update_branch})
     vim.api.nvim_create_autocmd({'BufEnter', 'BufReadPost', 'ColorScheme'}, {
         pattern="*", callback=set_statusline
     })
@@ -46,7 +50,7 @@ end
 local get_lsp = function()
     local lsp_details = ""
 
-    for type, sign in pairs(Tables.lsp_symbols) do
+    for type, sign in pairs(conf.lsp_symbols) do
         local count = #vim.diagnostic.get(0, { severity=type })
         local hl = t.true_colors and "%#Diagnostic"..type.."#" or " "
         local number = count > 0 and hl..sign..count.." " or ""
@@ -56,19 +60,14 @@ local get_lsp = function()
     return lsp_details
 end
 
--- Get all null-ls sources that match the current buffer's filetype
 local get_attached_null_ls_sources = function()
-    local filetype = vim.bo.filetype
-    -- I don't think there's a need to do a pcall for null-ls since
-    -- this function will only be called when 'null-ls' is in the
-    -- active lsp clients table
     local null_ls_sources = require('null-ls').get_sources()
     local ret = {}
     for _, source in pairs(null_ls_sources) do
-        if source.filetypes[filetype] then
-          if not vim.tbl_contains(ret, source.name) then
-            table.insert(ret, source.name)
-          end
+        if source.filetypes[vim.bo.ft] then
+            if not vim.tbl_contains(ret, source.name) then
+                table.insert(ret, source.name)
+            end
         end
     end
     return ret
@@ -78,13 +77,13 @@ local lsp_client_name = function()
     local clients = {}
     for _, client in pairs(vim.lsp.buf_get_clients(0)) do
         if t.expand_null_ls then
-          if client.name == 'null-ls' then
-              for _, source in pairs(get_attached_null_ls_sources()) do
-                clients[#clients + 1] = source .. t.null_ls_symbol
-              end
-          else
-              clients[#clients + 1] = client.name
-          end
+            if client.name == 'null-ls' then
+                for _, source in pairs(get_attached_null_ls_sources()) do
+                    clients[#clients + 1] = source .. t.null_ls_symbol
+                end
+            else
+                clients[#clients + 1] = client.name
+            end
         else
             clients[#clients + 1] = client.name
         end
@@ -94,32 +93,48 @@ end
 
 -- TODO: check colors inside function type
 local parse_section = function(section)
-    if type(section) == 'string' then
+    local section_type = type(section)
+    if section_type == 'string' then
         if string.match(section, "^-") then
             section = section:match("^-(.+)")
             return "%#StalineFill#"..(M.sections[section] or section)
         else
             return "%#Staline#"..(M.sections[section] or section)
         end
-    elseif type(section) == 'function' then
-        return "%#Staline#"..section()
+    elseif section_type == 'function' then
+        local val = section()
+        if type(val) == "string" then
+            return val
+        elseif type(val) == "table" then
+            return "%#"..val[1].."#"..val[2]
+        end
+    elseif section_type == 'table' then
+        if #section == 1 then
+            return section[1]
+        elseif #section == 2 then
+            if type(section[2]) == 'string' then
+                return "%#"..section[1].."#"..(M.sections[section[2]] or section[2])
+            elseif type(section[2]) == 'function' then
+                return "%#"..section[1].."#"..section[2]()
+            end
+        end
     else
-        return "%#"..section[1].."#"..(M.sections[section[2]] or section[2])
+        vim.api.nvim_err_writeln("[staline.nvim]: Section format error!")
     end
 end
 
 M.get_statusline = function(status)
-    if Tables.special_table[vim.bo.ft] ~= nil then
-        local special = Tables.special_table[vim.bo.ft]
+    if conf.special_table[vim.bo.ft] ~= nil then
+        local special = conf.special_table[vim.bo.ft]
         return "%#Staline#%=" .. special[2] .. special[1] .. "%="
     end
 
     M.sections = {}
 
     local mode = vim.api.nvim_get_mode()['mode']
-    local fgColor = status and Tables.mode_colors[mode] or t.inactive_color
+    local fgColor = status and conf.mode_colors[mode] or t.inactive_color
     local bgColor = status and t.bg or t.inactive_bgcolor
-    local modeIcon = Tables.mode_icons[mode] or " "
+    local modeIcon = conf.mode_icons[mode] or " "
 
     local f_name = t.full_path and '%F' or '%t'
     -- TODO: original color of icon
@@ -141,13 +156,13 @@ M.get_statusline = function(status)
     M.sections['left_sep_double']  = "%#DoubleSep#"..t.left_separator.."%#MidSep#"..t.left_separator
     M.sections['right_sep_double'] = "%#MidSep#"..t.right_separator.."%#DoubleSep#"..t.right_separator
     M.sections['lsp']              = get_lsp()
+    M.sections['diagnostics']      = get_lsp()
     M.sections['lsp_name']         = lsp_client_name()
     M.sections['cwd']              = " " .. vim.fn.fnamemodify(vim.fn.getcwd(), ':t') .. " "
 
-    -- TODO: use tables instead of string maybe
     local staline = ""
     for _, major in ipairs({ 'left', 'mid', 'right' }) do
-        for _, section in pairs(Tables.sections[major]) do
+        for _, section in pairs(conf.sections[major]) do
             staline = staline .. parse_section(section).."%#StalineNone#"
         end
         if major ~= 'right' then staline = staline .. "%=" end

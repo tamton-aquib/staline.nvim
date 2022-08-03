@@ -6,7 +6,6 @@ U.get_file_icon = function(f_name, ext)
     return icons.get_icon(f_name, ext, {default = true})
 end
 
-
 U.extract_hl = function(hl, fore)
     return ("#%06x"):format(
         vim.api.nvim_get_hl_by_name(hl, true)[fore and 'background' or 'foreground'] or 255
@@ -14,16 +13,16 @@ U.extract_hl = function(hl, fore)
 end
 
 U.colorize = function(n, fg, bg, style)
-    local stuff = {}
-    stuff['fg'] = fg and fg or nil
-    stuff['bg'] = bg and bg or nil
+    local opts = {}
+    opts['fg'] = fg and fg or nil
+    opts['bg'] = bg and bg or nil
     if style then
         for _,v in ipairs(vim.split(style, ',')) do
-            if v:lower() ~= 'none' then stuff[v]=true end
+            if v:lower() ~= 'none' then opts[v]=true end
         end
     end
 
-    vim.api.nvim_set_hl(0, n, stuff)
+    vim.api.nvim_set_hl(0, n, opts)
 end
 
 U.system_icon = function()

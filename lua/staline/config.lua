@@ -1,8 +1,7 @@
-local Tables = {}
 local util = require("staline.utils")
 local extract_hl = util.extract_hl
 
-Tables = {
+return {
     sections = {
         left = { '- ', '-mode', 'left_sep_double', ' ', 'branch' },
         mid  = { 'file_name' },
@@ -12,22 +11,24 @@ Tables = {
     lsp_symbols = { Error=" ", Info=" ", Warn=" ", Hint="" },
 
     defaults = {
-        expand_null_ls = false,
-        null_ls_symbol = "",
         left_separator = "",
         right_separator = "",
         line_column = " [%l/%L] :%c 並%p%% ",
-        cool_symbol = util.system_icon(),
+        expand_null_ls = false,
+        full_path = false,
+
         fg = "#000000",
         bg = "none",
-        full_path = false,
-        branch_symbol = " ",
         inactive_color = "#303030",
         inactive_bgcolor = "none",
         font_active = "none",          -- bold,italic etc.
         true_colors = false,
+
+        cool_symbol = util.system_icon(),
+        branch_symbol = " ",
         mod_symbol = "  ",
-        lsp_client_symbol = " "
+        lsp_client_symbol = " ",
+        null_ls_symbol = "",
     },
 
     special_table = {
@@ -58,55 +59,18 @@ Tables = {
     },
 
     mode_icons = {
-        ['n']    = ' ',
-        ['no']   = ' ',
-        ['nov']  = ' ',
-        ['noV']  = ' ',
-        ['no'] = ' ',
-        ['niI']  = ' ',
-        ['niR']  = ' ',
-        ['niV']  = ' ',
-
-        ['i']   = ' ',
-        ['ic']  = ' ',
-        ['ix']  = ' ',
-        ['s']   = ' ',
-        ['S']   = ' ',
-
-        ['v']   = ' ',
-        ['V']   = ' ',
-        ['']  = ' ',
-        ['r']   = '﯒ ',
-        ['r?']  = ' ',
-        ['c']   = ' ',
-        ['t']   = ' ',
-        ['!']   = ' ',
-        ['R']   = ' ',
+        ['n']=' ', ['no']=' ', ['niI']=' ', ['niR']=' ',
+        ['no']=' ', ['niV']=' ', ['nov']=' ', ['noV']=' ',
+        ['i']=' ', ['ic']=' ', ['ix']=' ', ['s']=' ', ['S']=' ',
+        ['v']=' ', ['V']=' ', ['']=' ',
+        ['r']='﯒ ', ['r?']=' ', ['c']=' ',
+        ['t']=' ', ['!']=' ', ['R']=' ',
     },
 
     file_icons = {
-        typescript         = ' ' ,
-        python             = ' ' ,
-        java               = ' ' ,
-        html               = ' ' ,
-        css                = ' ' ,
-        scss               = ' ' ,
-        javascript         = ' ' ,
-        javascriptreact    = ' ' ,
-        markdown           = ' ' ,
-        sh                 = ' ',
-        zsh                = ' ',
-        vim                = ' ',
-        rust               = ' ',
-        cpp                = ' ',
-        c                  = ' ',
-        go                 = ' ',
-        lua                = ' ',
-        conf               = ' ',
-        haskel             = ' ',
-        ruby               = ' ',
-        txt                = ' '
+        typescript=' ' , css=' ' , scss=' ' , javascript=' ' , javascriptreact=' ' , html=' ' ,
+        python=' ' , java=' ' , markdown=' ' , sh=' ',zsh=' ',
+        vim=' ', lua=' ', haskell=' ', conf=' ', ruby=' ', txt=' ',
+        rust=' ', cpp=' ', c=' ', go=' ',
     }
 }
-
-return Tables
