@@ -6,7 +6,7 @@ local colorize = util.colorize
 local t = conf.defaults
 local redirect = vim.fn.has('win32') == 1 and "nul" or "/dev/null"
 
-local set_statusline = function()
+local set_stl = function()
     for _, win in pairs(vim.api.nvim_list_wins()) do
         if vim.api.nvim_get_current_win() == win then
             vim.wo[win].statusline = '%!v:lua.require\'staline\'.get_statusline("active")'
@@ -20,8 +20,10 @@ end
 local update_branch = function()
     local cmd = io.popen('git branch --show-current 2>' .. redirect)
     local branch = ''
-    branch = cmd:read("*l") or cmd:read("*a")
-    cmd:close()
+    if cmd ~= nil then
+        branch = cmd:read("*l") or cmd:read("*a")
+        cmd:close()
+    end
 
     M.Branch_name = branch ~= "" and t.branch_symbol .. branch or ""
 end
@@ -32,7 +34,7 @@ M.setup = function(opts)
 
     vim.api.nvim_create_autocmd('BufEnter', {callback=update_branch})
     vim.api.nvim_create_autocmd({'BufEnter', 'BufReadPost', 'ColorScheme'}, {
-        pattern="*", callback=set_statusline
+        callback=set_stl
     })
 end
 
@@ -49,7 +51,7 @@ local get_lsp = function()
 
     for type, sign in pairs(conf.lsp_symbols) do
         local count = #vim.diagnostic.get(0, { severity=type })
-        local hl = t.true_colors and "%#Diagnostic"..type.."#" or " "
+        local hl = t.true_colors and "%#DiagnosticSign"..type.."#" or " "
         local number = count > 0 and hl..sign..count.." " or ""
         lsp_details = lsp_details..number
     end
@@ -72,7 +74,7 @@ end
 
 local lsp_client_name = function()
     local clients = {}
-    for _, client in pairs(vim.lsp.buf_get_clients(0)) do
+    for _, client in pairs(vim.lsp.buf_get_active_clients(0)) do
         if t.expand_null_ls then
             if client.name == 'null-ls' then
                 for _, source in pairs(get_attached_null_ls_sources()) do

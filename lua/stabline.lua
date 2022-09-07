@@ -47,7 +47,7 @@ Stabline.setup = function(setup_opts)
     if stabline_loaded then return else stabline_loaded = true end
     opts = vim.tbl_deep_extend('force', opts, setup_opts or {})
 
-    vim.api.nvim_create_autocmd({'BufEnter', 'ColorScheme'}, {
+    vim.api.nvim_create_autocmd({'BufEnter', 'BufLeave', 'ColorScheme'}, {
         callback = refresh_colors, pattern = "*"
     })
     vim.o.tabline = '%!v:lua.require\'stabline\'.get_tabline()'
