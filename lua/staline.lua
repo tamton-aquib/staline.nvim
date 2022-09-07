@@ -74,7 +74,7 @@ end
 
 local lsp_client_name = function()
     local clients = {}
-    for _, client in pairs(vim.lsp.buf_get_active_clients(0)) do
+    for _, client in pairs(vim.lsp.get_active_clients()) do
         if t.expand_null_ls then
             if client.name == 'null-ls' then
                 for _, source in pairs(get_attached_null_ls_sources()) do
