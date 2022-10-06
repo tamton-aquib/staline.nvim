@@ -33,9 +33,10 @@ M.setup = function(opts)
     for k,_ in pairs(opts or {}) do for k1,v1 in pairs(opts[k]) do conf[k][k1] = v1 end end
 
     vim.api.nvim_create_autocmd('BufEnter', {callback=update_branch})
-    vim.api.nvim_create_autocmd({'BufEnter', 'BufReadPost', 'ColorScheme'}, {
-        callback=set_stl
-    })
+    vim.api.nvim_create_autocmd(
+        {'BufEnter', 'BufReadPost', 'ColorScheme', 'TabEnter', 'TabClosed'},
+        { callback=set_stl }
+    )
 end
 
 local call_highlights = function(fg, bg)
