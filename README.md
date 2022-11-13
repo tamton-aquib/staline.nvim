@@ -13,7 +13,8 @@ stabline(s-**tabline**): A simple bufferline for neovim written in lua. (sry did
 use 'tamton-aquib/staline.nvim'
 ```
 > **Note**
-> Doing this will install both staline and stabline. But separate setup() is required for each to load up.
+> Doing this will install both staline and stabline. <br />
+> But separate setup() is required for each to load up.
 
 # Statusline
 
@@ -118,7 +119,6 @@ __A section (left, right or mid) can take:__
 	end
 	```
 
-> **Check** 
 > `lsp`, `lsp_name`, `file_size` sections are not included in the default settings.
 
 #### Showcase
