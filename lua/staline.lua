@@ -145,7 +145,7 @@ M.get_statusline = function(status)
 
     call_highlights(fgColor, bgColor)
 
-    M.sections['mode']             = (" "..modeIcon.." ")
+    M.sections['mode']             = " "..modeIcon.." "
     M.sections['branch']           = " "..(M.Branch_name or "").." "
     M.sections['file_name']        = " "..f_icon.." "..f_name..edited.." "
     M.sections['file_size']        = " " ..size.. "k "

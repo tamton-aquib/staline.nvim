@@ -19,17 +19,17 @@ local refresh_colors = function()
     local active, inactive = {}, {}
 
     if stab_type == "bar" then
-        active = { left = {f = fg_hex, b = bg_hex}, right = {f = fg_hex, b = bg_hex} }
-        inactive = { left = {f = inactive_bg, b = inactive_bg}, right = {f = fg_hex, b = inactive_bg} }
+        active = { left={ f=fg_hex, b=bg_hex }, right={ f=fg_hex, b=bg_hex } }
+        inactive = { left={ f=inactive_bg, b=inactive_bg }, right={ f=fg_hex, b=inactive_bg } }
     elseif stab_type == "slant" then
-        active = { left = {f = bg_hex, b = dark_bg}, right = {f = bg_hex, b = dark_bg} }
-        inactive = { left = {f = inactive_bg, b = dark_bg}, right = {f = inactive_bg, b = dark_bg} }
+        active = { left={ f=bg_hex, b=dark_bg }, right={ f=bg_hex, b=dark_bg } }
+        inactive = { left={ f=inactive_bg, b=dark_bg }, right={ f=inactive_bg, b=dark_bg } }
     elseif stab_type == "arrow" then
-        active = { left = {f = dark_bg, b = bg_hex}, right = {f = bg_hex, b = dark_bg} }
-        inactive = { left = {f = dark_bg, b = inactive_bg}, right = {f = inactive_bg, b = dark_bg} }
+        active = { left={ f=dark_bg, b=bg_hex }, right={ f=bg_hex, b=dark_bg } }
+        inactive = { left={ f=dark_bg, b=inactive_bg }, right={ f=inactive_bg, b=dark_bg } }
     elseif stab_type == "bubble" then
-        active = { left = {f = bg_hex, b = dark_bg}, right = {f = bg_hex, b = dark_bg} }
-        inactive = { left = {f = inactive_bg, b = dark_bg}, right = {f = inactive_bg, b = dark_bg} }
+        active = { left={ f=bg_hex, b=dark_bg }, right={ f=bg_hex, b=dark_bg } }
+        inactive = { left={ f=inactive_bg, b=dark_bg }, right={ f=inactive_bg, b=dark_bg } }
     else
         vim.notify("[stabline.nvim]: Invalid Type: please set one of bar/slant/arrow/bubble.")
         return
@@ -63,7 +63,6 @@ Stabline.get_tabline = function()
     local stab_type = opts.style
     local stab_left = opts.stab_left or type_chars[stab_type].left
     local stab_right= opts.stab_right or type_chars[stab_type].right
-    -- local tabline = opts.stab_start and ("%#Stabline#"..opts.stab_start) or "%#Stabline#"
     local tabline = "%#Stabline#"..(opts.stab_start or "")
 
     for _, buf in pairs(vim.api.nvim_list_bufs()) do
