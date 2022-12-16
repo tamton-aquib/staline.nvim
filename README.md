@@ -211,4 +211,4 @@ require('stabline').setup {
 - [x] ~Add config options for bufferline.~
 - [x] ~lsp client name in staline.~
 - [ ] buf numbers in stabline.
-- [ ] transparency problem when changed to 0.7 api.
+- [x] ~transparency problem when changed to 0.7 api.~

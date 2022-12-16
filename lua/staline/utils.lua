@@ -7,15 +7,15 @@ U.get_file_icon = function(f_name, ext)
 end
 
 U.extract_hl = function(hl, fore)
-    return ("#%06x"):format(
-        vim.api.nvim_get_hl_by_name(hl, true)[fore and 'background' or 'foreground'] or 255
-    )
+    local high = vim.api.nvim_get_hl_by_name(hl, true)[fore and 'background' or 'foreground']
+    return high and ("#%06x"):format(high) or nil
 end
 
 U.colorize = function(n, fg, bg, style)
     local opts = {}
-    opts['fg'] = fg and fg or nil
-    opts['bg'] = bg and bg or nil
+    opts['fg'] = fg ~= "none" and fg or nil
+    opts['bg'] = bg ~= "none" and bg or nil
+
     if style then
         for _,v in ipairs(vim.split(style, ',')) do
             if v:lower() ~= 'none' then opts[v]=true end

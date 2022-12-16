@@ -2,22 +2,20 @@ local Stabline = {}
 local util = require("staline.utils")
 local stabline_loaded
 local normal_bg, normal_fg
-local opts = {
-    style='bar', inactive_bg="#1e2127", inactive_fg="#aaaaaa",
-    exclude_fts={'NvimTree', 'help', 'dashboard', 'lir', 'alpha'},
-    font_active='bold', font_inactive='none'
-} -- NOTE: other opts: fg, bg, stab_start, stab_end, stab_right, stab_left, stab_bg
+local opts = { style='bar', exclude_fts={'NvimTree', 'help', 'dashboard', 'lir', 'alpha'} }
+-- NOTE: other opts: fg, bg, stab_start, stab_end, stab_right, stab_left, stab_bg, inactive_bg, inactive_fg
+
 local type_chars={ bar={left="┃", right=" "}, slant={left="", right=""}, arrow={left="", right=""}, bubble={left="", right=""} }
 
 local refresh_colors = function()
     local normal = vim.api.nvim_get_hl_by_name('Normal', {})
-    normal_bg, normal_fg = normal.background or 16777215 , normal.foreground or 0
+    normal_bg, normal_fg = normal.background, normal.foreground
 
     local stab_type = opts.style
-    local bg_hex = opts.bg or ("#%06x"):format(normal_bg)
-    local fg_hex = opts.fg or ("#%06x"):format(normal_fg)
+    local bg_hex = opts.bg or (normal_bg and ("#%06x"):format(normal_bg) or "none")
+    local fg_hex = opts.fg or (normal_fg and ("#%06x"):format(normal_fg) or "none")
     local dark_bg = opts.stab_bg or util.extract_hl('NormalFloat', true) -- TODO: clean later?
-    local inactive_bg, inactive_fg = opts.inactive_bg, opts.inactive_fg
+    local inactive_bg, inactive_fg = opts.inactive_bg or dark_bg, opts.inactive_fg or fg_hex
     local active, inactive = {}, {}
 
     if stab_type == "bar" then
@@ -32,10 +30,13 @@ local refresh_colors = function()
     elseif stab_type == "bubble" then
         active = { left = {f = bg_hex, b = dark_bg}, right = {f = bg_hex, b = dark_bg} }
         inactive = { left = {f = inactive_bg, b = dark_bg}, right = {f = inactive_bg, b = dark_bg} }
+    else
+        vim.notify("[stabline.nvim]: Invalid Type: please set one of bar/slant/arrow/bubble.")
+        return
     end
 
-    util.colorize('StablineSel', fg_hex, bg_hex, opts.font_active)
     util.colorize('Stabline', nil, dark_bg, nil)
+    util.colorize('StablineSel', fg_hex, bg_hex, opts.font_active or 'bold')
     util.colorize('StablineLeft',active.left.f, active.left.b, nil)
     util.colorize('StablineRight',active.right.f, active.right.b)
     util.colorize('StablineInactive', inactive_fg, inactive_bg, opts.font_inactive)
@@ -47,15 +48,13 @@ Stabline.setup = function(setup_opts)
     if stabline_loaded then return else stabline_loaded = true end
     opts = vim.tbl_deep_extend('force', opts, setup_opts or {})
 
-    vim.api.nvim_create_autocmd({'BufEnter', 'BufLeave', 'ColorScheme'}, {
-        callback = refresh_colors, pattern = "*"
-    })
+    vim.api.nvim_create_autocmd({'BufEnter', 'BufLeave', 'ColorScheme'}, {callback=refresh_colors})
     vim.o.tabline = '%!v:lua.require\'stabline\'.get_tabline()'
 end
 
 local do_icon_hl = function(icon_hl)
     local new_fg = util.extract_hl(icon_hl)
-    local icon_bg = opts.bg or string.format("#%06x", normal_bg)
+    local icon_bg = opts.bg or (normal_bg and ("#%06x"):format(normal_bg) or "none")
     vim.api.nvim_set_hl(0, 'StablineTempHighlight', {bg=icon_bg, fg=new_fg})
     return '%#StablineTempHighlight#'
 end
@@ -64,7 +63,8 @@ Stabline.get_tabline = function()
     local stab_type = opts.style
     local stab_left = opts.stab_left or type_chars[stab_type].left
     local stab_right= opts.stab_right or type_chars[stab_type].right
-    local tabline = opts.stab_start and ("%#Stabline#"..opts.stab_start) or "%#Stabline#"
+    -- local tabline = opts.stab_start and ("%#Stabline#"..opts.stab_start) or "%#Stabline#"
+    local tabline = "%#Stabline#"..(opts.stab_start or "")
 
     for _, buf in pairs(vim.api.nvim_list_bufs()) do
         if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) then
