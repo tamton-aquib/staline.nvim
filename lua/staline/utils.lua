@@ -2,7 +2,7 @@ local U = {}
 
 U.get_file_icon = function(f_name, ext)
     local status, icons = pcall(require, 'nvim-web-devicons')
-    if not status then return require('staline.config').file_icons[ext] or " " end
+    if not status then return require('staline.config').file_icons[ext] or " ", "Normal" end
     return icons.get_icon(f_name, ext, {default = true})
 end
 
