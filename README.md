@@ -154,20 +154,21 @@ Check out [wiki](https://github.com/tamton-aquib/staline.nvim/wiki) to see some 
 >
 >   ```lua
 > 	require('stabline').setup {
-> 		style       = "bar", -- others: arrow, slant, bubble
-> 		stab_left   = "┃",
-> 		stab_right  = " ",
+>       style       = "bar", -- others: arrow, slant, bubble
+>       stab_left   = "┃",
+>       stab_right  = " ",
 > 
-> 		-- fg          = Default is fg of "Normal".
-> 		-- bg          = Default is bg of "Normal".
-> 		inactive_bg = "#1e2127",
-> 		inactive_fg = "#aaaaaa",
-> 		-- stab_bg     = Default is darker version of bg.,
+>       -- fg       = Default is fg of "Normal".
+>       -- bg       = Default is bg of "Normal".
+>       inactive_bg = "#1e2127",
+>       inactive_fg = "#aaaaaa",
+>       -- stab_bg  = Default is darker version of bg.,
 > 
-> 		font_active = "bold",
-> 		exclude_fts = { 'NvimTree', 'dashboard', 'lir' },
-> 		stab_start  = "",   -- The starting of stabline
-> 		stab_end    = "",
+>       font_active = "bold",
+>       exclude_fts = { 'NvimTree', 'dashboard', 'lir' },
+>       stab_start  = "",   -- The starting of stabline
+>       stab_end    = "",
+>       num         = nil   -- `buf` or `normal`
 > 	}
 >   ```
 > </details>
@@ -179,10 +180,10 @@ Check out [wiki](https://github.com/tamton-aquib/staline.nvim/wiki) to see some 
 > 
 > ```lua
 > require('stabline').setup {
-> 	style = "slant",
-> 	bg = "#986fec",
-> 	fg = "black",
-> 	stab_right = "",
+>     style = "slant",
+>     bg = "#986fec",
+>     fg = "black",
+>     stab_right = "",
 > }
 > ```
 > 
@@ -214,5 +215,5 @@ Check out [wiki](https://github.com/tamton-aquib/staline.nvim/wiki) to see some 
 - [x] ~Adding "opt-in" bufferline function.~
 - [x] ~Add config options for bufferline.~
 - [x] ~lsp client name in staline.~
-- [ ] buf numbers in stabline.
+- [x] buf numbers in stabline.
 - [x] ~transparency problem when changed to 0.7 api.~

@@ -2,7 +2,7 @@ local Stabline = {}
 local util = require("staline.utils")
 local stabline_loaded
 local normal_bg, normal_fg
-local opts = { style='bar', exclude_fts={'NvimTree', 'help', 'dashboard', 'lir', 'alpha'} }
+local opts = { style='bar', exclude_fts={'NvimTree', 'help', 'dashboard', 'lir', 'alpha'}, num=nil }
 -- NOTE: other opts: fg, bg, stab_start, stab_end, stab_right, stab_left, stab_bg, inactive_bg, inactive_fg
 
 local type_chars={ bar={left="┃", right=" "}, slant={left="", right=""}, arrow={left="", right=""}, bubble={left="", right=""} }
@@ -11,7 +11,7 @@ local refresh_colors = function()
     local normal = vim.api.nvim_get_hl_by_name('Normal', {})
     normal_bg, normal_fg = normal.background, normal.foreground
 
-    local stab_type = opts.style
+    local stab_type = opts.style or "bar"
     local bg_hex = opts.bg or (normal_bg and ("#%06x"):format(normal_bg) or "none")
     local fg_hex = opts.fg or (normal_fg and ("#%06x"):format(normal_fg) or "none")
     local dark_bg = opts.stab_bg or util.extract_hl('NormalFloat', true) -- TODO: clean later?
@@ -30,9 +30,6 @@ local refresh_colors = function()
     elseif stab_type == "bubble" then
         active = { left={ f=bg_hex, b=dark_bg }, right={ f=bg_hex, b=dark_bg } }
         inactive = { left={ f=inactive_bg, b=dark_bg }, right={ f=inactive_bg, b=dark_bg } }
-    else
-        vim.notify("[stabline.nvim]: Invalid Type: please set one of bar/slant/arrow/bubble.")
-        return
     end
 
     util.colorize('Stabline', nil, dark_bg, nil)
@@ -59,12 +56,18 @@ local do_icon_hl = function(icon_hl)
     return '%#StablineTempHighlight#'
 end
 
+local get_numer_format = function(buf, i)
+    if not opts.num then return '' end
+    return opts.num == "buf" and vim.api.nvim_buf_get_number(buf).." " or i.." "
+end
+
 Stabline.get_tabline = function()
     local stab_type = opts.style
     local stab_left = opts.stab_left or type_chars[stab_type].left
     local stab_right= opts.stab_right or type_chars[stab_type].right
     local tabline = "%#Stabline#"..(opts.stab_start or "")
 
+    local counter = 1
     for _, buf in pairs(vim.api.nvim_list_bufs()) do
         if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) then
             local edited = vim.bo.modified and "" or " "
@@ -82,11 +85,14 @@ Stabline.get_tabline = function()
             tabline = tabline..
             "%#Stabline"..(s and "" or "Inactive").."Left#"..stab_left..
             "%#Stabline"..(s and "Sel" or "Inactive").."#   "..
-            (" "):rep(opts.padding or 1)..
+            (" "):rep(opts.padding or 0)..
+            get_numer_format(buf, counter)..
             (s and do_icon_hl(icon_hl) or "")..f_icon..
             "%#Stabline"..(s and "Sel" or "Inactive").."#"..f_name.." "..
-            (" "):rep(opts.padding or 1).. (s and edited or " ")..
+            (" "):rep(opts.padding or 0).. (s and edited or " ")..
             "%#Stabline"..(s and "" or "Inactive").."Right#"..stab_right
+
+            counter = counter + 1
         end
         ::do_nothing::
     end
