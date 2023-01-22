@@ -168,7 +168,9 @@ Check out [wiki](https://github.com/tamton-aquib/staline.nvim/wiki) to see some 
 >       exclude_fts = { 'NvimTree', 'dashboard', 'lir' },
 >       stab_start  = "",   -- The starting of stabline
 >       stab_end    = "",
->       num         = nil   -- `buf` or `normal`
+>       numbers = function(bufn, n)
+>           return '*'..n..' '
+>       end
 > 	}
 >   ```
 > </details>

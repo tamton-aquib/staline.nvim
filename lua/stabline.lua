@@ -2,7 +2,7 @@ local Stabline = {}
 local util = require("staline.utils")
 local stabline_loaded
 local normal_bg, normal_fg
-local opts = { style='bar', exclude_fts={'NvimTree', 'help', 'dashboard', 'lir', 'alpha'}, num=nil }
+local opts = { style='bar', exclude_fts={'NvimTree', 'help', 'dashboard', 'lir', 'alpha'}, numbers=nil }
 -- NOTE: other opts: fg, bg, stab_start, stab_end, stab_right, stab_left, stab_bg, inactive_bg, inactive_fg
 
 local type_chars={ bar={left="┃", right=" "}, slant={left="", right=""}, arrow={left="", right=""}, bubble={left="", right=""} }
@@ -56,9 +56,11 @@ local do_icon_hl = function(icon_hl)
     return '%#StablineTempHighlight#'
 end
 
-local get_numer_format = function(buf, i)
-    if not opts.num then return '' end
-    return opts.num == "buf" and vim.api.nvim_buf_get_number(buf).." " or i.." "
+local get_numer_format = function(buf, counter)
+    if type(opts.numbers) == "string" then
+        return opts.numbers == "buf" and vim.api.nvim_buf_get_number(buf)..' ' or counter..' '
+    end
+    return opts.numbers and opts.numbers(vim.api.nvim_buf_get_number(buf), counter) or ''
 end
 
 Stabline.get_tabline = function()
