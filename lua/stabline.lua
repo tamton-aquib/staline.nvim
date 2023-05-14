@@ -74,7 +74,7 @@ Stabline.get_tabline = function()
         if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) then
             local edited = vim.bo.modified and "" or " "
 
-            local f_name = vim.api.nvim_buf_get_name(buf):match("^.+/(.+)$") or ""
+            local f_name = vim.api.nvim_buf_get_name(buf):match("^.+[\\/](.+)$") or ""
             local ext = string.match(f_name, "%w+%.(.+)")
             local f_icon, icon_hl = util.get_file_icon(f_name, ext)
 
