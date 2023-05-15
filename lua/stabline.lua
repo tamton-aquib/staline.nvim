@@ -7,6 +7,11 @@ local opts = { style='bar', exclude_fts={'NvimTree', 'help', 'dashboard', 'lir',
 
 local type_chars={ bar={left="┃", right=" "}, slant={left="", right=""}, arrow={left="", right=""}, bubble={left="", right=""} }
 
+function PickBuffer(buf_id) 
+   local window = vim.api.nvim_get_current_win()
+   vim.api.nvim_win_set_buf(window, buf_id)
+end
+
 local refresh_colors = function()
     local normal = vim.api.nvim_get_hl_by_name('Normal', {})
     normal_bg, normal_fg = normal.background, normal.foreground
@@ -88,9 +93,11 @@ Stabline.get_tabline = function()
             "%#Stabline"..(s and "" or "Inactive").."Left#"..stab_left..
             "%#Stabline"..(s and "Sel" or "Inactive").."#   "..
             (" "):rep(opts.padding or 0)..
+            "%"..buf.."@v:lua.PickBuffer@".. -- start for picking buffer
             get_numer_format(buf, counter)..
             (s and do_icon_hl(icon_hl) or "")..f_icon..
             "%#Stabline"..(s and "Sel" or "Inactive").."#"..f_name.." "..
+            "%X".. -- end for picking buffer
             (" "):rep(opts.padding or 0).. (s and edited or " ")..
             "%#Stabline"..(s and "" or "Inactive").."Right#"..stab_right
 

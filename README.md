@@ -195,10 +195,10 @@ Check out [wiki](https://github.com/tamton-aquib/staline.nvim/wiki) to see some 
 * Lightweight and Fast. staline+stabline took **< 1ms**. (packers profiling)
 * Unicode current mode info. Needs a Nerd Font to be installed.
 * Has few builtin sections to chose from.
+* Mouse buffer selection on stabline.
 * Uses [nvim-web-devicons](https://github.com/kyazdani42/nvim-web-devicons) if installed, else uses a default table.
 
 #### Cons
-* No mouse functions for stabline.
 * No ordering or sorting functions for stabline.
 * No lsp info in stabline.
 * No git related info on staline except branch name.
