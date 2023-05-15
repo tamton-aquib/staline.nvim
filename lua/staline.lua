@@ -163,6 +163,11 @@ M.get_statusline = function(status)
     local staline = ""
     local section_t = status and 'sections' or 'inactive_sections'
     for _, major in ipairs({ 'left', 'mid', 'right' }) do
+        -- fix background glitch
+        if conf[section_t]['left'][1] == nil then
+            conf[section_t]['left'][1] = ' '
+        end
+
         for _, section in pairs(conf[section_t][major]) do
             staline = staline .. parse_section(section).."%#StalineNone#"
         end
