@@ -161,8 +161,9 @@ M.get_statusline = function(status)
     M.sections['cwd']              = " " .. vim.fn.fnamemodify(vim.fn.getcwd(), ':t') .. " "
 
     local staline = ""
+    local section_t = status and 'sections' or 'inactive_sections'
     for _, major in ipairs({ 'left', 'mid', 'right' }) do
-        for _, section in pairs(conf.sections[major]) do
+        for _, section in pairs(conf[section_t][major]) do
             staline = staline .. parse_section(section).."%#StalineNone#"
         end
         if major ~= 'right' then staline = staline .. "%=" end

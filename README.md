@@ -70,6 +70,11 @@ require('staline').setup()
 >         mid  = { 'file_name' },
 >         right = { 'cool_symbol','right_sep_double', '-line_column' },
 >     },
+>     inactive_sections = {
+>         left = { 'branch' },
+>         mid  = { 'file_name' },
+>         right = { 'line_column' }
+>     },
 >     special_table = {
 >         NvimTree = { 'NvimTree', ' ' },
 >         packer = { 'Packer',' ' },        -- etc
