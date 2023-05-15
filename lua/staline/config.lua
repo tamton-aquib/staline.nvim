@@ -8,6 +8,12 @@ return {
         right = { 'cool_symbol','right_sep_double', '-line_column' }
     },
 
+    inactive_sections = {
+        left = { 'branch' },
+        mid  = { 'file_name' },
+        right = { 'line_column' }
+    },
+
     lsp_symbols = { Error=" ", Info=" ", Warn=" ", Hint="" },
 
     defaults = {
