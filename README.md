@@ -171,6 +171,7 @@ Check out [wiki](https://github.com/tamton-aquib/staline.nvim/wiki) to see some 
 > 
 >       font_active = "bold",
 >       exclude_fts = { 'NvimTree', 'dashboard', 'lir' },
+>       close_icon  = " ",
 >       stab_start  = "",   -- The starting of stabline
 >       stab_end    = "",
 >       numbers = function(bufn, n)
@@ -190,6 +191,7 @@ Check out [wiki](https://github.com/tamton-aquib/staline.nvim/wiki) to see some 
 >     style = "slant",
 >     bg = "#986fec",
 >     fg = "black",
+>     close_icon  = " ",
 >     stab_right = "",
 > }
 > ```

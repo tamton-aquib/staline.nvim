@@ -2,15 +2,10 @@ local Stabline = {}
 local util = require("staline.utils")
 local stabline_loaded
 local normal_bg, normal_fg
-local opts = { style='bar', exclude_fts={'NvimTree', 'help', 'dashboard', 'lir', 'alpha'}, numbers=nil }
+local opts = { style='bar', exclude_fts={'NvimTree', 'help', 'dashboard', 'lir', 'alpha'}, close_icon=" ", numbers=nil }
 -- NOTE: other opts: fg, bg, stab_start, stab_end, stab_right, stab_left, stab_bg, inactive_bg, inactive_fg
 
 local type_chars={ bar={left="┃", right=" "}, slant={left="", right=""}, arrow={left="", right=""}, bubble={left="", right=""} }
-
-function PickBuffer(buf_id) 
-   local window = vim.api.nvim_get_current_win()
-   vim.api.nvim_win_set_buf(window, buf_id)
-end
 
 local refresh_colors = function()
     local normal = vim.api.nvim_get_hl_by_name('Normal', {})
@@ -77,7 +72,7 @@ Stabline.get_tabline = function()
     local counter = 1
     for _, buf in pairs(vim.api.nvim_list_bufs()) do
         if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) then
-            local edited = vim.bo.modified and "" or " "
+            local edited = vim.bo.modified and "" or ""
 
             local f_name = vim.api.nvim_buf_get_name(buf):match("^.+[\\/](.+)$") or ""
             local ext = string.match(f_name, "%w+%.(.+)")
@@ -87,6 +82,8 @@ Stabline.get_tabline = function()
             if conditions then goto do_nothing else f_name = " ".. f_name .." " end
 
             local s = vim.api.nvim_get_current_buf() == buf
+
+            local close_buf = "%"..buf.."@v:lua.CloseBuffer@".. opts.close_icon .."%X"
 
             -- TODO: change to `format` so as to remove padding??
             tabline = tabline..
@@ -98,7 +95,8 @@ Stabline.get_tabline = function()
             (s and do_icon_hl(icon_hl) or "")..f_icon..
             "%#Stabline"..(s and "Sel" or "Inactive").."#"..f_name.." "..
             "%X".. -- end for picking buffer
-            (" "):rep(opts.padding or 0).. (s and edited or " ")..
+            (" "):rep(opts.padding or 0).. (s and edited or close_buf)..
+            (s == true and edited ~= "" and close_buf or "")..
             "%#Stabline"..(s and "" or "Inactive").."Right#"..stab_right
 
             counter = counter + 1
@@ -107,6 +105,16 @@ Stabline.get_tabline = function()
     end
 
     return tabline.."%#Stabline#%="..(opts.stab_end or "")
+end
+
+function PickBuffer(buf_id)
+   local window = vim.api.nvim_get_current_win()
+   vim.api.nvim_win_set_buf(window, buf_id)
+end
+
+function CloseBuffer(buf_id)
+   vim.api.nvim_buf_delete(buf_id, {})
+   refresh_colors()
 end
 
 return Stabline
