@@ -7,7 +7,7 @@ local opts = { style='bar', exclude_fts={'NvimTree', 'help', 'dashboard', 'lir',
 
 local type_chars={ bar={left="┃", right=" "}, slant={left="", right=""}, arrow={left="", right=""}, bubble={left="", right=""} }
 
-function PickBuffer(buf_id) 
+function PickBuffer(buf_id)
    local window = vim.api.nvim_get_current_win()
    vim.api.nvim_win_set_buf(window, buf_id)
 end
@@ -72,7 +72,9 @@ Stabline.get_tabline = function()
     local stab_type = opts.style
     local stab_left = opts.stab_left or type_chars[stab_type].left
     local stab_right= opts.stab_right or type_chars[stab_type].right
-    local tabline = "%#Stabline#"..(opts.stab_start or "")
+    local start_string = type(opts.stab_start) == "function" and (opts.stab_start() or "") or opts.stab_start
+    local end_string = type(opts.stab_end) == "function" and (opts.stab_end() or "") or opts.stab_end
+    local tabline = "%#Stabline#"..(start_string or "")
 
     local counter = 1
     for _, buf in pairs(vim.api.nvim_list_bufs()) do
@@ -106,7 +108,7 @@ Stabline.get_tabline = function()
         ::do_nothing::
     end
 
-    return tabline.."%#Stabline#%="..(opts.stab_end or "")
+    return tabline.."%#Stabline#%="..(end_string or "")
 end
 
 return Stabline
