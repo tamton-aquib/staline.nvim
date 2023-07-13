@@ -30,7 +30,7 @@ require('staline').setup()
 ```
 > <details>
 > <summary> Click to see default configuration </summary>
-> 
+>
 > ```lua
 > require('staline').setup {
 >     defaults = {
@@ -39,16 +39,17 @@ require('staline').setup()
 >         right_separator = "",
 >         full_path       = false,
 >         line_column     = "[%l/%L] :%c 並%p%% ", -- `:h stl` to see all flags.
-> 
+>
 >         fg              = "#000000",  -- Foreground text color.
 >         bg              = "none",     -- Default background is transparent.
 >         inactive_color  = "#303030",
 >         inactive_bgcolor = "none",
 >         true_colors     = false,      -- true lsp colors.
 >         font_active     = "none",     -- "bold", "italic", "bold,italic", etc
-> 
+>
 >         mod_symbol      = "  ",
 >         lsp_client_symbol = " ",
+>         lsp_client_character_name = "12", -- To shorten LSP client name list.
 >         branch_symbol   = " ",
 >         cool_symbol     = " ",       -- Change this to override default OS icon.
 >         null_ls_symbol = "",          -- A symbol to indicate that a source is coming from null-ls
@@ -90,7 +91,7 @@ require('staline').setup()
 > </details>
 
 > <details><summary>Sections</summary>
-> 
+>
 > | section | use |
 > |---------|-----|
 > | mode         | shows the mode       |
@@ -162,13 +163,13 @@ Check out [wiki](https://github.com/tamton-aquib/staline.nvim/wiki) to see some 
 >       style       = "bar", -- others: arrow, slant, bubble
 >       stab_left   = "┃",
 >       stab_right  = " ",
-> 
+>
 >       -- fg       = Default is fg of "Normal".
 >       -- bg       = Default is bg of "Normal".
 >       inactive_bg = "#1e2127",
 >       inactive_fg = "#aaaaaa",
 >       -- stab_bg  = Default is darker version of bg.,
-> 
+>
 >       font_active = "bold",
 >       exclude_fts = { 'NvimTree', 'dashboard', 'lir' },
 >       stab_start  = "",   -- The starting of stabline
@@ -182,9 +183,9 @@ Check out [wiki](https://github.com/tamton-aquib/staline.nvim/wiki) to see some 
 
 
 > <details> <summary>My personal config as of editing this file</summary>
-> 
+>
 > ![my stabline config](https://i.imgur.com/cmBdfzx.png)
-> 
+>
 > ```lua
 > require('stabline').setup {
 >     style = "slant",
@@ -193,7 +194,7 @@ Check out [wiki](https://github.com/tamton-aquib/staline.nvim/wiki) to see some 
 >     stab_right = "",
 > }
 > ```
-> 
+>
 > </details>
 
 ### Features

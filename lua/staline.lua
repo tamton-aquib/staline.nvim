@@ -75,6 +75,10 @@ end
 
 local lsp_client_name = function()
     local clients = {}
+    local clients_name = ""
+    local the_symbol = t.lsp_client_symbol
+    local name_max_lenght = t.lsp_client_character_name
+
     for _, client in pairs(vim.lsp.get_active_clients()) do
         if t.expand_null_ls then
             if client.name == 'null-ls' then
@@ -88,8 +92,24 @@ local lsp_client_name = function()
             clients[#clients + 1] = client.name
         end
     end
-    return t.lsp_client_symbol .. table.concat(clients, ', ')
+    clients_name = table.concat(clients, ', ')
+
+    -- NOTE: Only show XX characters if the "clients_name" is too long
+    if name_max_lenght <= 0 then
+        return the_symbol .. clients_name
+    else
+        local clients_lenght = string.len(clients_name)
+        local clients_truncateName = ""
+
+        if clients_lenght >= name_max_lenght then
+            clients_truncateName = string.sub(clients_name, 1, name_max_lenght)
+            clients_truncateName = #clients .. ":(" .. clients_truncateName .. "...)"
+            return the_symbol .. clients_truncateName
+        end
+        return the_symbol .. #clients .. ":(" .. "LSP" .. ")"
+    end
 end
+
 
 -- TODO: check colors inside function type
 local parse_section = function(section)
