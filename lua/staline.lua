@@ -105,8 +105,11 @@ local lsp_client_name = function()
             clients_truncateName = string.sub(clients_name, 1, name_max_lenght)
             clients_truncateName = #clients .. ":(" .. clients_truncateName .. "...)"
             return the_symbol .. clients_truncateName
+        elseif clients_lenght == 0 then
+            return the_symbol .. #clients .. ":(" .. "LSP" .. ")"
+        else
+            return the_symbol .. #clients .. ":(" .. clients_name .. ")"
         end
-        return the_symbol .. #clients .. ":(" .. "LSP" .. ")"
     end
 end
 
