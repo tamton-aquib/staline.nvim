@@ -49,7 +49,7 @@ require('staline').setup()
 >
 >         mod_symbol      = "  ",
 >         lsp_client_symbol = " ",
->         lsp_client_character_name = 12, -- To shorten LSP client name list.
+>         lsp_client_character_length = 12, -- Shorten LSP client names.
 >         branch_symbol   = " ",
 >         cool_symbol     = " ",       -- Change this to override default OS icon.
 >         null_ls_symbol = "",          -- A symbol to indicate that a source is coming from null-ls

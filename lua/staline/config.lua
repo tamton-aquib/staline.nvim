@@ -34,7 +34,7 @@ return {
         branch_symbol = " ",
         mod_symbol = "  ",
         lsp_client_symbol = " ",
-        lsp_client_character_name = 12,
+        lsp_client_character_length = 12,
         null_ls_symbol = "",
     },
 

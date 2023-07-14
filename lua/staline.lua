@@ -77,7 +77,7 @@ local lsp_client_name = function()
     local clients = {}
     local clients_name = ""
     local the_symbol = t.lsp_client_symbol
-    local name_max_lenght = t.lsp_client_character_name
+    local name_max_length = t.lsp_client_character_length
 
     for _, client in pairs(vim.lsp.get_active_clients()) do
         if t.expand_null_ls then
@@ -95,17 +95,17 @@ local lsp_client_name = function()
     clients_name = table.concat(clients, ', ')
 
     -- NOTE: Only show XX characters if the "clients_name" is too long
-    if name_max_lenght <= 0 then
+    if name_max_length <= 0 then
         return the_symbol .. clients_name
     else
-        local clients_lenght = string.len(clients_name)
-        local clients_truncateName = ""
+        local clients_length = string.len(clients_name)
+        local clients_truncated_name = ""
 
-        if clients_lenght >= name_max_lenght then
-            clients_truncateName = string.sub(clients_name, 1, name_max_lenght)
-            clients_truncateName = #clients .. ":(" .. clients_truncateName .. "...)"
-            return the_symbol .. clients_truncateName
-        elseif clients_lenght == 0 then
+        if clients_length >= name_max_length then
+            clients_truncated_name = string.sub(clients_name, 1, name_max_length)
+            clients_truncated_name = #clients .. ":(" .. clients_truncated_name .. "...)"
+            return the_symbol .. clients_truncated_name
+        elseif clients_length == 0 then
             return the_symbol .. #clients .. ":(" .. "LSP" .. ")"
         else
             return the_symbol .. #clients .. ":(" .. clients_name .. ")"
