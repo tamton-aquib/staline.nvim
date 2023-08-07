@@ -4,7 +4,6 @@ local conf = require("staline.config")
 local util = require("staline.utils")
 local colorize = util.colorize
 local t = conf.defaults
-local redirect = vim.fn.has('win32') == 1 and "nul" or "/dev/null"
 
 local set_stl = function()
     for _, win in pairs(vim.api.nvim_list_wins()) do
@@ -16,25 +15,28 @@ local set_stl = function()
     end
 end
 
--- PERF: git command for branch_name according to file location instead of cwd?
 local update_branch = function()
-    local cmd = io.popen('git branch --show-current 2>' .. redirect)
-    local branch = ''
-    if cmd ~= nil then
-        branch = cmd:read("*l") or cmd:read("*a")
-        cmd:close()
+    vim.b.staline_branch = ""
+    if vim.b.gitsigns_head then
+        vim.b.staline_branch = vim.b.gitsigns_head and (t.branch_symbol .. vim.b.gitsigns_head) or ""
+        return
     end
-
-    M.Branch_name = branch ~= "" and t.branch_symbol .. branch or ""
+    vim.fn.jobstart({"git", "branch", "--show-current"}, {
+        stdout_buffered = true,
+        on_stdout = function(_, data)
+            local branch = data[1]
+            vim.b.staline_branch = branch ~= "" and t.branch_symbol .. branch or ""
+        end
+    })
 end
 
 M.setup = function(opts)
     if staline_loaded then return else staline_loaded = true end
     for k,_ in pairs(opts or {}) do for k1,v1 in pairs(opts[k]) do conf[k][k1] = v1 end end
 
-    vim.api.nvim_create_autocmd('BufEnter', {callback=update_branch})
+    vim.api.nvim_create_autocmd({'BufReadPost', 'DirChanged'}, {callback=update_branch})
     vim.api.nvim_create_autocmd(
-        {'BufEnter', 'BufReadPost', 'ColorScheme', 'TabEnter', 'TabClosed'},
+        {'BufEnter', 'BufReadPost', 'ColorSchemePre', 'TabEnter', 'TabClosed'},
         { callback=set_stl }
     )
 end
@@ -79,7 +81,7 @@ local lsp_client_name = function()
     local the_symbol = t.lsp_client_symbol
     local name_max_length = t.lsp_client_character_length
 
-    for _, client in pairs(vim.lsp.get_active_clients()) do
+    for _, client in pairs(vim.lsp.get_active_clients()) do -- Deprecated?
         if t.expand_null_ls then
             if client.name == 'null-ls' then
                 for _, source in pairs(get_attached_null_ls_sources()) do
@@ -169,7 +171,9 @@ M.get_statusline = function(status)
     call_highlights(fgColor, bgColor)
 
     M.sections['mode']             = " "..modeIcon.." "
-    M.sections['branch']           = " "..(M.Branch_name or "").." "
+    M.sections['branch']           = " "..("%{get(b:, 'staline_branch', '')}").." "
+    M.sections['git_branch']       = " "..("%{get(b:, 'staline_branch', '')}").." "
+    M.sections['git_diff']         = " "..("%{get(b:, 'gitsigns_status', '')}").." "
     M.sections['file_name']        = " "..f_icon.." "..f_name..edited.." "
     M.sections['file_size']        = " " ..size.. "k "
     M.sections['cool_symbol']      = " "..t.cool_symbol.." "
