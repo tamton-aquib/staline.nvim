@@ -78,7 +78,7 @@ Stabline.get_tabline = function()
 
     local counter = 1
     for _, buf in pairs(vim.api.nvim_list_bufs()) do
-        if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) then
+        if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buflisted then
             local edited = vim.bo.modified and "" or " "
 
             local f_name = vim.api.nvim_buf_get_name(buf):match("^.+[\\/](.+)$") or ""
