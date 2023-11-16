@@ -32,7 +32,7 @@ return {
 
         cool_symbol = util.system_icon(),
         branch_symbol = " ",
-        mod_symbol = "  ",
+        mod_symbol = " 󰏫 ",
         lsp_client_symbol = " ",
         lsp_client_character_length = 12,
         null_ls_symbol = "",
