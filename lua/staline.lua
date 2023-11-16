@@ -159,7 +159,7 @@ M.get_statusline = function(status)
     local mode = vim.api.nvim_get_mode()['mode']
     local fgColor = status and conf.mode_colors[mode] or t.inactive_color
     local bgColor = status and t.bg or t.inactive_bgcolor
-    local modeIcon = conf.mode_icons[mode] or " "
+    local modeIcon = conf.mode_icons[mode] or "󰋜 "
 
     local f_name = t.full_path and '%F' or '%t'
     -- TODO: original color of icon
