@@ -148,6 +148,29 @@ local parse_section = function(section)
     end
 end
 
+local harpoon_marks = function()
+    local marks = require("harpoon").get_mark_config().marks
+    local buffer = vim.api.nvim_buf_get_name(0)
+    local current = require("harpoon.mark").get_index_of(buffer)
+    local keymaps = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}
+    -- local keymaps = {"H", "J", "K", "L"}
+    local amount = 9
+    if #marks < amount then
+        amount = #marks
+    end
+
+    local str = ""
+    for i = 1, amount do
+        if i == current then
+            str = str .. "[" .. keymaps[i] .. "]"
+        else
+            str = str .. " " .. keymaps[i] .. " "
+        end
+    end
+
+    return str
+end
+
 M.get_statusline = function(status)
     if conf.special_table[vim.bo.ft] ~= nil then
         local special = conf.special_table[vim.bo.ft]
@@ -170,6 +193,7 @@ M.get_statusline = function(status)
 
     call_highlights(fgColor, bgColor)
 
+    M.sections['harpoon']          = harpoon_marks()
     M.sections['mode']             = " "..modeIcon.." "
     M.sections['branch']           = " "..("%{get(b:, 'staline_branch', '')}").." "
     M.sections['git_branch']       = " "..("%{get(b:, 'staline_branch', '')}").." "
