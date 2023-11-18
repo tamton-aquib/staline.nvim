@@ -4,13 +4,13 @@ local extract_hl = util.extract_hl
 return {
     sections = {
         left = { '- ', '-mode', 'left_sep_double', ' ', 'branch' },
-        mid  = { 'file_name' },
+        mid  = { 'file_icon', 'file_name' },
         right = { 'cool_symbol','right_sep_double', '-line_column' }
     },
 
     inactive_sections = {
         left = { 'branch' },
-        mid  = { 'file_name' },
+        mid  = { 'file_icon', 'file_name' },
         right = { 'line_column' }
     },
 
