@@ -26,7 +26,7 @@ U.colorize = function(n, fg, bg, style)
 end
 
 U.system_icon = function()
-    if vim.fn.has("win32")    == 1 then return "者"
+    if vim.fn.has("win32")    == 1 then return " "
     elseif vim.fn.has("mac")  == 1 then return " "
     elseif vim.fn.has("unix") == 1 then return " "
     end

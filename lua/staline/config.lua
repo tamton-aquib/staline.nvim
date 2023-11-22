@@ -14,12 +14,12 @@ return {
         right = { 'line_column' }
     },
 
-    lsp_symbols = { Error=" ", Info=" ", Warn=" ", Hint="" },
+    lsp_symbols = { Error="󰅙 ", Info="󰋼 ", Warn=" ", Hint="" },
 
     defaults = {
         left_separator = "",
         right_separator = "",
-        line_column = " [%l/%L] :%c 並%p%% ",
+        line_column = " [%l/%L] :%c 󰕱 %p%% ",
         expand_null_ls = false,
         full_path = false,
 
@@ -32,7 +32,7 @@ return {
 
         cool_symbol = util.system_icon(),
         branch_symbol = " ",
-        mod_symbol = "  ",
+        mod_symbol = " 󰏫 ",
         lsp_client_symbol = " ",
         lsp_client_character_length = 12,
         null_ls_symbol = "",
@@ -42,7 +42,7 @@ return {
         NvimTree = { 'NvimTree', ' ' },
         packer = { 'Packer',' ' },
         dashboard = { 'Dashboard', '  ' },
-        help = { 'Help', '龎' },
+        help = { 'Help', '󰗚 ' },
         qf = { "QuickFix", " " },
         alpha = { "Alpha", "  " },
         Jaq = { "Jaq", "  "},
@@ -68,9 +68,9 @@ return {
     mode_icons = {
         ['n']='󰋜 ', ['no']='󰋜 ', ['niI']='󰋜 ', ['niR']='󰋜 ',
         ['no']='󰋜 ', ['niV']='󰋜 ', ['nov']='󰋜 ', ['noV']='󰋜 ',
-        ['i']=' ', ['ic']=' ', ['ix']=' ', ['s']=' ', ['S']=' ',
-        ['v']=' ', ['V']=' ', ['']=' ',
-        ['r']='﯒ ', ['r?']=' ', ['c']=' ',
+        ['i']='󰏫 ', ['ic']='󰏫 ', ['ix']='󰏫 ', ['s']='󰏫 ', ['S']='󰏫 ',
+        ['v']='󰈈 ', ['V']='󰈈 ', ['']='󰈈 ',
+        ['r']='󰛔 ', ['r?']=' ', ['c']=' ',
         ['t']=' ', ['!']=' ', ['R']=' ',
     },
 
