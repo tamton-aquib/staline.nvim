@@ -36,8 +36,8 @@ M.setup = function(opts)
 
     vim.api.nvim_create_autocmd({'BufReadPost', 'DirChanged'}, {callback=update_branch})
     vim.api.nvim_create_autocmd(
-        {'BufEnter', 'BufReadPost', 'ColorSchemePre', 'TabEnter', 'TabClosed'},
-        { callback=set_stl }
+        { 'BufEnter', 'BufReadPost', 'ColorSchemePre', 'TabEnter', 'TabClosed', 'Filetype' },
+        { callback = set_stl }
     )
 end
 
