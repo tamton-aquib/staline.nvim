@@ -97,7 +97,7 @@ Stabline.get_tabline = function()
             (" "):rep(opts.padding or 0)..
             "%"..buf.."@v:lua.PickBuffer@".. -- start for picking buffer
             get_numer_format(buf, counter)..
-            (s and do_icon_hl(icon_hl) or "")..f_icon..
+            (s and do_icon_hl(icon_hl) or "")..f_icon.." "..
             "%#Stabline"..(s and "Sel" or "Inactive").."#"..f_name.." "..
             "%X".. -- end for picking buffer
             (" "):rep(opts.padding or 0).. (s and edited or " ")..
