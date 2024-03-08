@@ -61,7 +61,7 @@ local do_icon_hl = function(icon_hl)
     return '%#StablineTempHighlight#'
 end
 
-local get_numer_format = function(buf, counter)
+local get_number_format = function(buf, counter)
     if type(opts.numbers) == "string" then
         return opts.numbers == "buf" and vim.api.nvim_buf_get_number(buf)..' ' or counter..' '
     end
@@ -77,11 +77,11 @@ Stabline.get_tabline = function()
     local tabline = "%#Stabline#"..(start_string or "")
 
     local counter = 1
-    for _, buf in pairs(vim.api.nvim_list_bufs()) do
-        if vim.api.nvim_buf_is_valid(buf) and vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buflisted then
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted then
             local edited = vim.bo.modified and "" or " "
 
-            local f_name = vim.api.nvim_buf_get_name(buf):match("^.+[\\/](.+)$") or ""
+            local f_name = vim.api.nvim_buf_get_name(buf):match("^.+[\\/](.+)$") or "" -- TODO: use fnamemodify()?
             local ext = string.match(f_name, "%w+%.(.+)")
             local f_icon, icon_hl = util.get_file_icon(f_name, ext)
 
@@ -96,7 +96,7 @@ Stabline.get_tabline = function()
             "%#Stabline"..(s and "Sel" or "Inactive").."#   "..
             (" "):rep(opts.padding or 0)..
             "%"..buf.."@v:lua.PickBuffer@".. -- start for picking buffer
-            get_numer_format(buf, counter)..
+            get_number_format(buf, counter)..
             (s and do_icon_hl(icon_hl) or "")..f_icon.." "..
             "%#Stabline"..(s and "Sel" or "Inactive").."#"..f_name.." "..
             "%X".. -- end for picking buffer

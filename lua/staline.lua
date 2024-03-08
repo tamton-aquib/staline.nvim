@@ -157,8 +157,8 @@ M.get_statusline = function(status)
     M.sections = {}
 
     local mode = vim.api.nvim_get_mode()['mode']
-    local fgColor = status and conf.mode_colors[mode] or t.inactive_color
-    local bgColor = status and t.bg or t.inactive_bgcolor
+    local fg_color = status and conf.mode_colors[mode] or t.inactive_color
+    local bg_color = status and t.bg or t.inactive_bgcolor
     local modeIcon = conf.mode_icons[mode] or "󰋜 "
 
     local f_name = t.full_path and '%F' or '%t'
@@ -168,7 +168,7 @@ M.get_statusline = function(status)
     -- TODO: need to support b, or mb?
     local size = ("%.1f"):format(vim.fn.getfsize(vim.api.nvim_buf_get_name(0))/1024)
 
-    call_highlights(fgColor, bgColor)
+    call_highlights(fg_color, bg_color)
 
     M.sections['mode']             = " "..modeIcon.." "
     M.sections['branch']           = " "..("%{get(b:, 'staline_branch', '')}").." "
