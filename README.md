@@ -98,6 +98,7 @@ require('staline').setup()
 > | branch       | shows git branch |
 > | file_name     | shows filename |
 > | file_size     | shows file size |
+> | file_type     | shows file type |
 > | cool_symbol  | an icon according to the OS type (cutomizable) |
 > | lsp          | lsp diagnostics (number of errors, warnings, etc) |
 > | lsp_name     | lsp client name |

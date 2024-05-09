@@ -176,6 +176,7 @@ M.get_statusline = function(status)
     M.sections['git_diff']         = " "..("%{get(b:, 'gitsigns_status', '')}").." "
     M.sections['file_name']        = " "..f_icon.." "..f_name..edited.." "
     M.sections['file_size']        = " " ..size.. "k "
+	M.sections['file_type']		   = " "..vim.bo[0].filetype.." "
     M.sections['cool_symbol']      = " "..t.cool_symbol.." "
     M.sections['line_column']      = " "..t.line_column.." "
     M.sections['left_sep']         = t.left_separator
