@@ -99,6 +99,7 @@ require('staline').setup()
 > | file_name     | shows filename |
 > | file_size     | shows file size |
 > | file_type     | shows file type |
+> | file_encoding | shows file encoding |
 > | cool_symbol  | an icon according to the OS type (cutomizable) |
 > | lsp          | lsp diagnostics (number of errors, warnings, etc) |
 > | lsp_name     | lsp client name |
