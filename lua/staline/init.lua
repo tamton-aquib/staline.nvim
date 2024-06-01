@@ -81,7 +81,7 @@ local lsp_client_name = function()
     local the_symbol = t.lsp_client_symbol
     local name_max_length = t.lsp_client_character_length
 
-    for _, client in pairs(vim.lsp.get_active_clients()) do -- Deprecated?
+    for _, client in pairs(vim.lsp.get_clients()) do
         if t.expand_null_ls then
             if client.name == 'null-ls' then
                 for _, source in pairs(get_attached_null_ls_sources()) do
